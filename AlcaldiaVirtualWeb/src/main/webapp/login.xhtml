@@ -1,0 +1,98 @@
+<!--
+* GenesisUI Bootstrap 4 Admin Template built as framework!
+* Version 1.3.3
+* https://GenesisUI.com
+* Copyright 2016 creativeLabs Łukasz Holeczek
+* License : https://GenesisUI.com/license.html
+-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content="ROOT Admin - UI Admin Kit Powered by Bootstrap 4"/>
+        <meta name="author" content="Lukasz Holeczek"/>
+        <meta name="keyword" content="ROOT Admin - UI Admin Kit Powered by Bootstrap 4"/>
+        <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
+        <title>ROOT Admin - UI Admin Kit</title>
+        <!-- Main styles for this application -->
+        <link href="assets/css/style.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body class="">
+    	 
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="card-group vamiddle">
+                        <div class="card  p-a-2">
+                            <div class="card-block">
+                            <h:form>
+                            	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                                <h1>Alcaldía Virtual</h1>
+                                <p class="text-muted">Ingrese a su cuenta</p>
+                                <div class="input-group m-b-1">
+                                    <span class="input-group-addon"><i class="icon-user"></i></span>
+                                    <h:inputText value="#{seguridadMBean.cedula}" class="form-control" pa:placeholder="Cedula"></h:inputText>                                    
+                                </div>
+                                <div class="input-group m-b-2">
+                                    <span class="input-group-addon"><i class="icon-lock"></i></span>
+                                    <h:inputSecret value="#{seguridadMBean.password}" class="form-control" pa:placeholder="Clave"></h:inputSecret>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                    	<h:commandButton class="btn btn-primary p-x-2" action="#{seguridadMBean.autenticar}" value="Ingresar"></h:commandButton>                                        
+                                    </div>
+                                    <div class="col-xs-6 text-xs-right">
+                                        <button type="button" class="btn btn-link p-x-0">Olvido su clave?</button>
+                                    </div>
+                                </div>
+                                </h:form>
+                            </div>
+                        </div>
+                        <div class="card card-inverse card-primary p-y-3" style="width:44%">
+                            <div class="card-block text-xs-center">
+                                <div>
+                                    <h2>Regístrese</h2>
+                                    <p>Si aun no tiene cuenta regístrese gratis.</p>
+                                    <button type="button" class="btn btn-primary active m-t-1">Registrese ahora!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap and necessary plugins -->
+        <script src="assets/js/libs/jquery.min.js"></script>
+        <script src="assets/js/libs/tether.min.js"></script>
+        <script src="assets/js/libs/bootstrap.min.js"></script>
+        <script>
+        function verticalAlignMiddle()
+        {
+            var bodyHeight = $(window).height();
+            var formHeight = $('.vamiddle').height();
+            var marginTop = (bodyHeight / 2) - (formHeight / 2);
+            if (marginTop > 0)
+            {
+                $('.vamiddle').css('margin-top', marginTop);
+            }
+        }
+        $(document).ready(function()
+        {
+            verticalAlignMiddle();
+        });
+        $(window).bind('resize', verticalAlignMiddle);
+        </script>
+        <script src="assets/js/views/notifications.js"></script>
+        <script src="assets/js/app-options.js"></script>
+    </h:body>
+</html>
