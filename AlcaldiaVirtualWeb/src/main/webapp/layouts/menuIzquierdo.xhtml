@@ -4,29 +4,29 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
     xmlns:pa="http://xmlns.jcp.org/jsf/passthrough">
+    
+<f:loadBundle basename="resources.application" var="msg"/>
 
 <nav class="sidebar-nav">
                 <ul class="nav">
                     
                     <li class="divider"></li>
                     <li class="nav-title">
-                        FUNCIONES BASICAS
+                        #{msg.menu_titulo_funciones}
                     </li>
                     
                                         
                     <li class="nav-item">
-                        <h:link class="nav-link" value="SUBIR DOCUMENTOS" outcome="/vista/documentos" />
+                        <h:link class="nav-link" value="#{msg.menu_subirDocumentos}" outcome="/vista/documentos" />
                     </li>
                     <li class="nav-item">
-                    	<h:link class="nav-link" value="ADMINISTRACION USUSARIOS" outcome="/vista/administracion" />                        
+                    	<h:link class="nav-link" value="#{msg.menu_usuariosAdmin}" outcome="/vista/administracion" />                        
                     </li>
                     <li class="nav-item">
-                    	<h:link class="nav-link" value="ENVIO DE CORREOS" outcome="/vista/correo" />
+                    	<h:link class="nav-link" value="#{msg.menu_envio_correo}" outcome="/vista/correo" />
                     </li>
                     <li class="divider"></li>
-                    
-                    
-                    
+                                                            
                 </ul>
             </nav>
             

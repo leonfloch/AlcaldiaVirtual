@@ -1,10 +1,3 @@
-<!--
-* GenesisUI Bootstrap 4 Admin Template built as framework!
-* Version 1.3.3
-* https://GenesisUI.com
-* Copyright 2016 creativeLabs Łukasz Holeczek
-* License : https://GenesisUI.com/license.html
--->
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
@@ -14,6 +7,8 @@
     xmlns:jsf="http://xmlns.jcp.org/jsf"
     xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:p="http://primefaces.org/ui">
+    
+<f:loadBundle basename="resources.application" var="msg"/>
 
 
     <head jsf:id="head">
@@ -24,10 +19,12 @@
         <meta name="author" content="Lukasz Holeczek"/>
         <meta name="keyword" content="ROOT Admin - UI Admin Kit Powered by Bootstrap 4"/>
         <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
-        <title>ROOT Admin - UI Admin Kit</title>
+        <title>#{msg.tituloProyecto}</title>
         <!-- Main styles for this application -->
         <link href="assets/css/style.css" rel="stylesheet"></link>
     </head>
+    
+    <f:loadBundle basename="resources.application" var="msg"/>
     
     <body jsf:id="body" class="">
     	 
@@ -39,8 +36,8 @@
                             <div class="card-block">
                             <form jsf:id="form">
                             	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-                                <h1>Alcaldía Virtual</h1>
-                                <p class="text-muted">Ingrese a su cuenta</p>
+                                <h1>#{msg.tituloProyecto}</h1>
+                                <p class="text-muted">#{msg.login_label_ingreso}</p>
                                 <div class="input-group m-b-1">
                                     <span class="input-group-addon"><i class="icon-user"></i></span>
                                     <input type="text" jsf:value="#{seguridadMBean.cedula}" class="form-control" placeholder="Cedula"></input>                                    
@@ -51,10 +48,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-6">                                    	
-                                    	<button jsf:id="autenticarId" jsf:action="#{seguridadMBean.autenticar}" class="btn btn-primary p-x-2">Ingresar</button>                                        
+                                    	<button jsf:id="autenticarId" jsf:action="#{seguridadMBean.autenticar}" class="btn btn-primary p-x-2">#{msg.boton_ingresar}</button>                                        
                                     </div>
                                     <div class="col-xs-6 text-xs-right">
-                                        <button type="button" class="btn btn-link p-x-0">Olvido su clave?</button>
+                                        <button type="button" class="btn btn-link p-x-0">#{msg.link_olvidoClave}</button>
                                     </div>
                                 </div>
                                 </form>
@@ -63,9 +60,9 @@
                         <div class="card card-inverse card-primary p-y-3" style="width:44%">
                             <div class="card-block text-xs-center">
                                 <div>
-                                    <h2>Regístrese</h2>
-                                    <p>Si aun no tiene cuenta regístrese gratis.</p>
-                                    <button type="button" class="btn btn-primary active m-t-1">Registrese ahora!</button>
+                                    <h2>#{msg.login_label_registro}</h2>
+                                    <p>#{msg.login_label_registroDetalle}</p>
+                                    <button type="button" class="btn btn-primary active m-t-1">#{msg.boton_registro}</button>
                                 </div>
                             </div>
                         </div>
