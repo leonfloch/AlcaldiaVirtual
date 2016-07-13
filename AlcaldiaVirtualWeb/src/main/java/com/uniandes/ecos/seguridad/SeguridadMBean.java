@@ -54,7 +54,7 @@ public class SeguridadMBean extends BaseMBean {
 		String redirect = null;
 		try {
 			iSeguridadFacade.autenticar(cedula, password);
-			redirect = "home.jsf?faces-redirect=true";
+			redirect = "vista/home.jsf?faces-redirect=true";
 			
 		} catch (SeguridadException e) {
 			adicionarMensaje('E', e.getMsg());			

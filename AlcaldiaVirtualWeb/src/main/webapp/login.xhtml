@@ -10,12 +10,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:f="http://java.sun.com/jsf/core"    
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
     xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:p="http://primefaces.org/ui">
 
 
-    <h:head>
+    <head jsf:id="head">
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -26,8 +27,9 @@
         <title>ROOT Admin - UI Admin Kit</title>
         <!-- Main styles for this application -->
         <link href="assets/css/style.css" rel="stylesheet"></link>
-    </h:head>
-    <h:body class="">
+    </head>
+    
+    <body jsf:id="body" class="">
     	 
         <div class="container">
             <div class="row">
@@ -35,27 +37,27 @@
                     <div class="card-group vamiddle">
                         <div class="card  p-a-2">
                             <div class="card-block">
-                            <h:form>
+                            <form jsf:id="form">
                             	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                                 <h1>Alcaldía Virtual</h1>
                                 <p class="text-muted">Ingrese a su cuenta</p>
                                 <div class="input-group m-b-1">
                                     <span class="input-group-addon"><i class="icon-user"></i></span>
-                                    <h:inputText value="#{seguridadMBean.cedula}" class="form-control" pa:placeholder="Cedula"></h:inputText>                                    
+                                    <input type="text" jsf:value="#{seguridadMBean.cedula}" class="form-control" placeholder="Cedula"></input>                                    
                                 </div>
                                 <div class="input-group m-b-2">
                                     <span class="input-group-addon"><i class="icon-lock"></i></span>
-                                    <h:inputSecret value="#{seguridadMBean.password}" class="form-control" pa:placeholder="Clave"></h:inputSecret>                                    
+                                    <input type="text" jsf:value="#{seguridadMBean.password}" class="form-control" placeholder="Clave"></input>                                    
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-6">
-                                    	<h:commandButton class="btn btn-primary p-x-2" action="#{seguridadMBean.autenticar}" value="Ingresar"></h:commandButton>                                        
+                                    <div class="col-xs-6">                                    	
+                                    	<button jsf:id="autenticarId" jsf:action="#{seguridadMBean.autenticar}" class="btn btn-primary p-x-2">Ingresar</button>                                        
                                     </div>
                                     <div class="col-xs-6 text-xs-right">
                                         <button type="button" class="btn btn-link p-x-0">Olvido su clave?</button>
                                     </div>
                                 </div>
-                                </h:form>
+                                </form>
                             </div>
                         </div>
                         <div class="card card-inverse card-primary p-y-3" style="width:44%">
@@ -71,6 +73,8 @@
                 </div>
             </div>
         </div>
+        
+        
         <!-- Bootstrap and necessary plugins -->
         <script src="assets/js/libs/jquery.min.js"></script>
         <script src="assets/js/libs/tether.min.js"></script>
@@ -94,5 +98,6 @@
         </script>
         <script src="assets/js/views/notifications.js"></script>
         <script src="assets/js/app-options.js"></script>
-    </h:body>
+        
+    </body>
 </html>

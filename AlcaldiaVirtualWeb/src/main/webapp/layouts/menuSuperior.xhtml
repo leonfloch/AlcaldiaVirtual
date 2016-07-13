@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:pa="http://xmlns.jcp.org/jsf/passthrough">
+
+<div class="container-fluid">
+                <button class="navbar-toggler mobile-toggler hidden-lg-up" type="button">&#9776;</button>
+                <a class="navbar-brand" href="#"></a>
+                <ul class="nav navbar-nav hidden-md-down">
+                    <li class="nav-item">
+                        <a class="nav-link navbar-toggler layout-toggler" href="#">☰</a>
+                    </li>
+                    <li class="nav-item p-x-1">
+                    	<h:link class="nav-link" value="Home" outcome="/vista/home" />                        
+                    </li>
+                    <li class="nav-item p-x-1">
+                        <a class="nav-link" href="#">Users</a>
+                    </li>
+                    <li class="nav-item p-x-1">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav pull-right hidden-md-down">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src="assets/img/flags/United-Kingdom.png" class="img-flag" alt="English" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-header text-xs-center">
+                                <strong>Choose language</strong>
+                            </div>
+                            <a class="dropdown-item" href="#">
+                                <img src="assets/img/flags/Poland.png" class="img-flag" alt="Polish" /> Polish</a>
+                            <a class="dropdown-item" href="#">
+                                <img src="assets/img/flags/United-Kingdom.png" class="img-flag" alt="English" /> English</a>
+                            <a class="dropdown-item" href="#">
+                                <img src="assets/img/flags/Spain.png" class="img-flag" alt="Espa&#xF1;ol" /> Español</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bell"></i><span class="label label-pill label-danger">5</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" />
+                            <span class="hidden-md-down">admin</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-header text-xs-center">
+                                <strong>Account</strong>
+                            </div>
+                            <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="label label-info">42</span></a>
+                            <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="label label-success">42</span></a>
+                            <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="label label-danger">42</span></a>
+                            <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comments<span class="label label-warning">42</span></a>
+                            <div class="dropdown-header text-xs-center">
+                                <strong>Settings</strong>
+                            </div>
+                            <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
+                            <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Settings</a>
+                            <a class="dropdown-item" href="#"><i class="fa fa-usd"></i> Payments<span class="label label-default">42</span></a>
+                            <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="label label-primary">42</span></a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fa fa-shield"></i> Lock Account</a>
+                            <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link navbar-toggler aside-toggle" href="#">&#9776;</a>
+                    </li>
+                </ul>
+            </div>
+            
+</html>
