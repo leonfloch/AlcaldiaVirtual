@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"    
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui">
+
+
+    <head jsf:id="head">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="ROOT Admin - UI Admin Kit Powered by Bootstrap 4" />
+        <meta name="author" content="Lukasz Holeczek" />
+        <meta name="keyword" content="ROOT Admin - UI Admin Kit Powered by Bootstrap 4" />
+        <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
+        <title>#{msg.tituloProyecto}</title>
+        <!-- Main styles for this application -->
+        <link href="../assets/css/style.css" rel="stylesheet"/>
+    </head>
+    <f:loadBundle basename="resources.application" var="msg"/>
+    <body jsf:id="body" class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 center-block pull-xs-none">
+                    <div class="card vamiddle">
+                    <form jsf:id="form">
+                    	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        <div class="card-block p-a-2">
+                            <h1>#{msg.login_label_registro}</h1>
+                            <p class="text-muted">#{msg.registro_label_titulo}</p>
+                            <div class="input-group m-b-1">
+                                <span class="input-group-addon"><i class="icon-user"></i></span>
+                                <input type="text" jsf:value="#{seguridadMBean.usuarioDto.tipoIdentificacion}" class="form-control" placeholder="#{msg.label_tipoIdentificacion}"></input>
+                            </div>
+                            <div class="input-group m-b-1">
+                                <span class="input-group-addon"><i class="icon-user"></i></span>
+                                <input type="text" jsf:value="#{seguridadMBean.usuarioDto.identificacion}" class="form-control" placeholder="#{msg.label_identificacion}"></input>
+                            </div>
+                            <div class="input-group m-b-1">
+                                <span class="input-group-addon">@</span>
+                                <input type="text" jsf:value="#{seguridadMBean.usuarioDto.email}" class="form-control" placeholder="#{msg.label_email}"></input>
+                            </div>
+                            <div class="input-group m-b-1">
+                                <span class="input-group-addon"><i class="icon-lock"></i></span>
+                                <input type="password" jsf:value="#{seguridadMBean.usuarioDto.clave}" class="form-control" placeholder="#{msg.label_clave}"></input>
+                            </div>
+                            <div class="input-group m-b-2">
+                                <span class="input-group-addon"><i class="icon-lock"></i></span>
+                                <input type="password" jsf:value="#{seguridadMBean.usuarioDto.clave}" class="form-control" placeholder="#{msg.label_clave_r}"></input>
+                            </div>
+                            <div class="input-group m-b-1">
+                                <span class="input-group-addon"><i class="icon-user"></i></span>
+                                <input type="text" jsf:value="#{seguridadMBean.usuarioDto.nombres}" class="form-control" placeholder="#{msg.label_nombres}"></input>
+                            </div>
+                            <div class="input-group m-b-1">
+                                <span class="input-group-addon"><i class="icon-user"></i></span>
+                                <input type="text" jsf:value="#{seguridadMBean.usuarioDto.apellidos}" class="form-control" placeholder="#{msg.label_apellidos}"></input>
+                            </div>
+                            <div class="input-group m-b-1">
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <input type="text" jsf:value="#{seguridadMBean.usuarioDto.telefono}" class="form-control" placeholder="#{msg.label_telefono}"></input>
+                            </div>
+                            <div class="input-group m-b-1">
+                                <span class="input-group-addon"><i class="icon-user"></i></span>
+                                <input type="text" jsf:value="#{seguridadMBean.usuarioDto.direccion}" class="form-control" placeholder="#{msg.label_direccion}"></input>
+                            </div>
+                            <button jsf:id="registroBtn" jsf:action="#{seguridadMBean.crearCuenta}" class="btn btn-block btn-success">#{msg.registro_label_titulo}</button>
+                        </div>
+                        </form>
+                        
+                        
+<!--                         <div class="card-footer p-a-2"> -->
+<!--                             <div class="row"> -->
+<!--                                 <div class="col-xs-6"> -->
+<!--                                     <button class="btn btn-block btn-facebook" type="button"> -->
+<!--                                         <span>facebook</span> -->
+<!--                                     </button> -->
+<!--                                 </div> -->
+<!--                                 <div class="col-xs-6"> -->
+<!--                                     <button class="btn btn-block btn-twitter" type="button"> -->
+<!--                                         <span>twitter</span> -->
+<!--                                     </button> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap and necessary plugins -->
+        <script src="../assets/js/libs/jquery.min.js"></script>
+        <script src="../assets/js/libs/tether.min.js"></script>
+        <script src="../assets/js/libs/bootstrap.min.js"></script>
+        <script>
+        function verticalAlignMiddle()
+        {
+            var bodyHeight = $(window).height();
+            var formHeight = $('.vamiddle').height();
+            var marginTop = (bodyHeight / 2) - (formHeight / 2);
+            if (marginTop > 0)
+            {
+                $('.vamiddle').css('margin-top', marginTop);
+            }
+        }
+        $(document).ready(function()
+        {
+            verticalAlignMiddle();
+        });
+        $(window).bind('resize', verticalAlignMiddle);
+        </script>
+        <script src="../assets/js/app-options.js"></script>
+    </body>
+</html>

@@ -5,6 +5,7 @@ package com.uniandes.ecos.services;
 
 import javax.ejb.Stateless;
 
+import com.uniandes.ecos.dtos.UsuarioDto;
 import com.uniandes.ecos.servicesInterface.ISeguridadService;
 import com.uniandes.ecos.util.SeguridadException;
 
@@ -28,6 +29,18 @@ public class SeguridadService implements ISeguridadService {
 			throw new SeguridadException("Usuario o clave invalidad");
 		} 
 		
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.servicesInterface.ISeguridadService#
+	 * registrarUsuario(com.uniandes.ecos.dtos.UsuarioDto)
+	 */
+	@Override
+	public void registrarUsuario(UsuarioDto usuarioDto)
+			throws SeguridadException {
+		// TODO realizar implementacion
 		
 	}
 

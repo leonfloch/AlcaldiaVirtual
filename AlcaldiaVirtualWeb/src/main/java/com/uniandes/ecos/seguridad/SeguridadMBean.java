@@ -3,11 +3,14 @@
  */
 package com.uniandes.ecos.seguridad;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import com.uniandes.ecos.comun.BaseMBean;
+import com.uniandes.ecos.comun.RutasApp;
+import com.uniandes.ecos.dtos.UsuarioDto;
 import com.uniandes.ecos.facadeInterface.ISeguridadFacade;
 import com.uniandes.ecos.util.SeguridadException;
 
@@ -39,12 +42,26 @@ public class SeguridadMBean extends BaseMBean {
 	 */
 	private String password;
 	
+	/**
+	 * Representa el usuario
+	 */
+	private UsuarioDto usuarioDto;
+	
 	
 	/**
 	 * 
 	 */
 	public SeguridadMBean() {
 		
+	}
+	
+	
+	/**
+	 *  
+	 */
+	@PostConstruct
+	public void init() {
+		usuarioDto = new UsuarioDto();
 	}
 	
 	/**
@@ -54,7 +71,7 @@ public class SeguridadMBean extends BaseMBean {
 		String redirect = null;
 		try {
 			iSeguridadFacade.autenticar(cedula, password);
-			redirect = "vista/home.jsf?faces-redirect=true";
+			redirect = RutasApp.INICIO_RUTA;
 			
 		} catch (SeguridadException e) {
 			adicionarMensaje('E', e.getMsg());			
@@ -62,6 +79,26 @@ public class SeguridadMBean extends BaseMBean {
 		
 		return redirect;
 		
+	}
+	
+	/**
+	 * Crea una nueva cuenta de usuario en el sistema
+	 * @return
+	 */
+	public String crearCuenta() {
+		String redirect = null;
+		
+		//TODO implementar logica
+		try {
+			iSeguridadFacade.registrarUsuario(usuarioDto);
+			adicionarMensaje('I', "Usuario Creado Correctamente");
+			redirect = RutasApp.LOGIN_RUTA;
+			
+			
+		} catch (SeguridadException e) {
+			adicionarMensaje('E', e.getMsg());
+		}				
+		return redirect;
 	}
 
 	/**
@@ -90,6 +127,20 @@ public class SeguridadMBean extends BaseMBean {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	/**
+	 * @return the usuarioDto
+	 */
+	public UsuarioDto getUsuarioDto() {
+		return usuarioDto;
+	}
+
+	/**
+	 * @param usuarioDto the usuarioDto to set
+	 */
+	public void setUsuarioDto(UsuarioDto usuarioDto) {
+		this.usuarioDto = usuarioDto;
 	}
 
 }

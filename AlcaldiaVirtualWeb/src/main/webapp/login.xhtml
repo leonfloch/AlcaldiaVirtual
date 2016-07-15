@@ -40,11 +40,11 @@
                                 <p class="text-muted">#{msg.login_label_ingreso}</p>
                                 <div class="input-group m-b-1">
                                     <span class="input-group-addon"><i class="icon-user"></i></span>
-                                    <input type="text" jsf:value="#{seguridadMBean.cedula}" class="form-control" placeholder="Cedula"></input>                                    
+                                    <input type="text" jsf:value="#{seguridadMBean.cedula}" class="form-control" placeholder="#{msg.label_identificacion}"></input>                                    
                                 </div>
                                 <div class="input-group m-b-2">
                                     <span class="input-group-addon"><i class="icon-lock"></i></span>
-                                    <input type="text" jsf:value="#{seguridadMBean.password}" class="form-control" placeholder="Clave"></input>                                    
+                                    <input type="text" jsf:value="#{seguridadMBean.password}" class="form-control" placeholder="#{msg.label_clave}"></input>                                    
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-6">                                    	
@@ -62,7 +62,7 @@
                                 <div>
                                     <h2>#{msg.login_label_registro}</h2>
                                     <p>#{msg.login_label_registroDetalle}</p>
-                                    <button type="button" class="btn btn-primary active m-t-1">#{msg.boton_registro}</button>
+                                    <h:link class="btn btn-primary active m-t-1" value="#{msg.boton_registro}" outcome="/vista/registrar" />                                    
                                 </div>
                             </div>
                         </div>
