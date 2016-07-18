@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="AlcaldiaVirtualEJB">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>jdbc/AlcaldiaVirtualDS</jta-data-source>
+		
+		<class>com.uniandes.ecos.entities.CambioEstadoTramite</class>
+		<class>com.uniandes.ecos.entities.CampoFormulario</class>
+		<class>com.uniandes.ecos.entities.Departamento</class>
+		<class>com.uniandes.ecos.entities.DocsXTipoTramite</class>
+		<class>com.uniandes.ecos.entities.DocumentoRequerido</class>
+		<class>com.uniandes.ecos.entities.DocumentoTramite</class>
+		<class>com.uniandes.ecos.entities.EstadoTramite</class>
+		<class>com.uniandes.ecos.entities.Formulario</class>
+		<class>com.uniandes.ecos.entities.Funcionalidad</class>
+		<class>com.uniandes.ecos.entities.ListaCampo</class>
+		<class>com.uniandes.ecos.entities.Municipio</class>
+		<class>com.uniandes.ecos.entities.OpcionLista</class>
+		<class>com.uniandes.ecos.entities.Pago</class>
+		<class>com.uniandes.ecos.entities.PermisoXRol</class>
+		<class>com.uniandes.ecos.entities.PermisoXRolPK</class>
+		<class>com.uniandes.ecos.entities.Persona</class>
+		<class>com.uniandes.ecos.entities.Rol</class>
+		<class>com.uniandes.ecos.entities.TipoCampo</class>
+		<class>com.uniandes.ecos.entities.TipoPago</class>
+		<class>com.uniandes.ecos.entities.TipoTramite</class>
+		<class>com.uniandes.ecos.entities.Tramite</class>
+		<class>com.uniandes.ecos.entities.TramiteXMunicipio</class>
+		<class>com.uniandes.ecos.entities.UsuariosCiudadano</class>
+		<class>com.uniandes.ecos.entities.UsuariosFuncionario</class>
+	</persistence-unit>
+</persistence>

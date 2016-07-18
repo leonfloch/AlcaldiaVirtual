@@ -4,6 +4,8 @@
 package com.uniandes.ecos.services;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.uniandes.ecos.dtos.UsuarioDto;
 import com.uniandes.ecos.servicesInterface.ISeguridadService;
@@ -18,6 +20,9 @@ import com.uniandes.ecos.util.SeguridadException;
 @Stateless
 public class SeguridadService implements ISeguridadService {
 
+	@PersistenceContext
+	private EntityManager em;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.uniandes.ecos.servicesInterface.ISeguridadService#autenticar(int, java.lang.String)
@@ -28,8 +33,6 @@ public class SeguridadService implements ISeguridadService {
 		if (!(cedula == 1 && password.equals("1"))) {
 			throw new SeguridadException("Usuario o clave invalidad");
 		} 
-		
-		
 	}
 
 	/*
