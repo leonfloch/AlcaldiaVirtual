@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 
 import javax.persistence.EntityManager;
 
+
 /**
  * Clase genérica para manejo de persistencia. 
  * 
@@ -67,7 +68,8 @@ public class BaseDao<E, K> {
 	 * @param entity
 	 */
 	public void merge(E entity) {
-		entityManager.merge(entity);		
+		entityManager.merge(entity);
+		entityManager.flush();
 	}
 
 	/**
