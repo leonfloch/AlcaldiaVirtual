@@ -78,4 +78,12 @@ public interface IParametrizacionFacade {
 	 * @throws NegocioException
 	 */
 	Persona obtenerPersona(long numIdentificacion) throws NegocioException; 
+	
+	/**
+	 * Actualiza en BD la persona ingresada por parámetro. 
+	 * 
+	 * @param persona
+	 * @throws NegocioException
+	 */
+	void actualizarPersona(Persona persona) throws NegocioException;
 }

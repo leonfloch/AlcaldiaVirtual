@@ -128,18 +128,18 @@ public class Rol implements Serializable {
 		this.usuariosFuncionarios = usuariosFuncionarios;
 	}
 
-	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
-		getUsuariosFuncionarios().add(usuariosFuncionario);
-		usuariosFuncionario.setRole(this);
-
-		return usuariosFuncionario;
-	}
-
-	public UsuariosFuncionario removeUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
-		getUsuariosFuncionarios().remove(usuariosFuncionario);
-		usuariosFuncionario.setRole(null);
-
-		return usuariosFuncionario;
-	}
+//	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
+//		getUsuariosFuncionarios().add(usuariosFuncionario);
+//		usuariosFuncionario.setRole(this);
+//
+//		return usuariosFuncionario;
+//	}
+//
+//	public UsuariosFuncionario removeUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
+//		getUsuariosFuncionarios().remove(usuariosFuncionario);
+//		usuariosFuncionario.setRole(null);
+//
+//		return usuariosFuncionario;
+//	}
 
 }

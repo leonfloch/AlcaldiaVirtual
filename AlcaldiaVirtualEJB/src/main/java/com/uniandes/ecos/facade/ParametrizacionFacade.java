@@ -101,4 +101,14 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 		return personaService.obtenerPersona(numIdentificacion);
 	}
 
+	/* (non-Javadoc)
+	 * @see
+	 *com.uniandes.ecos.services.IParametrizacionFacade
+	 * #actualizarPersona(com.uniandes.ecos.entities.Persona)
+	 */
+	@Override
+	public void actualizarPersona(Persona persona) throws NegocioException {
+		personaService.actualizarPersona(persona);
+	}
+
 }

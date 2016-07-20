@@ -31,4 +31,12 @@ public interface IPersonaService {
 	 * @throws NegocioException
 	 */
 	Persona obtenerPersona(long numIdentificacion) throws NegocioException; 
+	
+	/**
+	 * Actualiza el resgitro de la persona ingresada como parámetro.
+	 * 
+	 * @param persona
+	 * @throws NegocioException
+	 */
+	void actualizarPersona(Persona persona) throws NegocioException;
 }

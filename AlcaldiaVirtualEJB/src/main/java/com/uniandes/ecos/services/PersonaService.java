@@ -65,6 +65,16 @@ public class PersonaService implements IPersonaService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see
+	 *com.uniandes.ecos.services.IPersonaService
+	 * #actualizarPersona(com.uniandes.ecos.entities.Persona)
+	 */
+	@Override
+	public void actualizarPersona(Persona persona) throws NegocioException {
+		this.personaDao.merge(persona);
+	}
+
 	
 
 }

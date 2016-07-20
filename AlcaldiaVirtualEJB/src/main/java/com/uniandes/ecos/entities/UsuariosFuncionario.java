@@ -28,6 +28,12 @@ public class UsuariosFuncionario implements Serializable {
 	private String contrasenia;
 
 	private String estado;
+	
+	@Column(name="ROL_ID")
+	private long rolId;
+	
+	@Column(name="MUNICIPIO_ID")
+	private long municipioId;
 
 	//bi-directional many-to-one association to CambioEstadoTramite
 	@OneToMany(mappedBy="usuariosFuncionario")
@@ -37,20 +43,10 @@ public class UsuariosFuncionario implements Serializable {
 	@OneToMany(mappedBy="usuariosFuncionario")
 	private List<TramiteXMunicipio> tramitesXMunicipios;
 
-	//bi-directional many-to-one association to Municipio
-	@ManyToOne
-	@JoinColumn(name="MUNICIPIO_ID")
-	private Municipio municipio;
-
 	//bi-directional many-to-one association to Persona
 	@ManyToOne
 	@JoinColumn(name="NUM_IDENTIFICACION")
 	private Persona persona;
-
-	//bi-directional many-to-one association to Rol
-	@ManyToOne
-	@JoinColumn(name="ROL_ID")
-	private Rol role;
 
 	public UsuariosFuncionario() {
 	}
@@ -123,14 +119,6 @@ public class UsuariosFuncionario implements Serializable {
 		return tramitesXMunicipio;
 	}
 
-	public Municipio getMunicipio() {
-		return this.municipio;
-	}
-
-	public void setMunicipio(Municipio municipio) {
-		this.municipio = municipio;
-	}
-
 	public Persona getPersona() {
 		return this.persona;
 	}
@@ -139,12 +127,32 @@ public class UsuariosFuncionario implements Serializable {
 		this.persona = persona;
 	}
 
-	public Rol getRole() {
-		return this.role;
+	/**
+	 * @return the rolId
+	 */
+	public long getRolId() {
+		return rolId;
 	}
 
-	public void setRole(Rol role) {
-		this.role = role;
+	/**
+	 * @param rolId the rolId to set
+	 */
+	public void setRolId(long rolId) {
+		this.rolId = rolId;
+	}
+
+	/**
+	 * @return the municipioId
+	 */
+	public long getMunicipioId() {
+		return municipioId;
+	}
+
+	/**
+	 * @param municipioId the municipioId to set
+	 */
+	public void setMunicipioId(long municipioId) {
+		this.municipioId = municipioId;
 	}
 
 }

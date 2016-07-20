@@ -120,18 +120,18 @@ public class Municipio implements Serializable {
 		this.usuariosFuncionarios = usuariosFuncionarios;
 	}
 
-	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
-		getUsuariosFuncionarios().add(usuariosFuncionario);
-		usuariosFuncionario.setMunicipio(this);
-
-		return usuariosFuncionario;
-	}
-
-	public UsuariosFuncionario removeUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
-		getUsuariosFuncionarios().remove(usuariosFuncionario);
-		usuariosFuncionario.setMunicipio(null);
-
-		return usuariosFuncionario;
-	}
+//	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
+//		getUsuariosFuncionarios().add(usuariosFuncionario);
+//		usuariosFuncionario.setMunicipio(this);
+//
+//		return usuariosFuncionario;
+//	}
+//
+//	public UsuariosFuncionario removeUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
+//		getUsuariosFuncionarios().remove(usuariosFuncionario);
+//		usuariosFuncionario.setMunicipio(null);
+//
+//		return usuariosFuncionario;
+//	}
 
 }
