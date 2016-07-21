@@ -16,8 +16,8 @@ import java.util.List;
 @Table(name="USUARIOS_FUNCIONARIO")
 @NamedQueries({
 	@NamedQuery(name="UsuariosFuncionario.findAll", query="SELECT u FROM UsuariosFuncionario u"),
-	@NamedQuery(name="UsuariosFuncionario.findByAlcaldia", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipio.municipioId = :municipioId"),
-	@NamedQuery(name="UsuariosFuncionario.findByEstado", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipio.municipioId = :municipioId AND u.estado = :estado")
+	@NamedQuery(name="UsuariosFuncionario.findByAlcaldia", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipioId = :municipioId"),
+	@NamedQuery(name="UsuariosFuncionario.findByEstado", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipioId = :municipioId AND u.estado = :estado")
 })
 public class UsuariosFuncionario implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -37,10 +37,6 @@ public class Rol implements Serializable {
 	@OneToMany(mappedBy="role")
 	private List<UsuariosCiudadano> usuariosCiudadanos;
 
-	//bi-directional many-to-one association to UsuariosFuncionario
-	@OneToMany(mappedBy="role")
-	private List<UsuariosFuncionario> usuariosFuncionarios;
-
 	public Rol() {
 	}
 
@@ -118,14 +114,6 @@ public class Rol implements Serializable {
 		usuariosCiudadano.setRole(null);
 
 		return usuariosCiudadano;
-	}
-
-	public List<UsuariosFuncionario> getUsuariosFuncionarios() {
-		return this.usuariosFuncionarios;
-	}
-
-	public void setUsuariosFuncionarios(List<UsuariosFuncionario> usuariosFuncionarios) {
-		this.usuariosFuncionarios = usuariosFuncionarios;
 	}
 
 //	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {

@@ -37,10 +37,6 @@ public class Municipio implements Serializable {
 	@OneToMany(mappedBy="municipio")
 	private List<TramiteXMunicipio> tramitesXMunicipios;
 
-	//bi-directional many-to-one association to UsuariosFuncionario
-	@OneToMany(mappedBy="municipio")
-	private List<UsuariosFuncionario> usuariosFuncionarios;
-
 	public Municipio() {
 	}
 
@@ -110,14 +106,6 @@ public class Municipio implements Serializable {
 		tramitesXMunicipio.setMunicipio(null);
 
 		return tramitesXMunicipio;
-	}
-
-	public List<UsuariosFuncionario> getUsuariosFuncionarios() {
-		return this.usuariosFuncionarios;
-	}
-
-	public void setUsuariosFuncionarios(List<UsuariosFuncionario> usuariosFuncionarios) {
-		this.usuariosFuncionarios = usuariosFuncionarios;
 	}
 
 //	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
