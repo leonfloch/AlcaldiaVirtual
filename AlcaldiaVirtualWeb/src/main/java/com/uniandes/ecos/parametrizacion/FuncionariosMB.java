@@ -55,6 +55,13 @@ public class FuncionariosMB extends BaseMBean {
 	public void init() {
 		funcionarioEntity = new UsuariosFuncionario();
 		lstFuncionarios = new ArrayList<UsuariosFuncionario>();
+		for (int i = 0; i < 5; i++) {
+			UsuariosFuncionario usu = new UsuariosFuncionario();
+			usu.setUsuario(""+i);
+			usu.setContrasenia("ñlsdkñlskdfñlsk");
+			usu.setEstado(Constantes.ACTIVO);
+			lstFuncionarios.add(usu);
+		}
 	}
 
 	/**
@@ -122,7 +129,9 @@ public class FuncionariosMB extends BaseMBean {
 
 		//Se invoca el método de registro
 		try {
-			if (!this.existePersona) {
+			if (this.existePersona) {
+				iParametrizacionFacade.actualizarPersona(this.personaEntity);
+			} else{
 				iParametrizacionFacade.registrarPersona(this.personaEntity);
 			}
 			iParametrizacionFacade.registrarFuncionario(this.funcionarioEntity);
