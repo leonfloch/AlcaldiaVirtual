@@ -3,6 +3,8 @@ package com.uniandes.ecos.comun;
 
 
 import java.io.Serializable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -16,11 +18,16 @@ import javax.servlet.http.HttpSession;
 public class BaseMBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	private ResourceBundle mensajes;
 	
 	public BaseMBean()
 	{
-		
+		mensajes = ResourceBundle.getBundle("resources.messages");
+	}
+	
+	public void adicionarMensajeDefinido(char tipoMensaje, String key){
+		String mensaje = mensajes.getString(key);
+		adicionarMensaje(tipoMensaje, mensaje);
 	}
 
 	/**

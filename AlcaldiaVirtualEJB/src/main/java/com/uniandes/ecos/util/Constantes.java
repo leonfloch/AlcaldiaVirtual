@@ -25,4 +25,9 @@ public class Constantes {
 	public static final long ROL_FUNCIONARIO = 3;
 	public static final long ROL_CIUDADANO = 4;
 
+	//carpeta documentos tramite
+	public static final String CARPETA_DOCUMENTOS_TRAMITE = "archivosTramites\\";
+	
+	//codigos errores
+	public static final int CODIGO_ERROR_CARGUE_ARCHIVO = 512;
 }
