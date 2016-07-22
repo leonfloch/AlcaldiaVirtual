@@ -10,7 +10,6 @@ import javax.inject.Inject;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.comun.RutasApp;
-import com.uniandes.ecos.dtos.UsuarioDto;
 import com.uniandes.ecos.facadeInterface.ISeguridadFacade;
 import com.uniandes.ecos.util.SeguridadException;
 
@@ -40,12 +39,7 @@ public class SeguridadMBean extends BaseMBean {
 	/**
 	 * Clave del usuario
 	 */
-	private String password;
-	
-	/**
-	 * Representa el usuario
-	 */
-	private UsuarioDto usuarioDto;
+	private String password;		
 	
 	
 	/**
@@ -61,7 +55,7 @@ public class SeguridadMBean extends BaseMBean {
 	 */
 	@PostConstruct
 	public void init() {
-		usuarioDto = new UsuarioDto();
+		
 	}
 	
 	/**
@@ -81,25 +75,7 @@ public class SeguridadMBean extends BaseMBean {
 		
 	}
 	
-	/**
-	 * Crea una nueva cuenta de usuario en el sistema
-	 * @return
-	 */
-	public String crearCuenta() {
-		String redirect = null;
-		
-		//TODO implementar logica
-		try {
-			iSeguridadFacade.registrarUsuario(usuarioDto);
-			adicionarMensaje('I', "Usuario Creado Correctamente");
-			redirect = RutasApp.LOGIN_RUTA;
-			
-			
-		} catch (SeguridadException e) {
-			adicionarMensaje('E', e.getMsg());
-		}				
-		return redirect;
-	}
+	
 
 	/**
 	 * @return the cedula
@@ -129,18 +105,6 @@ public class SeguridadMBean extends BaseMBean {
 		this.password = password;
 	}
 
-	/**
-	 * @return the usuarioDto
-	 */
-	public UsuarioDto getUsuarioDto() {
-		return usuarioDto;
-	}
 
-	/**
-	 * @param usuarioDto the usuarioDto to set
-	 */
-	public void setUsuarioDto(UsuarioDto usuarioDto) {
-		this.usuarioDto = usuarioDto;
-	}
 
 }

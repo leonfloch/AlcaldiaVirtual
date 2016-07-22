@@ -5,10 +5,13 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.uniandes.ecos.dao.BaseDao;
 import com.uniandes.ecos.entities.Persona;
+import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.facadeInterface.IParametrizacionFacade;
 import com.uniandes.ecos.servicesInterface.IFuncionarioService;
+import com.uniandes.ecos.servicesInterface.IAdministracionService;
 import com.uniandes.ecos.servicesInterface.IPersonaService;
 import com.uniandes.ecos.util.NegocioException;
 
@@ -29,6 +32,9 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	private IFuncionarioService funcionarioService; 
 	@EJB 
 	private IPersonaService personaService;
+	
+	@EJB 
+	private IAdministracionService administracionService;
 
 	/* (non-Javadoc)
 	 * @see
@@ -109,6 +115,17 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	@Override
 	public void actualizarPersona(Persona persona) throws NegocioException {
 		personaService.actualizarPersona(persona);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.facadeInterface.IParametrizacionFacade
+	 * #RegistrarCiudadano(com.uniandes.ecos.entities.UsuariosCiudadano)
+	 */
+	@Override
+	public void registrarCiudadano(UsuariosCiudadano ciudadano)
+			throws NegocioException {		
+		administracionService.registrarCiudadano(ciudadano);
 	}
 
 }

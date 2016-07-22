@@ -1,6 +1,6 @@
 $(function(){
 
-    toastr.info('Bootstrap 4 on steroids', 'Welcome to LeafUI Admin', {
+    toastr.info('Alcaldia Virutal', 'Bienvenido', {
         closeButton: true,
         progressBar: true,
     });

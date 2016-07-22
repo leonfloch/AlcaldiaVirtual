@@ -24,13 +24,17 @@ public class UsuariosCiudadano implements Serializable {
 	private String contrasenia;
 
 	private String estado;
+	
+	@Transient
+	private String contraseniaVal;
+	
 
 	//bi-directional many-to-one association to Tramite
 	@OneToMany(mappedBy="usuariosCiudadano")
 	private List<Tramite> tramites;
 
-	//bi-directional many-to-one association to Persona
-	@ManyToOne
+	//bi-directional many-to-one association to Persona	
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="NUM_IDENTIFICACION")
 	private Persona persona;
 
@@ -40,6 +44,7 @@ public class UsuariosCiudadano implements Serializable {
 	private Rol role;
 
 	public UsuariosCiudadano() {
+		
 	}
 
 	public String getUsuario() {
@@ -102,6 +107,20 @@ public class UsuariosCiudadano implements Serializable {
 
 	public void setRole(Rol role) {
 		this.role = role;
+	}
+	
+	/**
+	 * @return the contraseniaVal
+	 */
+	public String getContraseniaVal() {
+		return contraseniaVal;
+	}
+
+	/**
+	 * @param contraseniaVal the contraseniaVal to set
+	 */
+	public void setContraseniaVal(String contraseniaVal) {
+		this.contraseniaVal = contraseniaVal;
 	}
 
 }

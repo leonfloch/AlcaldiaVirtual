@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.uniandes.ecos.entities.Persona;
+import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.util.NegocioException;
 
@@ -86,4 +87,11 @@ public interface IParametrizacionFacade {
 	 * @throws NegocioException
 	 */
 	void actualizarPersona(Persona persona) throws NegocioException;
+	
+	/**
+	 * Crea un nuevo ciudadano en el sistema
+	 * @param ciudadano
+	 * @throws NegocioException
+	 */
+	void registrarCiudadano(UsuariosCiudadano ciudadano) throws NegocioException;
 }
