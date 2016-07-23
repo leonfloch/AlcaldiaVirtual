@@ -17,7 +17,7 @@
 							<div class="card">
 								<div class="card-header">Administración de Funcionarios</div>
 								<div class="card-block">
-									<form action="" method="post">
+									<form jsf:id="form">
 										<div class="form-group">
 											<div class="input-group">
 												<span class="input-group-addon">Usuario</span> <input
@@ -27,7 +27,8 @@
 											</div>
 										</div>
 										<div class="form-group form-actions">
-											<button type="submit" class="btn btn-sm btn-primary">Buscar</button>
+											<button jsf:id="btnBuscar" type="submit" class="btn btn-sm btn-primary">Buscar</button>
+											<button jsf:id="btnRegistrar" jsf:action="#{funcionariosMB.prepararForma}" class="btn btn-secondary">Registrar</button>
 										</div>
 
 										<div class="row">

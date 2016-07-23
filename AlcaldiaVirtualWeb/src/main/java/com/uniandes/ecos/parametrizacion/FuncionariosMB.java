@@ -1,12 +1,16 @@
 package com.uniandes.ecos.parametrizacion;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+
+import org.primefaces.context.RequestContext;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.Persona;
@@ -91,6 +95,12 @@ public class FuncionariosMB extends BaseMBean {
 		this.funcionarioEntity.setRolId(Constantes.ROL_FUNCIONARIO);
 		this.funcionarioEntity.setMunicipioId(this.municipioId);
 		this.personaEntity = new Persona();
+		
+		//Abre el diálogo
+		Map<String,Object> options = new HashMap<String, Object>();
+        options.put("resizable", false);
+        RequestContext.getCurrentInstance().openDialog("viewCars", options, null);
+        
 	}
 
 	/**
@@ -166,7 +176,7 @@ public class FuncionariosMB extends BaseMBean {
 		this.lstFuncionarios.clear();
 		this.usuario = null;
 	}
-
+	
 	/**
 	 * @return the lstFuncionarios
 	 */

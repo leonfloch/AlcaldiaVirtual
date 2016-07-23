@@ -44,7 +44,7 @@ public class UsuariosFuncionario implements Serializable {
 	private List<TramiteXMunicipio> tramitesXMunicipios;
 
 	//bi-directional many-to-one association to Persona
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="NUM_IDENTIFICACION")
 	private Persona persona;
 
