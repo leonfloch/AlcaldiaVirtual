@@ -1,9 +1,13 @@
 package com.uniandes.ecos.facade;
 
+import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Stateless;
 
+import com.uniandes.ecos.dtos.DocumentoTramiteDto;
 import com.uniandes.ecos.facadeInterface.ITramitesFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.FileUploader;
@@ -13,16 +17,29 @@ import com.uniandes.ecos.util.NegocioException;
 public class TramitesFacade implements ITramitesFacade {
 
 	@Override
-	public void cargarArchivoTramite(Long tramiteId, String nombreArchivo, String rutaContexto, InputStream data)
+	public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, String rutaContexto, InputStream data)
 			throws NegocioException {
 		String rutaCompleta = rutaContexto + Constantes.CARPETA_DOCUMENTOS_TRAMITE + tramiteId.toString() + "\\";
 		try {
-			System.out.println("Guardando documento");
 			FileUploader.guardarArchivoEnServidor(nombreArchivo, rutaCompleta, data);
 		} catch (Exception e) {
 			throw new NegocioException("E", Constantes.CODIGO_ERROR_CARGUE_ARCHIVO,
 					"Se ha presentado un error al cargar el archivo");
 		}
+		
+		List<DocumentoTramiteDto> listaDocumentos = new ArrayList<>();
+		long cont = 0;
+		for(File f : FileUploader.obtenerListaArchivos(rutaCompleta)){
+			DocumentoTramiteDto temp = new DocumentoTramiteDto();
+			temp.setConsecutivo(++cont);
+			temp.setNombre(f.getName());
+			temp.setRuta(f.getAbsolutePath());
+			temp.setTramiteId(tramiteId);
+			temp.setArchivo(f);
+			
+			listaDocumentos.add(temp);
+		}
+		return listaDocumentos;
 	}
 
 }

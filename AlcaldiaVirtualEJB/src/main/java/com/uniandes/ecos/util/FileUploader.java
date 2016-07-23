@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Clase utilitaria para cargar archivos al servidor
@@ -36,7 +38,6 @@ public class FileUploader {
 				folder.mkdir();
 			}
 			
-			System.out.println("Guardando archivo "+fileName+" en "+pathFile+": "+pathFileName);
 			out = new FileOutputStream(pathFileName);
 
 			int read = 0;
@@ -55,5 +56,12 @@ public class FileUploader {
 		}
 
 		return pathFileName;
+	}
+	
+	public static List<File> obtenerListaArchivos(String folderPath){
+		System.out.println("Folder: "+folderPath);
+		File folder = new File(folderPath);
+		System.out.println("No Archivos: "+folder.listFiles().length);
+		return Arrays.asList(folder.listFiles());
 	}
 }
