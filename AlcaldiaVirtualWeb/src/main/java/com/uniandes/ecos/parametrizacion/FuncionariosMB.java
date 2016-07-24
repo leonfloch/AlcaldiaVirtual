@@ -57,14 +57,14 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	@PostConstruct
 	public void init() {
-		funcionarioEntity = new UsuariosFuncionario();
-		lstFuncionarios = new ArrayList<UsuariosFuncionario>();
-		for (int i = 0; i < 5; i++) {
-			UsuariosFuncionario usu = new UsuariosFuncionario();
-			usu.setUsuario(""+i);
-			usu.setContrasenia("ñlsdkñlskdfñlsk");
-			usu.setEstado(Constantes.ACTIVO);
-			lstFuncionarios.add(usu);
+		this.funcionarioEntity = new UsuariosFuncionario();
+		this.municipioId = 175;
+		try {
+			this.lstFuncionarios = iParametrizacionFacade.obtenerFuncionarios(this.municipioId,
+					Constantes.TODOS);
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
 		}
 	}
 
@@ -89,18 +89,14 @@ public class FuncionariosMB extends BaseMBean {
 	 * Prepara la forma para la creación o modificación de un funcionario.
 	 * @param esModificaion
 	 */
-	public void prepararForma(){
+	public String prepararForma(){
 		this.funcionarioEntity = new UsuariosFuncionario();
 		this.funcionarioEntity.setEstado(Constantes.ACTIVO);
 		this.funcionarioEntity.setRolId(Constantes.ROL_FUNCIONARIO);
 		this.funcionarioEntity.setMunicipioId(this.municipioId);
 		this.personaEntity = new Persona();
-		
-		//Abre el diálogo
-		Map<String,Object> options = new HashMap<String, Object>();
-        options.put("resizable", false);
-        RequestContext.getCurrentInstance().openDialog("viewCars", options, null);
-        
+        	
+		return "";
 	}
 
 	/**
@@ -119,12 +115,13 @@ public class FuncionariosMB extends BaseMBean {
 		//Si ya existe la persona se mapea al objeto en pantalla.
 		if (personaAux != null) {
 			this.existePersona = true;
-			this.personaEntity.setNombres(personaAux.getNombres());
-			this.personaEntity.setApellidos(personaAux.getApellidos());
-			this.personaEntity.setDireccion(personaAux.getDireccion());
-			this.personaEntity.setEmail(personaAux.getEmail());
-			this.personaEntity.setTelefono(personaAux.getTelefono());
-			this.personaEntity.setTipoIdentificacion(personaAux.getTipoIdentificacion());
+			this.personaEntity = personaAux;
+//			this.personaEntity.setNombres(personaAux.getNombres());
+//			this.personaEntity.setApellidos(personaAux.getApellidos());
+//			this.personaEntity.setDireccion(personaAux.getDireccion());
+//			this.personaEntity.setEmail(personaAux.getEmail());
+//			this.personaEntity.setTelefono(personaAux.getTelefono());
+//			this.personaEntity.setTipoIdentificacion(personaAux.getTipoIdentificacion());
 		} else{
 			this.existePersona = false;
 		}
@@ -141,9 +138,7 @@ public class FuncionariosMB extends BaseMBean {
 		try {
 			if (this.existePersona) {
 				iParametrizacionFacade.actualizarPersona(this.personaEntity);
-			} else{
-				iParametrizacionFacade.registrarPersona(this.personaEntity);
-			}
+			} 
 			iParametrizacionFacade.registrarFuncionario(this.funcionarioEntity);
 			this.adicionarMensaje(Constantes.INFO.charAt(0), "Se registró el funcionario exitosamente.");
 		} catch (NegocioException e) {
