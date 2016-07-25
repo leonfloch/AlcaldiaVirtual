@@ -51,6 +51,7 @@ public class FuncionariosMB extends BaseMBean {
 	private String usuario;
 	private long municipioId;
 	private boolean existePersona;
+	private boolean mostrarTabla;
 
 	/**
 	 *  Incializador de variables del bean
@@ -62,6 +63,7 @@ public class FuncionariosMB extends BaseMBean {
 		try {
 			this.lstFuncionarios = iParametrizacionFacade.obtenerFuncionarios(this.municipioId,
 					Constantes.TODOS);
+			this.mostrarTabla = this.lstFuncionarios.size() > 0 ? true : false;
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
@@ -72,13 +74,18 @@ public class FuncionariosMB extends BaseMBean {
 	 * COnsulta la lista de funcionarios parametrizados en la alcaldía.
 	 */
 	public void buscar(){
+		this.lstFuncionarios.clear();
 		try {
-			if (this.usuario != null) {
+			if (this.usuario != null && !this.usuario.isEmpty()) {
 				this.funcionarioEntity = iParametrizacionFacade.obtenerFuncionario(usuario);
+				if (this.funcionarioEntity != null) {
+					this.lstFuncionarios.add(this.funcionarioEntity);
+				}
 			} else {
 				this.lstFuncionarios = iParametrizacionFacade.obtenerFuncionarios(municipioId,
 						Constantes.TODOS);
 			}
+			this.mostrarTabla = this.lstFuncionarios.size() > 0 ? true : false; 
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
@@ -226,6 +233,20 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	/**
+	 * @return the mostrarTabla
+	 */
+	public boolean isMostrarTabla() {
+		return mostrarTabla;
+	}
+
+	/**
+	 * @param mostrarTabla the mostrarTabla to set
+	 */
+	public void setMostrarTabla(boolean mostrarTabla) {
+		this.mostrarTabla = mostrarTabla;
 	}
 	
 }

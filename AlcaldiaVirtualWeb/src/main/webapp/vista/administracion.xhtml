@@ -23,14 +23,12 @@
 											<div class="col-lg-4"></div>
 											<div class="col-lg-4">
 												<div class="form-group">
-													<h:panelGrid columns="2" border="0">
-														<div class="input-group">
-															<span class="input-group-addon">#{msg.label_usuario}</span> <input
-																type="text" id="txtUsuarioFiltro"
-																class="form-control"/><span
-																class="input-group-addon"><i class="fa fa-user"></i></span>
-														</div>
-														<button jsf:id="btnBuscar" type="submit" class="btn btn-md btn-primary">#{msg.boton_buscar}</button>
+													<h:panelGrid columns="3" border="0">
+														<span class="input-group-addon">#{msg.label_usuario}</span> 
+														<input type="text" id="txtUsuarioFiltro" jsf:value="#{funcionariosMB.usuario}"
+																class="form-control"/>
+														<p:commandLink id="btnBuscar" value="#{msg.boton_buscar}" styleClass="btn btn-md btn-primary" 
+																action="#{funcionariosMB.buscar}" update=":formFiltro:pngTabla"/>
 													</h:panelGrid>
 												</div>
 											</div>
@@ -39,26 +37,28 @@
 										<div class="row">
 											<div class="col-md-10"></div>
 											<div class="col-md-2">
-												<p:commandButton value="#{msg.boton_nuevo_funcionario}" styleClass="btn btn-sm btn-secondary" 
-													action="#{funcionariosMB.prepararForma}" oncomplete="PF('dlg3').show();" />
+												<p:commandLink value="#{msg.boton_nuevo_funcionario}" styleClass="btn btn-sm btn-secondary" 
+													action="#{funcionariosMB.prepararForma}" oncomplete="PF('dlgRegistro').show();" />
 											</div>
 										</div>
-
-										<h:panelGroup styleClass="row" rendered="true">
+										
+										<h:panelGroup id="pngTabla" styleClass="row">
 											<div class="col-lg-12">
 												<div class="card">
 													<div class="card-header">
-														<h:outputLabel rendered="true"><h6>#{msg.funcionario_tabla_titulo}</h6></h:outputLabel>
+														<h6>#{msg.funcionario_tabla_titulo}</h6>
 													</div>
 													<div class="card-block">
-														<p:dataTable styleClass="table" rendered="true" var="func" value="#{funcionariosMB.lstFuncionarios}" >
+														<h:outputLabel id="lblSinResultados" style="color: red;" rendered="#{!funcionariosMB.mostrarTabla}"><h6>#{msg.funcionario_msg_sinResultados}</h6></h:outputLabel>
+														<p:dataTable id="tblFuncionarios" rendered="#{funcionariosMB.mostrarTabla}" 
+																styleClass="table" var="func" value="#{funcionariosMB.lstFuncionarios}" >
 																<p:column style="text-align: center;" headerText="#{msg.label_identificacion}">
 																	<h:outputText value="#{func.persona.numIdentificacion}" />
 																</p:column>
-																<p:column style="text-align: center;" headerText="#{msg.label_nombres}">
+																<p:column style="width:18%; text-align: center;" headerText="#{msg.label_nombres}">
 																	<h:outputText value="#{func.persona.nombres}" />
 																</p:column>
-																<p:column style="text-align: center;" headerText="#{msg.label_apellidos}">
+																<p:column style="width:18%; text-align: center;" headerText="#{msg.label_apellidos}">
 																	<h:outputText value="#{func.persona.apellidos}" />
 																</p:column>
 																<p:column style="text-align: center;" headerText="#{msg.label_email}">
@@ -67,12 +67,20 @@
 																<p:column style="text-align: center;" headerText="#{msg.label_telefono}">
 																	<h:outputText value="#{func.persona.telefono}" />
 																</p:column>
-																<p:column style="text-align: center;" headerText="#{msg.label_estado}">
+																<p:column style="width:6%; text-align: center;" headerText="#{msg.label_estado}">
 																	<h:outputText value="#{func.estado}" />
 																</p:column>
-																<p:column headerText="#{msg.label_acciones}">
-																		<p:commandButton value="#{msg.boton_editar}"/>
-																		<p:commandButton value="#{msg.boton_inhabilitar}"/>
+																<p:column headerText="#{msg.label_acciones}" style="width:20%;">
+																	<h:panelGroup>
+																		<p:commandLink styleClass="btn btn-sm btn-primary">
+																			<i class="fa fa-pencil"/>#{msg.boton_editar}</p:commandLink>
+	                                  									<p:commandLink id="btnInh" rendered="#{func.estado eq 'A'}" 
+	                                  										update=":formFiltro:tblFuncionarios:btnInh :formFiltro:tblFuncionarios:btnHab" styleClass="btn btn-sm btn-danger">
+	                                  										<i class="fa fa-times"/>#{msg.boton_inhabilitar}</p:commandLink>
+	                                  									<p:commandLink id="btnHab" rendered="false"
+	                                  										update=":formFiltro:tblFuncionarios:btnInh :formFiltro:tblFuncionarios:btnHab" styleClass="btn btn-sm btn-danger">
+	                                  										<i class="fa fa-plus"/>#{msg.boton_habilitar}</p:commandLink>
+																	</h:panelGroup>
 																</p:column>
 													</p:dataTable>
 													</div>
@@ -87,7 +95,8 @@
 			</div>
 
 			<p:dialog header="#{msg.funcionario_label_modal_titulo}"
-				widgetVar="dlg3" showEffect="explode" hideEffect="bounce">
+				widgetVar="dlgRegistro" showEffect="explode" hideEffect="explode"
+				resizable="false">
 				<form jsf:id="formRegistro">
 					<p class="text-muted">#{msg.funcionario_label_modal_titulo2}</p>
 					<h:panelGrid columns="2" border="0">
@@ -134,14 +143,18 @@
 						<input type="text"
 							jsf:value="#{funcionariosMB.personaEntity.direccion}"
 							class="form-control" placeholder="#{msg.label_direccion}"></input>
-						<p:commandButton id="btnRegistrar"
-							value="#{msg.boton_registro_funcionario}"
-							styleClass="btn btn-sm btn-success"
-							action="#{funcionariosMB.registrar}"
-							oncomplete="PF('dlg3').hide();" />
-						<p:commandButton id="btnCerrar" value="#{msg.boton_cerrar}"
-							styleClass="btn btn-sm btn-secondary"
-							oncomplete="PF('dlg3').hide();" />
+						<div class="row">
+							<h:panelGroup>
+								<p:commandLink id="btnRegistrar"
+									value="#{msg.boton_registro_funcionario}"
+									styleClass="btn btn-md btn-primary"
+									action="#{funcionariosMB.registrar}"
+									oncomplete="PF('dlgRegistro').hide();" />
+								<p:commandLink id="btnCerrar" value="#{msg.boton_cerrar}"
+									styleClass="btn btn-md btn-secondary"
+									oncomplete="PF('dlgRegistro').hide();" />
+							</h:panelGroup>
+						</div>
 					</h:panelGrid>
 				</form>
 			</p:dialog>
