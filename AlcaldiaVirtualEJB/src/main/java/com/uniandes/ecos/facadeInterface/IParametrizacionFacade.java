@@ -10,9 +10,9 @@ import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
- * Interface que expone los métodos del módulo de parametrización. 
+ * Interface que expone los mï¿½todos del mï¿½dulo de parametrizaciï¿½n. 
  * 
- * @author Juan Albarracín
+ * @author Juan Albarracï¿½n
  * @version 1.0
  * @date 18/07/2016
  */
@@ -20,7 +20,7 @@ import com.uniandes.ecos.util.NegocioException;
 public interface IParametrizacionFacade {
 
 	/**
-	 * Registra en BD la entidad enviada como parámetro. 
+	 * Registra en BD la entidad enviada como parï¿½metro. 
 	 * 
 	 * @param funcionario
 	 * @throws NegocioException
@@ -28,7 +28,7 @@ public interface IParametrizacionFacade {
 	void registrarFuncionario(UsuariosFuncionario funcionario) throws NegocioException;
 	
 	/**
-	 * Actualiza la información del funcionario enviado como parámetro.
+	 * Actualiza la informaciï¿½n del funcionario enviado como parï¿½metro.
 	 * 
 	 * @param funcionario
 	 * @throws NegocioException
@@ -45,7 +45,7 @@ public interface IParametrizacionFacade {
 	void cambiarEstadofuncionario(UsuariosFuncionario funcionario, String estado) throws NegocioException;
 	
 	/**
-	 * Retorna la lista de funcionarios pertenencientes a una alcaldía, 
+	 * Retorna la lista de funcionarios pertenencientes a una alcaldï¿½a, 
 	 * dependiendo del tipo de consulta: todos 'T', activos 'A', inactivos 'I'  
 	 * 
 	 * @param municipioId
@@ -55,7 +55,7 @@ public interface IParametrizacionFacade {
 	List<UsuariosFuncionario> obtenerFuncionarios(long municipioId, String tipoConsulta) throws NegocioException;
 	
 	/**
-	 * Retorna la información del funcinario a  partir de su usuario. 
+	 * Retorna la informaciï¿½n del funcinario a  partir de su usuario. 
 	 * 
 	 * @param usuario
 	 * @return
@@ -64,7 +64,7 @@ public interface IParametrizacionFacade {
 	UsuariosFuncionario obtenerFuncionario(String usuario) throws NegocioException;
 	
 	/**
-	 * Registra en BD la persona ingresada por parámetro. 
+	 * Registra en BD la persona ingresada por parï¿½metro. 
 	 * 
 	 * @param persona
 	 * @throws NegocioException
@@ -72,7 +72,7 @@ public interface IParametrizacionFacade {
 	void registrarPersona(Persona persona) throws NegocioException;
 
 	/**
-	 * Retorna la información de la persona a través de su número de identificación. 
+	 * Retorna la informaciï¿½n de la persona a travï¿½s de su nï¿½mero de identificaciï¿½n. 
 	 * 
 	 * @param numIdentificacion
 	 * @return
@@ -81,7 +81,7 @@ public interface IParametrizacionFacade {
 	Persona obtenerPersona(long numIdentificacion) throws NegocioException; 
 	
 	/**
-	 * Actualiza en BD la persona ingresada por parámetro. 
+	 * Actualiza en BD la persona ingresada por parï¿½metro. 
 	 * 
 	 * @param persona
 	 * @throws NegocioException
@@ -94,4 +94,12 @@ public interface IParametrizacionFacade {
 	 * @throws NegocioException
 	 */
 	void registrarCiudadano(UsuariosCiudadano ciudadano) throws NegocioException;
+	
+	/**
+	 * obtiene un ciudadano por el id
+	 * @param numIdentificacion
+	 * @return
+	 * @throws NegocioException
+	 */
+	UsuariosCiudadano obtenerCiudadano(long numIdentificacion) throws NegocioException;
 }

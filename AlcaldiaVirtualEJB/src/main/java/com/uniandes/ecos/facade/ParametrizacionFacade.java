@@ -16,9 +16,9 @@ import com.uniandes.ecos.servicesInterface.IPersonaService;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
- * Implementación de los métodos del módulo de parametrización. 
+ * Implementaciï¿½n de los mï¿½todos del mï¿½dulo de parametrizaciï¿½n. 
  * 
- * @author Juan Albarracín
+ * @author Juan Albarracï¿½n
  * @version 1.0
  * @date 18/07/2016
  */
@@ -26,7 +26,7 @@ import com.uniandes.ecos.util.NegocioException;
 public class ParametrizacionFacade implements IParametrizacionFacade{
 	
 	/**
-	 * Inyección de dependencia con servicios de parametrización.
+	 * Inyecciï¿½n de dependencia con servicios de parametrizaciï¿½n.
 	 */
 	@EJB
 	private IFuncionarioService funcionarioService; 
@@ -127,5 +127,17 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 			throws NegocioException {		
 		administracionService.registrarCiudadano(ciudadano);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.facadeInterface.IParametrizacionFacade#
+	 * obtenerCiudadano(long)
+	 */
+	@Override
+	public UsuariosCiudadano obtenerCiudadano(long numIdentificacion) throws NegocioException {
+		return administracionService.obtenerCiudadano(numIdentificacion);
+	}
+	
+	
 
 }

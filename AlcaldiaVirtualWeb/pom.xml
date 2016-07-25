@@ -9,7 +9,7 @@
 
 	<artifactId>AlcaldiaVirtualWeb</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.0</version>
+	
 
 
 	<dependencies>

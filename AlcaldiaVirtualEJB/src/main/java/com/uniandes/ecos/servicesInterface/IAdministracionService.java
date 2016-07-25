@@ -30,5 +30,13 @@ public interface IAdministracionService {
 	 * @throws NegocioException
 	 */
 	Rol obtenerRolPorId(long id) throws NegocioException;
+	
+	/**
+	 * obtiene un ciudadano por el id
+	 * @param numIdentificacion
+	 * @return
+	 * @throws NegocioException
+	 */
+	UsuariosCiudadano obtenerCiudadano(long numIdentificacion) throws NegocioException;
 
 }

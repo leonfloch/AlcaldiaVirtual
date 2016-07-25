@@ -33,40 +33,44 @@
                             <h1>#{msg.login_label_registro}</h1>
                             <p class="text-muted">#{msg.registro_label_titulo}</p>
                             <div class="input-group m-b-1">
-                                <span class="input-group-addon"><i class="icon-user"></i></span>
-                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.tipoIdentificacion}" class="form-control" placeholder="#{msg.label_tipoIdentificacion}"></input>
+                            <span class="input-group-addon"><i class="icon-user"></i></span>
+                            <select id="select" name="select" class="form-control" size="1">
+                                                    <option value="0">CC</option>
+                                                    <option value="1">CE</option>                                                    
+                                                </select>
+
                             </div>
                             <div class="input-group m-b-1">
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.numIdentificacion}" class="form-control" placeholder="#{msg.label_identificacion}"></input>
+                                <input type="number" jsf:value="#{ciudadanoMB.ciudadano.persona.numIdentificacion}" class="form-control" placeholder="#{msg.label_identificacion}" required="true"></input>
                             </div>
                             <div class="input-group m-b-1">
                                 <span class="input-group-addon">@</span>
-                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.email}" class="form-control" placeholder="#{msg.label_email}"></input>
+                                <input type="email" jsf:value="#{ciudadanoMB.ciudadano.persona.email}" required="true" class="form-control" placeholder="#{msg.label_email}"></input>
                             </div>
                             <div class="input-group m-b-1">
                                 <span class="input-group-addon"><i class="icon-lock"></i></span>
-                                <input type="password" jsf:value="#{ciudadanoMB.ciudadano.contrasenia}" class="form-control" placeholder="#{msg.label_clave}"></input>
+                                <input type="password" jsf:value="#{ciudadanoMB.ciudadano.contrasenia}" required="true" class="form-control" placeholder="#{msg.label_clave}"></input>
                             </div>
                             <div class="input-group m-b-2">
                                 <span class="input-group-addon"><i class="icon-lock"></i></span>
-                                <input type="password" jsf:value="#{ciudadanoMB.ciudadano.contraseniaVal}" class="form-control" placeholder="#{msg.label_clave_r}"></input>
+                                <input type="password" jsf:value="#{ciudadanoMB.ciudadano.contraseniaVal}" required="true" class="form-control" placeholder="#{msg.label_clave_r}"></input>
                             </div>
                             <div class="input-group m-b-1">
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.nombres}" class="form-control" placeholder="#{msg.label_nombres}"></input>
+                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.nombres}" required="true" class="form-control" placeholder="#{msg.label_nombres}"></input>
                             </div>
                             <div class="input-group m-b-1">
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.apellidos}" class="form-control" placeholder="#{msg.label_apellidos}"></input>
+                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.apellidos}" required="true" class="form-control" placeholder="#{msg.label_apellidos}"></input>
                             </div>
                             <div class="input-group m-b-1">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.telefono}" class="form-control" placeholder="#{msg.label_telefono}"></input>
+                                <input type="number" jsf:value="#{ciudadanoMB.ciudadano.persona.telefono}" required="true" class="form-control" placeholder="#{msg.label_telefono}"></input>
                             </div>
                             <div class="input-group m-b-1">
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.direccion}" class="form-control" placeholder="#{msg.label_direccion}"></input>
+                                <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.direccion}" required="true" class="form-control" placeholder="#{msg.label_direccion}"></input>
                             </div>
                             <button jsf:id="registroBtn" jsf:action="#{ciudadanoMB.crearCiudadano}" class="btn btn-block btn-success">#{msg.registro_label_titulo}</button>
                         </div>

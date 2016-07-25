@@ -1,9 +1,9 @@
 package com.uniandes.ecos.util;
 
 /**
- * Definición de las constantes de la aplicación. 
+ * Definiciï¿½n de las constantes de la aplicaciï¿½n. 
  * 
- * @author Juan Albarracín
+ * @author Juan Albarracï¿½n
  * @version 1.0
  * @date 18/07/2016
  */
@@ -11,7 +11,7 @@ public class Constantes {
 	
 	//manejo de excepciones
 	public static final String ADVERTENCIA = "W";
-	public static final String ERROR = "E"; 
+	public static final char ERROR = 'E'; 
 	public static final String INFO = "I";
 	
 	//queries de consultas

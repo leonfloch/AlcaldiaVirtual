@@ -66,7 +66,7 @@ public class FuncionariosMB extends BaseMBean {
 			this.mostrarTabla = this.lstFuncionarios.size() > 0 ? true : false;
 		} catch (NegocioException e) {
 			e.printStackTrace();
-			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
 	}
 
@@ -88,7 +88,7 @@ public class FuncionariosMB extends BaseMBean {
 			this.mostrarTabla = this.lstFuncionarios.size() > 0 ? true : false; 
 		} catch (NegocioException e) {
 			e.printStackTrace();
-			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
 	}
 
@@ -116,7 +116,7 @@ public class FuncionariosMB extends BaseMBean {
 			personaAux = iParametrizacionFacade.obtenerPersona(this.personaEntity.getNumIdentificacion());
 		} catch (NegocioException e) {
 			e.printStackTrace();
-			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
 
 		//Si ya existe la persona se mapea al objeto en pantalla.
@@ -150,7 +150,7 @@ public class FuncionariosMB extends BaseMBean {
 			this.adicionarMensaje(Constantes.INFO.charAt(0), "Se registr� el funcionario exitosamente.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
-			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
 
 	}
@@ -165,7 +165,7 @@ public class FuncionariosMB extends BaseMBean {
 			this.adicionarMensaje(Constantes.INFO.charAt(0), "Se actualiz� la informaci�n de manera exitosa.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
-			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
 	}
 	

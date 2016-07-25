@@ -29,6 +29,10 @@ public class SeguridadService implements ISeguridadService {
 	 */
 	@Override
 	public void autenticar(int cedula, String password) throws SeguridadException {
+		
+		
+		
+		
 		// TODO login temporal		
 		if (!(cedula == 1 && password.equals("1"))) {
 			throw new SeguridadException("Usuario o clave invalidad");

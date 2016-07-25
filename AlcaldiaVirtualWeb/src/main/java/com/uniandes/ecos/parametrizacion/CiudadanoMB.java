@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.facadeInterface.IParametrizacionFacade;
@@ -20,9 +21,9 @@ import com.uniandes.ecos.util.NegocioException;
  */
 @ViewScoped
 @ManagedBean
-public class CiudadanoMB {
+public class CiudadanoMB extends BaseMBean {
 	
-	/** Inyección de dependecia con fachada de parametrización. */
+	/** Inyecciï¿½n de dependecia con fachada de parametrizaciï¿½n. */
 	@Inject
 	private IParametrizacionFacade iParametrizacionFacade;
 	
@@ -45,16 +46,13 @@ public class CiudadanoMB {
 	 */
 	public String crearCiudadano() {
 		String redirect = "";
-		
-		//TODO terminar implementacion
 				
 		try {
 			iParametrizacionFacade.registrarCiudadano(ciudadano);
-		} catch (NegocioException e) {
 			
+		} catch (NegocioException e) {
+			adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
-		
-		
 		return redirect;
 	}
 	

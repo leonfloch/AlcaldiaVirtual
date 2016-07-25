@@ -5,23 +5,23 @@ public class NegocioException extends Exception {
 	/** Serial de la clase */
 	private static final long serialVersionUID = 1L;
 	
-	/** Indica el tipo de la excepción. (Error 'E', Advertencia 'W'). */
-	private String tipo;
+	/** Indica el tipo de la excepciï¿½n. (Error 'E', Advertencia 'W'). */
+	private char tipo;
 	
-	/** Código de la excepción. */
+	/** Cï¿½digo de la excepciï¿½n. */
 	private int codigo;
 	
 	/** Mensaje Asociado */
 	private String mensaje;
 	
 	/**
-	 * Constructor con parámetros de la clase.
+	 * Constructor con parï¿½metros de la clase.
 	 * 
 	 * @param tipo
 	 * @param codigo
 	 * @param mensaje
 	 */
-	public NegocioException(String tipo, int codigo, String mensaje) {
+	public NegocioException(char tipo, int codigo, String mensaje) {
 		super();
 		this.tipo = tipo;
 		this.codigo = codigo;
@@ -31,14 +31,14 @@ public class NegocioException extends Exception {
 	/**
 	 * @return the tipo
 	 */
-	public String getTipo() {
+	public char getTipo() {
 		return tipo;
 	}
 
 	/**
 	 * @param tipo the tipo to set
 	 */
-	public void setTipo(String tipo) {
+	public void setTipo(char tipo) {
 		this.tipo = tipo;
 	}
 

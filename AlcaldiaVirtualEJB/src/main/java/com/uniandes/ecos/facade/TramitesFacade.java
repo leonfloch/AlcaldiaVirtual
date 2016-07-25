@@ -23,7 +23,7 @@ public class TramitesFacade implements ITramitesFacade {
 		try {
 			FileUploader.guardarArchivoEnServidor(nombreArchivo, rutaCompleta, data);
 		} catch (Exception e) {
-			throw new NegocioException("E", Constantes.CODIGO_ERROR_CARGUE_ARCHIVO,
+			throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO,
 					"Se ha presentado un error al cargar el archivo");
 		}
 		
