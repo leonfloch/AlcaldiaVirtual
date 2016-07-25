@@ -40,16 +40,19 @@
                                 <p class="text-muted">#{msg.login_label_ingreso}</p>
                                 <div class="input-group m-b-1">
                                     <span class="input-group-addon"><i class="icon-user"></i></span>
-                                    <input type="text" jsf:value="#{seguridadMBean.cedula}" class="form-control" placeholder="#{msg.label_identificacion}"></input>                                    
+                                    <input type="number" jsf:value="#{seguridadMBean.cedula}" class="form-control" placeholder="#{msg.label_identificacion}" required="true"></input>                                    
                                 </div>
                                 <div class="input-group m-b-2">
                                     <span class="input-group-addon"><i class="icon-lock"></i></span>
-                                    <input type="text" jsf:value="#{seguridadMBean.password}" class="form-control" placeholder="#{msg.label_clave}"></input>                                    
+                                    <input type="password" jsf:value="#{seguridadMBean.password}" class="form-control" placeholder="#{msg.label_clave}" required="true"></input>                                    
+                                </div>
+                                <div class="input-group m-b-2">
+                                   <input type="checkbox" id="checkbox1" name="checkbox1" jsf:value="#{seguridadMBean.funcionario}"/> Funcionario                                        
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-6">                                    	
                                     	<button jsf:id="autenticarId" jsf:action="#{seguridadMBean.autenticar}" class="btn btn-primary p-x-2">#{msg.boton_ingresar}</button>                                        
-                                    </div>
+                                    </div>                                                                        
 <!--                                     <div class="col-xs-6 text-xs-right"> -->
 <!--                                         <button type="button" class="btn btn-link p-x-0">#{msg.link_olvidoClave}</button> -->
 <!--                                     </div> -->

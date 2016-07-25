@@ -4,6 +4,7 @@ package com.uniandes.ecos.services;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import com.uniandes.ecos.dao.BaseDao;
@@ -37,11 +38,11 @@ public class AdministracionService implements IAdministracionService {
 		
 		//validacion claves
 		if (!ciudadano.getContrasenia().equals(ciudadano.getContraseniaVal())) {
-			throw new NegocioException('E', 0, "Las claves no coinciden.");
+			throw new NegocioException(Constantes.ERROR, 0, "Las claves no coinciden.");
 		}		
 		//valida si el usuario ya existe
 		if (obtenerCiudadano(ciudadano.getPersona().getNumIdentificacion()) != null) {
-			throw new NegocioException('E', 0, "El usuario ya existe.");
+			throw new NegocioException(Constantes.ERROR, 0, "El Ciudadano ya existe.");
 		}
 		
 		ciudadano.getPersona().setTipoIdentificacion("CC");		
@@ -85,9 +86,8 @@ public class AdministracionService implements IAdministracionService {
 
 			UsuariosCiudadano ciudadano = ciudadanoDao.findById(String.valueOf(numIdentificacion));
 			return ciudadano;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+		} catch (NoResultException e) {			
+			throw new NegocioException(Constantes.ERROR, 0, "No existe ningún ciudadano que correspoda al usuario ingresado.");
 		}
 	}
 	

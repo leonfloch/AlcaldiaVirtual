@@ -31,8 +31,9 @@ public class SeguridadFacade implements ISeguridadFacade {
 	 * @see com.uniandes.ecos.facadeInterface.ISeguridadFacade#autenticar(int, java.lang.String)
 	 */
 	@Override
-	public void autenticar(int cedula, String password) throws SeguridadException {
-		seguridadService.autenticar(cedula, password);
+	public void autenticar(int cedula, String password, boolean esFuncionario) 
+			throws SeguridadException {
+		seguridadService.autenticar(cedula, password, esFuncionario);
 	}
 
 

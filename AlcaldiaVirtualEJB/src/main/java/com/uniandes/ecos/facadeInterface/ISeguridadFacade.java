@@ -18,8 +18,10 @@ public interface ISeguridadFacade {
 	 * Realiza autenticacion del usuario
 	 * @param cedula
 	 * @param password
+	 * @param esFuncionario
+	 * @throws SeguridadException
 	 */
-	void autenticar(int cedula, String password) throws SeguridadException;
+	void autenticar(int cedula, String password, boolean esFuncionario) throws SeguridadException;
 	
 	
 

@@ -71,10 +71,12 @@
                             <div class="input-group m-b-1">
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
                                 <input type="text" jsf:value="#{ciudadanoMB.ciudadano.persona.direccion}" required="true" class="form-control" placeholder="#{msg.label_direccion}"></input>
-                            </div>
-                            <button jsf:id="registroBtn" jsf:action="#{ciudadanoMB.crearCiudadano}" class="btn btn-block btn-success">#{msg.registro_label_titulo}</button>
+                            </div>                                                                                                                
+                            <button jsf:id="registroBtn" jsf:action="#{ciudadanoMB.crearCiudadano}" class="btn btn-block btn-success">#{msg.registro_label_titulo}</button>                            
                         </div>
                         </form>
+                        <button jsf:id="registroBtnVolver" jsf:outcome="/login.jsf?faces-redirect=true" class="btn btn-primary-outline btn-sm">#{msg.registro_label_volver}</button>
+                        
                         
                         
 <!--                         <div class="card-footer p-a-2"> -->

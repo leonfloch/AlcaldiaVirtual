@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import com.uniandes.ecos.comun.BaseMBean;
+import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.facadeInterface.IParametrizacionFacade;
@@ -45,10 +46,10 @@ public class CiudadanoMB extends BaseMBean {
 	 * @return
 	 */
 	public String crearCiudadano() {
-		String redirect = "";
-				
+		String redirect = "";				
 		try {
 			iParametrizacionFacade.registrarCiudadano(ciudadano);
+			redirect = RutasApp.LOGIN_RUTA;
 			
 		} catch (NegocioException e) {
 			adicionarMensaje(e.getTipo(), e.getMensaje());
