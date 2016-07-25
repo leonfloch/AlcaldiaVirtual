@@ -66,7 +66,7 @@ public class FuncionariosMB extends BaseMBean {
 			this.mostrarTabla = this.lstFuncionarios.size() > 0 ? true : false;
 		} catch (NegocioException e) {
 			e.printStackTrace();
-			this.adicionarMensaje(e.getTipo(), e.getMensaje());
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());			
 		}
 	}
 

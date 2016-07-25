@@ -44,9 +44,12 @@ public class UsuariosFuncionario implements Serializable {
 	private List<TramiteXMunicipio> tramitesXMunicipios;
 
 	//bi-directional many-to-one association to Persona
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name="NUM_IDENTIFICACION")
 	private Persona persona;
+	
+	@Transient
+	private String contraseniaVal;
 
 	public UsuariosFuncionario() {
 	}
@@ -155,4 +158,18 @@ public class UsuariosFuncionario implements Serializable {
 		this.municipioId = municipioId;
 	}
 
+	/**
+	 * @return the contraseniaVal
+	 */
+	public String getContraseniaVal() {
+		return contraseniaVal;
+	}
+
+	/**
+	 * @param contraseniaVal the contraseniaVal to set
+	 */
+	public void setContraseniaVal(String contraseniaVal) {
+		this.contraseniaVal = contraseniaVal;
+	}
+	
 }
