@@ -19,7 +19,7 @@ import java.util.List;
 	@NamedQuery(name="UsuariosFuncionario.findByAlcaldia", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipioId = :municipioId"),
 	@NamedQuery(name="UsuariosFuncionario.findByEstado", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipioId = :municipioId AND u.estado = :estado")
 })
-public class UsuariosFuncionario implements Serializable {
+public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

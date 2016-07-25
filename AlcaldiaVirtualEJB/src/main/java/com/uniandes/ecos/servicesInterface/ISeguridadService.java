@@ -7,6 +7,8 @@ import javax.ejb.Local;
 
 
 
+
+import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.util.SeguridadException;
 
 /**
@@ -23,7 +25,7 @@ public interface ISeguridadService {
 	 * @param esFuncionario
 	 * @throws SeguridadException
 	 */
-	void autenticar(int cedula, String password, boolean esFuncionario) throws SeguridadException;
+	UsuarioSesion autenticar(int cedula, String password, boolean esFuncionario) throws SeguridadException;
 	
 	
 

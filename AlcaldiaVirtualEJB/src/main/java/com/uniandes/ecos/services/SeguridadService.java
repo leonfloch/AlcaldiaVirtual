@@ -15,6 +15,8 @@ import javax.persistence.PersistenceContext;
 
 
 
+
+import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.servicesInterface.IAdministracionService;
@@ -47,13 +49,13 @@ public class SeguridadService implements ISeguridadService {
 	 * @see com.uniandes.ecos.servicesInterface.ISeguridadService#autenticar(int, java.lang.String)
 	 */
 	@Override
-	public void autenticar(int cedula, String password, boolean esFuncionario) 
+	public UsuarioSesion autenticar(int cedula, String password, boolean esFuncionario) 
 			throws SeguridadException {
 		
 		if (esFuncionario) {
-			this.loginPorFuncionario(cedula, password);			
+			return this.loginPorFuncionario(cedula, password);			
 		} else {			
-			this.loginPorCiudadano(cedula, password);
+			return this.loginPorCiudadano(cedula, password);
 		}
 	}
 	
@@ -63,12 +65,13 @@ public class SeguridadService implements ISeguridadService {
 	 * @param password
 	 * @throws SeguridadException
 	 */
-	private void loginPorCiudadano(int cedula, String password) throws SeguridadException {
+	private UsuariosCiudadano loginPorCiudadano(int cedula, String password) throws SeguridadException {
 		try {
 			UsuariosCiudadano ciudadano = adminService.obtenerCiudadano(cedula);			
 			if (ciudadano == null || !ciudadano.getContrasenia().equals(password)) {
 				throw new SeguridadException("Usuario o clave invalidad");
 			}
+			return ciudadano;
 		} catch (NegocioException e) {
 			throw new SeguridadException("Usuario o clave invalidad");
 		}
@@ -80,12 +83,13 @@ public class SeguridadService implements ISeguridadService {
 	 * @param password
 	 * @throws SeguridadException
 	 */
-	private void loginPorFuncionario(int cedula, String password) throws SeguridadException {
+	private UsuariosFuncionario loginPorFuncionario(int cedula, String password) throws SeguridadException {
 		try {
 			UsuariosFuncionario funcionario = funcionarioService.obtenerFuncionario(String.valueOf(cedula));
 			if (funcionario == null || !funcionario.getContrasenia().equals(password)) {
 				throw new SeguridadException("Usuario o clave invalidad");
 			}
+			return funcionario;
 		} catch (NegocioException e) {
 			throw new SeguridadException("Usuario o clave invalidad");
 		}

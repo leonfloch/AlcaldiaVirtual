@@ -6,6 +6,7 @@ package com.uniandes.ecos.facade;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.facadeInterface.ISeguridadFacade;
 import com.uniandes.ecos.servicesInterface.ISeguridadService;
 import com.uniandes.ecos.util.SeguridadException;
@@ -31,9 +32,9 @@ public class SeguridadFacade implements ISeguridadFacade {
 	 * @see com.uniandes.ecos.facadeInterface.ISeguridadFacade#autenticar(int, java.lang.String)
 	 */
 	@Override
-	public void autenticar(int cedula, String password, boolean esFuncionario) 
+	public UsuarioSesion autenticar(int cedula, String password, boolean esFuncionario) 
 			throws SeguridadException {
-		seguridadService.autenticar(cedula, password, esFuncionario);
+		return seguridadService.autenticar(cedula, password, esFuncionario);
 	}
 
 

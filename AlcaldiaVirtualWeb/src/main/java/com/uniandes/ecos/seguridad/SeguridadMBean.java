@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.comun.RutasApp;
+import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.facadeInterface.ISeguridadFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.SeguridadException;
@@ -71,7 +72,8 @@ public class SeguridadMBean extends BaseMBean {
 	public String autenticar() {
 		String redirect = null;
 		try {
-			iSeguridadFacade.autenticar(Integer.parseInt(cedula), password, funcionario);
+			UsuarioSesion usuario = iSeguridadFacade.autenticar(Integer.parseInt(cedula), password, funcionario);
+			this.adicionarVariableSesion("usuario", usuario);
 			redirect = RutasApp.INICIO_RUTA;
 			
 		} catch (SeguridadException e) {
