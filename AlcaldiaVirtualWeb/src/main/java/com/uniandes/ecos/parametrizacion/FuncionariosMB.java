@@ -21,9 +21,9 @@ import com.uniandes.ecos.util.NegocioException;
 
 
 /**
- * Managed bean para manejo de componentes de pantallas de administración de funcionarios. 
+ * Managed bean para manejo de componentes de pantallas de administraciï¿½n de funcionarios. 
  * 
- * @author Juan Albarracín
+ * @author Juan Albarracï¿½n
  * @version 1.0
  * @date 18/07/2016
  */
@@ -36,7 +36,7 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/** Inyección de dependecia con fachada de parametrización. */
+	/** Inyecciï¿½n de dependecia con fachada de parametrizaciï¿½n. */
 	@Inject
 	private IParametrizacionFacade iParametrizacionFacade;
 
@@ -51,34 +51,19 @@ public class FuncionariosMB extends BaseMBean {
 	private String usuario;
 	private long municipioId;
 	private boolean existePersona;
+	private boolean mostrarTabla;
 
 	/**
 	 *  Incializador de variables del bean
 	 */
 	@PostConstruct
 	public void init() {
-		funcionarioEntity = new UsuariosFuncionario();
-		lstFuncionarios = new ArrayList<UsuariosFuncionario>();
-		for (int i = 0; i < 5; i++) {
-			UsuariosFuncionario usu = new UsuariosFuncionario();
-			usu.setUsuario(""+i);
-			usu.setContrasenia("ñlsdkñlskdfñlsk");
-			usu.setEstado(Constantes.ACTIVO);
-			lstFuncionarios.add(usu);
-		}
-	}
-
-	/**
-	 * COnsulta la lista de funcionarios parametrizados en la alcaldía.
-	 */
-	public void buscar(){
+		this.funcionarioEntity = new UsuariosFuncionario();
+		this.municipioId = 175;
 		try {
-			if (this.usuario != null) {
-				this.funcionarioEntity = iParametrizacionFacade.obtenerFuncionario(usuario);
-			} else {
-				this.lstFuncionarios = iParametrizacionFacade.obtenerFuncionarios(municipioId,
-						Constantes.TODOS);
-			}
+			this.lstFuncionarios = iParametrizacionFacade.obtenerFuncionarios(this.municipioId,
+					Constantes.TODOS);
+			this.mostrarTabla = this.lstFuncionarios.size() > 0 ? true : false;
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
@@ -86,25 +71,43 @@ public class FuncionariosMB extends BaseMBean {
 	}
 
 	/**
-	 * Prepara la forma para la creación o modificación de un funcionario.
+	 * COnsulta la lista de funcionarios parametrizados en la alcaldï¿½a.
+	 */
+	public void buscar(){
+		this.lstFuncionarios.clear();
+		try {
+			if (this.usuario != null && !this.usuario.isEmpty()) {
+				this.funcionarioEntity = iParametrizacionFacade.obtenerFuncionario(usuario);
+				if (this.funcionarioEntity != null) {
+					this.lstFuncionarios.add(this.funcionarioEntity);
+				}
+			} else {
+				this.lstFuncionarios = iParametrizacionFacade.obtenerFuncionarios(municipioId,
+						Constantes.TODOS);
+			}
+			this.mostrarTabla = this.lstFuncionarios.size() > 0 ? true : false; 
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
+		}
+	}
+
+	/**
+	 * Prepara la forma para la creaciï¿½n o modificaciï¿½n de un funcionario.
 	 * @param esModificaion
 	 */
-	public void prepararForma(){
+	public String prepararForma(){
 		this.funcionarioEntity = new UsuariosFuncionario();
 		this.funcionarioEntity.setEstado(Constantes.ACTIVO);
 		this.funcionarioEntity.setRolId(Constantes.ROL_FUNCIONARIO);
 		this.funcionarioEntity.setMunicipioId(this.municipioId);
 		this.personaEntity = new Persona();
-		
-		//Abre el diálogo
-		Map<String,Object> options = new HashMap<String, Object>();
-        options.put("resizable", false);
-        RequestContext.getCurrentInstance().openDialog("viewCars", options, null);
-        
+        	
+		return "";
 	}
 
 	/**
-	 * Verifica a través del número de identificación ingresado
+	 * Verifica a travï¿½s del nï¿½mero de identificaciï¿½n ingresado
 	 * si la persona ya fue creada en la base de datos. 
 	 */
 	public void buscarPersona(){
@@ -119,12 +122,13 @@ public class FuncionariosMB extends BaseMBean {
 		//Si ya existe la persona se mapea al objeto en pantalla.
 		if (personaAux != null) {
 			this.existePersona = true;
-			this.personaEntity.setNombres(personaAux.getNombres());
-			this.personaEntity.setApellidos(personaAux.getApellidos());
-			this.personaEntity.setDireccion(personaAux.getDireccion());
-			this.personaEntity.setEmail(personaAux.getEmail());
-			this.personaEntity.setTelefono(personaAux.getTelefono());
-			this.personaEntity.setTipoIdentificacion(personaAux.getTipoIdentificacion());
+			this.personaEntity = personaAux;
+//			this.personaEntity.setNombres(personaAux.getNombres());
+//			this.personaEntity.setApellidos(personaAux.getApellidos());
+//			this.personaEntity.setDireccion(personaAux.getDireccion());
+//			this.personaEntity.setEmail(personaAux.getEmail());
+//			this.personaEntity.setTelefono(personaAux.getTelefono());
+//			this.personaEntity.setTipoIdentificacion(personaAux.getTipoIdentificacion());
 		} else{
 			this.existePersona = false;
 		}
@@ -137,15 +141,13 @@ public class FuncionariosMB extends BaseMBean {
 		this.funcionarioEntity.setUsuario(String.valueOf(this.personaEntity.getNumIdentificacion()));
 		this.funcionarioEntity.setPersona(this.personaEntity);
 
-		//Se invoca el método de registro
+		//Se invoca el mï¿½todo de registro
 		try {
 			if (this.existePersona) {
 				iParametrizacionFacade.actualizarPersona(this.personaEntity);
-			} else{
-				iParametrizacionFacade.registrarPersona(this.personaEntity);
-			}
+			} 
 			iParametrizacionFacade.registrarFuncionario(this.funcionarioEntity);
-			this.adicionarMensaje(Constantes.INFO.charAt(0), "Se registró el funcionario exitosamente.");
+			this.adicionarMensaje(Constantes.INFO.charAt(0), "Se registrï¿½ el funcionario exitosamente.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
@@ -154,13 +156,13 @@ public class FuncionariosMB extends BaseMBean {
 	}
 	
 	/**
-	 * Ejecuta el método encargado de la actualizaciónd e los datos del funcionario.
+	 * Ejecuta el mï¿½todo encargado de la actualizaciï¿½nd e los datos del funcionario.
 	 */
 	public void actualizar(){
 		try {
 			iParametrizacionFacade.actualizarPersona(this.personaEntity);
 			iParametrizacionFacade.actualizarFuncionario(this.funcionarioEntity);
-			this.adicionarMensaje(Constantes.INFO.charAt(0), "Se actualizó la información de manera exitosa.");
+			this.adicionarMensaje(Constantes.INFO.charAt(0), "Se actualizï¿½ la informaciï¿½n de manera exitosa.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			this.adicionarMensaje(e.getTipo().charAt(0), e.getMensaje());
@@ -231,6 +233,20 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	/**
+	 * @return the mostrarTabla
+	 */
+	public boolean isMostrarTabla() {
+		return mostrarTabla;
+	}
+
+	/**
+	 * @param mostrarTabla the mostrarTabla to set
+	 */
+	public void setMostrarTabla(boolean mostrarTabla) {
+		this.mostrarTabla = mostrarTabla;
 	}
 	
 }
