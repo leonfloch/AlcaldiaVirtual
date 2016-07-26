@@ -38,7 +38,7 @@
 											<div class="col-md-10"></div>
 											<div class="col-md-2">
 												<p:commandLink value="#{msg.boton_nuevo_funcionario}" styleClass="btn btn-sm btn-secondary" 
-													action="#{funcionariosMB.prepararForma}" oncomplete="PF('dlgRegistro').show();" />
+													action="#{funcionariosMB.prepararForma}" update=":formRegistro" oncomplete="PF('dlgRegistro').show();" />
 											</div>
 										</div>
 										
@@ -72,13 +72,20 @@
 																</p:column>
 																<p:column headerText="#{msg.label_acciones}" style="width:20%;">
 																	<h:panelGroup>
-																		<p:commandLink styleClass="btn btn-sm btn-primary">
+																		<p:commandLink styleClass="btn btn-sm btn-primary"
+																			actionListener="#{funcionariosMB.setObject(func)}"
+																			update=":formRegistro"
+																			oncomplete="PF('dlgRegistro').show();" >
 																			<i class="fa fa-pencil"/>#{msg.boton_editar}</p:commandLink>
-	                                  									<p:commandLink id="btnInh" rendered="#{func.estado eq 'A'}" 
-	                                  										update=":formFiltro:tblFuncionarios:btnInh :formFiltro:tblFuncionarios:btnHab" styleClass="btn btn-sm btn-danger">
+	                                  									<p:commandLink id="btnInh" rendered="#{func.estado eq 'A'}"
+	                                  										actionListener="#{funcionariosMB.setObject(func)}" 
+	                                  										action="#{funcionariosMB.cambiarEstado('I')}"
+	                                  										update=":formFiltro:tblFuncionarios" styleClass="btn btn-sm btn-danger">
 	                                  										<i class="fa fa-times"/>#{msg.boton_inhabilitar}</p:commandLink>
-	                                  									<p:commandLink id="btnHab" rendered="false"
-	                                  										update=":formFiltro:tblFuncionarios:btnInh :formFiltro:tblFuncionarios:btnHab" styleClass="btn btn-sm btn-danger">
+	                                  									<p:commandLink id="btnHab" rendered="#{func.estado eq 'I'}"
+	                                  										actionListener="#{funcionariosMB.setObject(func)}" 
+	                                  										action="#{funcionariosMB.cambiarEstado('A')}"
+	                                  										update=":formFiltro:tblFuncionarios" styleClass="btn btn-sm btn-success">
 	                                  										<i class="fa fa-plus"/>#{msg.boton_habilitar}</p:commandLink>
 																	</h:panelGroup>
 																</p:column>
@@ -101,20 +108,20 @@
 					<p class="text-muted">#{msg.funcionario_label_modal_titulo2}</p>
 					<h:panelGrid columns="2" border="0">
 						<span class="input-group-addon"><i class="icon-user"></i></span>
-						<input type="text"
-							jsf:value="#{funcionariosMB.personaEntity.tipoIdentificacion}"
-							class="form-control"
-							placeholder="#{msg.label_tipoIdentificacion}"></input>
-						<span class="input-group-addon"><i class="icon-user"></i></span>
 						<h:panelGroup>
 							<p:inputText id="txtNumId" styleClass="form-control"
 								value="#{funcionariosMB.personaEntity.numIdentificacion}">
-								<p:ajax event="blur" update=":formRegistro"
+								<p:ajax event="change" update=":formRegistro"
 									listener="#{funcionariosMB.buscarPersona}" />
 							</p:inputText>
 							<p:watermark for="txtNumId" value="#{msg.label_identificacion}"
 								id="lblNumId" />
 						</h:panelGroup>
+						<span class="input-group-addon"><i class="icon-user"></i></span>
+						<input type="text"
+							jsf:value="#{funcionariosMB.personaEntity.tipoIdentificacion}"
+							class="form-control"
+							placeholder="#{msg.label_tipoIdentificacion}"></input>
 						<span class="input-group-addon">@</span>
 						<input type="text"
 							jsf:value="#{funcionariosMB.personaEntity.email}"
@@ -146,9 +153,18 @@
 						<div class="row">
 							<h:panelGroup>
 								<p:commandLink id="btnRegistrar"
+									rendered="#{funcionariosMB.esRegistro}"
 									value="#{msg.boton_registro_funcionario}"
 									styleClass="btn btn-md btn-primary"
 									action="#{funcionariosMB.registrar}"
+									update=":formFiltro:tblFuncionarios"
+									oncomplete="PF('dlgRegistro').hide();" />
+								<p:commandLink id="btnActualizar"
+									rendered="#{!funcionariosMB.esRegistro}"
+									value="#{msg.boton_actualizacion_funcionario}"
+									styleClass="btn btn-md btn-primary"
+									action="#{funcionariosMB.actualizar}"
+									update=":formFiltro:tblFuncionarios"
 									oncomplete="PF('dlgRegistro').hide();" />
 								<p:commandLink id="btnCerrar" value="#{msg.boton_cerrar}"
 									styleClass="btn btn-md btn-secondary"

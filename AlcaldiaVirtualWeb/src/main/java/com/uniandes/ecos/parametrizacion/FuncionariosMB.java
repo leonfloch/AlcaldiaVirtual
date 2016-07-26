@@ -52,6 +52,7 @@ public class FuncionariosMB extends BaseMBean {
 	private long municipioId;
 	private boolean existePersona;
 	private boolean mostrarTabla;
+	private boolean esRegistro;
 
 	/**
 	 *  Incializador de variables del bean
@@ -97,6 +98,7 @@ public class FuncionariosMB extends BaseMBean {
 	 * @param esModificaion
 	 */
 	public String prepararForma(){
+		this.esRegistro = true;
 		this.funcionarioEntity = new UsuariosFuncionario();
 		this.funcionarioEntity.setEstado(Constantes.ACTIVO);
 		this.funcionarioEntity.setRolId(Constantes.ROL_FUNCIONARIO);
@@ -147,6 +149,7 @@ public class FuncionariosMB extends BaseMBean {
 				iParametrizacionFacade.actualizarPersona(this.personaEntity);
 			} 
 			iParametrizacionFacade.registrarFuncionario(this.funcionarioEntity);
+			buscar();
 			this.adicionarMensaje(Constantes.INFO.charAt(0), "Se registrï¿½ el funcionario exitosamente.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -170,6 +173,19 @@ public class FuncionariosMB extends BaseMBean {
 	}
 	
 	/**
+	 * Inhabilita o Activa un funcionario en la alcaldía específica. 
+	 */
+	public void cambiarEstado(String estado){
+		this.funcionarioEntity.setEstado(estado);
+		try {
+			iParametrizacionFacade.actualizarFuncionario(this.funcionarioEntity);
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
+		}
+	}
+	
+	/**
 	 * Limpia los valores ingresados en la pantalla.
 	 */
 	public void limpiarPantalla(){
@@ -177,6 +193,17 @@ public class FuncionariosMB extends BaseMBean {
 		this.personaEntity = new Persona();
 		this.lstFuncionarios.clear();
 		this.usuario = null;
+	}
+	
+	/**
+	 * Setea el objeto funcionario con le ingresado por parámetro.
+	 * 
+	 * @param funcionario
+	 */
+	public void setObject(UsuariosFuncionario funcionario){
+		this.esRegistro = false;
+		this.personaEntity = funcionario.getPersona();
+		this.funcionarioEntity = funcionario;
 	}
 	
 	/**
@@ -247,6 +274,20 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	public void setMostrarTabla(boolean mostrarTabla) {
 		this.mostrarTabla = mostrarTabla;
+	}
+
+	/**
+	 * @return the esRegistro
+	 */
+	public boolean isEsRegistro() {
+		return esRegistro;
+	}
+
+	/**
+	 * @param esRegistro the esRegistro to set
+	 */
+	public void setEsRegistro(boolean esRegistro) {
+		this.esRegistro = esRegistro;
 	}
 	
 }
