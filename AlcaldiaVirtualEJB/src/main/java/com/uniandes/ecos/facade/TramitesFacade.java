@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 
@@ -15,6 +17,8 @@ import com.uniandes.ecos.util.NegocioException;
 
 @Stateless
 public class TramitesFacade implements ITramitesFacade {
+	
+	private static Logger log = Logger.getLogger(TramitesFacade.class.getName());
 
 	@Override
 	public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, String rutaContexto, InputStream data)
@@ -23,6 +27,7 @@ public class TramitesFacade implements ITramitesFacade {
 		try {
 			FileUploader.guardarArchivoEnServidor(nombreArchivo, rutaCompleta, data);
 		} catch (Exception e) {
+			log.log(Level.WARNING, e.getMessage());
 			throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO,
 					"Se ha presentado un error al cargar el archivo");
 		}
