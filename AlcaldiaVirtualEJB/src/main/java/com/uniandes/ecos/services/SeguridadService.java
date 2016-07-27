@@ -69,11 +69,11 @@ public class SeguridadService implements ISeguridadService {
 		try {
 			UsuariosCiudadano ciudadano = adminService.obtenerCiudadano(cedula);			
 			if (ciudadano == null || !ciudadano.getContrasenia().equals(password)) {
-				throw new SeguridadException("Usuario o clave invalidad");
+				throw new SeguridadException("Usuario o clave invalida");
 			}
 			return ciudadano;
 		} catch (NegocioException e) {
-			throw new SeguridadException("Usuario o clave invalidad");
+			throw new SeguridadException("Usuario o clave invalida");
 		}
 	}
 	
@@ -87,11 +87,11 @@ public class SeguridadService implements ISeguridadService {
 		try {
 			UsuariosFuncionario funcionario = funcionarioService.obtenerFuncionario(String.valueOf(cedula));
 			if (funcionario == null || !funcionario.getContrasenia().equals(password)) {
-				throw new SeguridadException("Usuario o clave invalidad");
+				throw new SeguridadException("Usuario o clave invalida");
 			}
 			return funcionario;
 		} catch (NegocioException e) {
-			throw new SeguridadException("Usuario o clave invalidad");
+			throw new SeguridadException("Usuario o clave invalida");
 		}
 	}
 
