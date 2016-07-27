@@ -49,7 +49,7 @@
 														<h6>#{msg.funcionario_tabla_titulo}</h6>
 													</div>
 													<div class="card-block">
-														<h:outputLabel id="lblSinResultados" style="color: red;" rendered="#{!funcionariosMB.mostrarTabla}"><h6>#{msg.funcionario_msg_sinResultados}</h6></h:outputLabel>
+														<h:outputLabel id="lblSinResultados" style="color: red;" rendered="#{!funcionariosMB.mostrarTabla and funcionariosMB.ejecutoConsulta}"><h6>#{msg.funcionario_msg_sinResultados}</h6></h:outputLabel>
 														<p:dataTable id="tblFuncionarios" rendered="#{funcionariosMB.mostrarTabla}" 
 																styleClass="table" var="func" value="#{funcionariosMB.lstFuncionarios}" >
 																<p:column style="text-align: center;" headerText="#{msg.label_identificacion}">
@@ -110,7 +110,7 @@
 						<span class="input-group-addon"><i class="icon-user"></i></span>
 						<h:panelGroup>
 							<p:inputText id="txtNumId" styleClass="form-control"
-								value="#{funcionariosMB.personaEntity.numIdentificacion}">
+								value="#{funcionariosMB.personaEntity.numIdentificacion}" required="true">
 								<p:ajax event="change" update=":formRegistro"
 									listener="#{funcionariosMB.buscarPersona}" />
 							</p:inputText>
@@ -121,33 +121,33 @@
 						<input type="text"
 							jsf:value="#{funcionariosMB.personaEntity.tipoIdentificacion}"
 							class="form-control"
-							placeholder="#{msg.label_tipoIdentificacion}"></input>
+							placeholder="#{msg.label_tipoIdentificacion}" required="true"></input>
 						<span class="input-group-addon">@</span>
-						<input type="text"
+						<input type="email"
 							jsf:value="#{funcionariosMB.personaEntity.email}"
 							class="form-control" placeholder="#{msg.label_email}"></input>
 						<span class="input-group-addon"><i class="icon-lock"></i></span>
-						<input type="password"
+						<input type="password" required="true"
 							jsf:value="#{funcionariosMB.funcionarioEntity.contrasenia}"
 							class="form-control" placeholder="#{msg.label_clave}"></input>
 						<span class="input-group-addon"><i class="icon-lock"></i></span>
-						<input type="password"
+						<input type="password" required="true"
 							jsf:value="#{funcionariosMB.funcionarioEntity.contraseniaVal}"
 							class="form-control" placeholder="#{msg.label_clave_r}"></input>
 						<span class="input-group-addon"><i class="icon-user"></i></span>
-						<input type="text"
+						<input type="text" required="true"
 							jsf:value="#{funcionariosMB.personaEntity.nombres}"
 							class="form-control" placeholder="#{msg.label_nombres}"></input>
 						<span class="input-group-addon"><i class="icon-user"></i></span>
-						<input type="text"
+						<input type="text" required="true"
 							jsf:value="#{funcionariosMB.personaEntity.apellidos}"
 							class="form-control" placeholder="#{msg.label_apellidos}"></input>
 						<span class="input-group-addon"><i class="fa fa-phone"></i></span>
-						<input type="text"
+						<input type="number"
 							jsf:value="#{funcionariosMB.personaEntity.telefono}"
 							class="form-control" placeholder="#{msg.label_telefono}"></input>
 						<span class="input-group-addon"><i class="icon-user"></i></span>
-						<input type="text"
+						<input type="text" required="true"
 							jsf:value="#{funcionariosMB.personaEntity.direccion}"
 							class="form-control" placeholder="#{msg.label_direccion}"></input>
 						<div class="row">

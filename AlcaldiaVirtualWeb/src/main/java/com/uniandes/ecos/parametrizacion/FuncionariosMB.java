@@ -1,19 +1,15 @@
 package com.uniandes.ecos.parametrizacion;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import org.primefaces.context.RequestContext;
-
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.Persona;
+import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.facadeInterface.IParametrizacionFacade;
 import com.uniandes.ecos.util.Constantes;
@@ -39,6 +35,7 @@ public class FuncionariosMB extends BaseMBean {
 	/** Inyecciï¿½n de dependecia con fachada de parametrizaciï¿½n. */
 	@Inject
 	private IParametrizacionFacade iParametrizacionFacade;
+	private UsuarioSesion usuarioSesion;
 
 	/** Listas de la pantalla. */
 	private List<UsuariosFuncionario> lstFuncionarios;
@@ -53,6 +50,7 @@ public class FuncionariosMB extends BaseMBean {
 	private boolean existePersona;
 	private boolean mostrarTabla;
 	private boolean esRegistro;
+	private boolean ejecutoConsulta;
 
 	/**
 	 *  Incializador de variables del bean
@@ -60,6 +58,9 @@ public class FuncionariosMB extends BaseMBean {
 	@PostConstruct
 	public void init() {
 		this.funcionarioEntity = new UsuariosFuncionario();
+		//Se obtiene usuario de sesión
+		usuarioSesion = (UsuarioSesion)this.obtenerVariableSesion(Constantes.USUARIO_SESION);
+		
 		this.municipioId = 175;
 		try {
 			this.lstFuncionarios = iParametrizacionFacade.obtenerFuncionarios(this.municipioId,
@@ -75,6 +76,7 @@ public class FuncionariosMB extends BaseMBean {
 	 * COnsulta la lista de funcionarios parametrizados en la alcaldï¿½a.
 	 */
 	public void buscar(){
+		this.ejecutoConsulta = true;
 		this.lstFuncionarios.clear();
 		try {
 			if (this.usuario != null && !this.usuario.isEmpty()) {
@@ -288,6 +290,20 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	public void setEsRegistro(boolean esRegistro) {
 		this.esRegistro = esRegistro;
+	}
+
+	/**
+	 * @return the ejecutoConsulta
+	 */
+	public boolean isEjecutoConsulta() {
+		return ejecutoConsulta;
+	}
+
+	/**
+	 * @param ejecutoConsulta the ejecutoConsulta to set
+	 */
+	public void setEjecutoConsulta(boolean ejecutoConsulta) {
+		this.ejecutoConsulta = ejecutoConsulta;
 	}
 	
 }

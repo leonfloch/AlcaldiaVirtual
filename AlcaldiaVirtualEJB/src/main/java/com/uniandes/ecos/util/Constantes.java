@@ -24,6 +24,9 @@ public class Constantes {
 	public static final long ROL_ADMIN_LOCAL = 2;
 	public static final long ROL_FUNCIONARIO = 3;
 	public static final long ROL_CIUDADANO = 4;
+	
+	//Usuario de sesión
+	public static final String USUARIO_SESION = "usuario";
 
 	//carpeta documentos tramite
 	public static final String CARPETA_DOCUMENTOS_TRAMITE = "archivosTramites\\";
