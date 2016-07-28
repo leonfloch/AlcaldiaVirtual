@@ -9,10 +9,12 @@ import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 
+import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
 import com.uniandes.ecos.facadeInterface.ITramitesFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.FileUploader;
+import com.uniandes.ecos.util.JavaMailSender;
 import com.uniandes.ecos.util.NegocioException;
 
 @Stateless
@@ -45,6 +47,19 @@ public class TramitesFacade implements ITramitesFacade {
 			listaDocumentos.add(temp);
 		}
 		return listaDocumentos;
+	}
+
+	@Override
+	public void enviarCorreo(CorreoElectronicoDto correoElectronicoDto) throws NegocioException {
+		try {
+			JavaMailSender.enviarCorreo(correoElectronicoDto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.log(Level.WARNING, e.getMessage());
+			throw new NegocioException('E', Constantes.CODIGO_ERROR_ENVIO_CORREO,
+					"Se ha presentado un error al enviar el correo");
+		}
+		
 	}
 
 }
