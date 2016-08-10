@@ -33,4 +33,5 @@ public class Constantes {
 	
 	//codigos errores
 	public static final int CODIGO_ERROR_CARGUE_ARCHIVO = 512;
+	public static final int CODIGO_ERROR_ENVIO_CORREO = 513;
 }

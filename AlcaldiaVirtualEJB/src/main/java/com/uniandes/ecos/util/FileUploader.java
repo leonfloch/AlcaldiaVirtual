@@ -35,7 +35,8 @@ public class FileUploader {
 		try {
 			
 			if(!folder.exists()){
-				folder.mkdir();
+				folder.mkdirs();
+				System.out.println("Folder creado");
 			}
 			
 			out = new FileOutputStream(pathFileName);

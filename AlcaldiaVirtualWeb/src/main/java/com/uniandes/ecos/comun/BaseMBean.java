@@ -40,11 +40,11 @@ public class BaseMBean implements Serializable {
 		switch (tipoMensaje) {
 		case 'E':
 			FacesContext.getCurrentInstance().addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", mensaje));
 			break;
 		case 'W':
 			FacesContext.getCurrentInstance().addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "¡Advertencia!", mensaje));
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", mensaje));
 			break;
 		case 'I':
 			FacesContext.getCurrentInstance().addMessage(null, 
