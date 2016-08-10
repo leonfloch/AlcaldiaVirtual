@@ -7,13 +7,15 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.uniandes.ecos.entities.UsuarioSesion;
-import com.uniandes.ecos.facadeInterface.ISeguridadFacade;
-import com.uniandes.ecos.servicesInterface.ISeguridadService;
+import com.uniandes.ecos.interfaz.facade.ISeguridadFacade;
+import com.uniandes.ecos.interfaz.services.seguridad.IAutenticacionService;
+import com.uniandes.ecos.interfaz.services.seguridad.IPermisosService;
 import com.uniandes.ecos.util.SeguridadException;
 
 
 
 /**
+ * Fachada implementacion encargada de toda la parte de seguridad de la aplicacion
  * @author leonardovalbuenacalderon
  *
  */
@@ -21,10 +23,16 @@ import com.uniandes.ecos.util.SeguridadException;
 public class SeguridadFacade implements ISeguridadFacade {
 	
 	/**
-	 * Compomente de seguridad
+	 * Servicio encargado del manejo de la seguridad
 	 */
 	@EJB
-	private ISeguridadService seguridadService;
+	private IAutenticacionService seguridadService;
+	
+	/**
+	 * Servicio encargado del manejo de los permisos del usuario
+	 */
+	@EJB
+	private IPermisosService permisosService;
 
 	
 	/*

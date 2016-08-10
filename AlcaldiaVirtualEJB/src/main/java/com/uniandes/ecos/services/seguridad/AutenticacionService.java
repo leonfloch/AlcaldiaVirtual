@@ -1,27 +1,17 @@
 /**
  * 
  */
-package com.uniandes.ecos.services;
+package com.uniandes.ecos.services.seguridad;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-
-
-
-
-
-
-
-
 import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
-import com.uniandes.ecos.servicesInterface.IAdministracionService;
-import com.uniandes.ecos.servicesInterface.IFuncionarioService;
-import com.uniandes.ecos.servicesInterface.ISeguridadService;
+import com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService;
+import com.uniandes.ecos.interfaz.services.seguridad.IAutenticacionService;
 import com.uniandes.ecos.util.NegocioException;
 import com.uniandes.ecos.util.SeguridadException;
 
@@ -32,17 +22,18 @@ import com.uniandes.ecos.util.SeguridadException;
  *
  */
 @Stateless
-public class SeguridadService implements ISeguridadService {
+public class AutenticacionService implements IAutenticacionService {
 
 	@PersistenceContext
 	private EntityManager em;
 	
-	
+	/**
+	 * Servicio que maneja la parametrizacion de usuarios
+	 */
 	@EJB
-	IAdministracionService adminService;
+	private IUsuariosParamService usuariosParamService;
 	
-	@EJB
-	IFuncionarioService funcionarioService;
+	
 	
 	/*
 	 * (non-Javadoc)
@@ -67,7 +58,7 @@ public class SeguridadService implements ISeguridadService {
 	 */
 	private UsuariosCiudadano loginPorCiudadano(int cedula, String password) throws SeguridadException {
 		try {
-			UsuariosCiudadano ciudadano = adminService.obtenerCiudadano(cedula);			
+			UsuariosCiudadano ciudadano = usuariosParamService.obtenerCiudadano(cedula);			
 			if (ciudadano == null || !ciudadano.getContrasenia().equals(password)) {
 				throw new SeguridadException("Usuario o clave invalida");
 			}
@@ -85,7 +76,7 @@ public class SeguridadService implements ISeguridadService {
 	 */
 	private UsuariosFuncionario loginPorFuncionario(int cedula, String password) throws SeguridadException {
 		try {
-			UsuariosFuncionario funcionario = funcionarioService.obtenerFuncionario(String.valueOf(cedula));
+			UsuariosFuncionario funcionario = usuariosParamService.obtenerFuncionario(String.valueOf(cedula));
 			if (funcionario == null || !funcionario.getContrasenia().equals(password)) {
 				throw new SeguridadException("Usuario o clave invalida");
 			}

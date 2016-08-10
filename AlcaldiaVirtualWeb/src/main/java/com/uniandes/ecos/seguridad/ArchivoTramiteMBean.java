@@ -20,7 +20,7 @@ import org.primefaces.model.StreamedContent;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
-import com.uniandes.ecos.facadeInterface.ITramitesFacade;
+import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.util.NegocioException;
 
 @ViewScoped
@@ -28,7 +28,7 @@ import com.uniandes.ecos.util.NegocioException;
 public class ArchivoTramiteMBean extends BaseMBean {
 	
 	@Inject
-	private ITramitesFacade tramitesFacade;
+	private IProcesadorTramitesFacade tramitesFacade;
 	/**
 	 * 
 	 */

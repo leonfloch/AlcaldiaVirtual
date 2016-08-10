@@ -5,14 +5,11 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.uniandes.ecos.dao.BaseDao;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
-import com.uniandes.ecos.facadeInterface.IParametrizacionFacade;
-import com.uniandes.ecos.servicesInterface.IFuncionarioService;
-import com.uniandes.ecos.servicesInterface.IAdministracionService;
-import com.uniandes.ecos.servicesInterface.IPersonaService;
+import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
+import com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -26,15 +23,13 @@ import com.uniandes.ecos.util.NegocioException;
 public class ParametrizacionFacade implements IParametrizacionFacade{
 	
 	/**
-	 * Inyecci�n de dependencia con servicios de parametrizaci�n.
+	 * Inyecci�n de dependencia con servicios de parametrizaci�n de usuarios.
 	 */
 	@EJB
-	private IFuncionarioService funcionarioService; 
-	@EJB 
-	private IPersonaService personaService;
+	private IUsuariosParamService usuariosParamService;
 	
-	@EJB 
-	private IAdministracionService administracionService;
+	
+		
 
 	/* (non-Javadoc)
 	 * @see
@@ -43,7 +38,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	 */
 	@Override
 	public void registrarFuncionario(UsuariosFuncionario funcionario) throws NegocioException {
-		funcionarioService.registrarFuncionario(funcionario);
+		usuariosParamService.registrarFuncionario(funcionario);
 	}
 
 	/* (non-Javadoc)
@@ -53,7 +48,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	 */
 	@Override
 	public void actualizarFuncionario(UsuariosFuncionario funcionario) throws NegocioException {
-		funcionarioService.actualizarFuncionario(funcionario);
+		usuariosParamService.actualizarFuncionario(funcionario);
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +58,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	 */
 	@Override
 	public void cambiarEstadofuncionario(UsuariosFuncionario funcionario, String estado) throws NegocioException {
-		funcionarioService.cambiarEstadofuncionario(funcionario, estado);
+		usuariosParamService.cambiarEstadofuncionario(funcionario, estado);
 	}
 	
 	/* (non-Javadoc)
@@ -74,7 +69,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	@Override
 	public List<UsuariosFuncionario> obtenerFuncionarios(long municipioId, String tipoConsulta)
 			throws NegocioException {
-		return funcionarioService.obtenerFuncionarios(municipioId, tipoConsulta);
+		return usuariosParamService.obtenerFuncionarios(municipioId, tipoConsulta);
 	}
 
 	/* (non-Javadoc)
@@ -84,7 +79,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	 */
 	@Override
 	public UsuariosFuncionario obtenerFuncionario(String usuario) throws NegocioException {
-		return funcionarioService.obtenerFuncionario(usuario);
+		return usuariosParamService.obtenerFuncionario(usuario);
 	}
 
 	/* (non-Javadoc)
@@ -94,7 +89,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	 */
 	@Override
 	public void registrarPersona(Persona persona) throws NegocioException {
-		personaService.registrarPersona(persona);
+		usuariosParamService.registrarPersona(persona);
 	}
 
 	/* (non-Javadoc)
@@ -104,7 +99,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	 */
 	@Override
 	public Persona obtenerPersona(long numIdentificacion) throws NegocioException {
-		return personaService.obtenerPersona(numIdentificacion);
+		return usuariosParamService.obtenerPersona(numIdentificacion);
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +109,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	 */
 	@Override
 	public void actualizarPersona(Persona persona) throws NegocioException {
-		personaService.actualizarPersona(persona);
+		usuariosParamService.actualizarPersona(persona);
 	}
 
 	/*
@@ -125,7 +120,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	@Override
 	public void registrarCiudadano(UsuariosCiudadano ciudadano)
 			throws NegocioException {		
-		administracionService.registrarCiudadano(ciudadano);
+		usuariosParamService.registrarCiudadano(ciudadano);
 	}
 
 	/*
@@ -135,7 +130,7 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	 */
 	@Override
 	public UsuariosCiudadano obtenerCiudadano(long numIdentificacion) throws NegocioException {
-		return administracionService.obtenerCiudadano(numIdentificacion);
+		return usuariosParamService.obtenerCiudadano(numIdentificacion);
 	}
 	
 	

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.uniandes.ecos.facadeInterface;
+package com.uniandes.ecos.interfaz.facade;
 
 import javax.ejb.Local;
 
@@ -9,6 +9,7 @@ import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.util.SeguridadException;
 
 /**
+ * Fachada encargada de toda la parte de seguridad de la aplicacion
  * @author leonardovalbuenacalderon
  *
  */

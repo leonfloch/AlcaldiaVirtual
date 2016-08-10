@@ -1,26 +1,53 @@
-package com.uniandes.ecos.facadeInterface;
+/**
+ * 
+ */
+package com.uniandes.ecos.interfaz.services.parametrizacion;
 
 import java.util.List;
 
 import javax.ejb.Local;
 
 import com.uniandes.ecos.entities.Persona;
+import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
- * Interface que expone los mï¿½todos del mï¿½dulo de parametrizaciï¿½n. 
- * 
- * @author Juan Albarracï¿½n
- * @version 1.0
- * @date 18/07/2016
+ * Servicio encargado de realizar la parametrizacion de los usuarios
+ * en el sistema.
+ * @author 80221940
+ *
  */
 @Local
-public interface IParametrizacionFacade {
-
+public interface IUsuariosParamService {
+	
 	/**
-	 * Registra en BD la entidad enviada como parï¿½metro. 
+	 * Crea un nuevo ciudadano en el sistema
+	 * @param ciudadano
+	 * @throws NegocioException
+	 */
+	void registrarCiudadano(UsuariosCiudadano ciudadano) throws NegocioException;
+	
+	/**
+	 * obtiene un ciudadano por el id
+	 * @param numIdentificacion
+	 * @return
+	 * @throws NegocioException
+	 */
+	UsuariosCiudadano obtenerCiudadano(long numIdentificacion) throws NegocioException;
+	
+	/**
+	 * Obtiene el rol por el id
+	 * @param id
+	 * @return
+	 * @throws NegocioException
+	 */
+	Rol obtenerRolPorId(long id) throws NegocioException;
+	
+	
+	/**
+	 * Registra en BD la entidad enviada como parámetro. 
 	 * 
 	 * @param funcionario
 	 * @throws NegocioException
@@ -28,7 +55,7 @@ public interface IParametrizacionFacade {
 	void registrarFuncionario(UsuariosFuncionario funcionario) throws NegocioException;
 	
 	/**
-	 * Actualiza la informaciï¿½n del funcionario enviado como parï¿½metro.
+	 * Actualiza la información del funcionario enviado como parámetro.
 	 * 
 	 * @param funcionario
 	 * @throws NegocioException
@@ -45,7 +72,7 @@ public interface IParametrizacionFacade {
 	void cambiarEstadofuncionario(UsuariosFuncionario funcionario, String estado) throws NegocioException;
 	
 	/**
-	 * Retorna la lista de funcionarios pertenencientes a una alcaldï¿½a, 
+	 * Retorna la lista de funcionarios pertenencientes a una alcaldía, 
 	 * dependiendo del tipo de consulta: todos 'T', activos 'A', inactivos 'I'  
 	 * 
 	 * @param municipioId
@@ -55,16 +82,16 @@ public interface IParametrizacionFacade {
 	List<UsuariosFuncionario> obtenerFuncionarios(long municipioId, String tipoConsulta) throws NegocioException;
 	
 	/**
-	 * Retorna la informaciï¿½n del funcinario a  partir de su usuario. 
+	 * Retorna la información del funcinario a  partir de su usuario. 
 	 * 
 	 * @param usuario
 	 * @return
 	 * @throws NegocioException
 	 */
-	UsuariosFuncionario obtenerFuncionario(String usuario) throws NegocioException;
+	UsuariosFuncionario obtenerFuncionario(String usuario) throws NegocioException; 
 	
 	/**
-	 * Registra en BD la persona ingresada por parï¿½metro. 
+	 * Registra en BD la persona ingresada por parámetro. 
 	 * 
 	 * @param persona
 	 * @throws NegocioException
@@ -72,7 +99,7 @@ public interface IParametrizacionFacade {
 	void registrarPersona(Persona persona) throws NegocioException;
 
 	/**
-	 * Retorna la informaciï¿½n de la persona a travï¿½s de su nï¿½mero de identificaciï¿½n. 
+	 * Retorna la información de la persona a través de su número de identificación. 
 	 * 
 	 * @param numIdentificacion
 	 * @return
@@ -81,25 +108,11 @@ public interface IParametrizacionFacade {
 	Persona obtenerPersona(long numIdentificacion) throws NegocioException; 
 	
 	/**
-	 * Actualiza en BD la persona ingresada por parï¿½metro. 
+	 * Actualiza el resgitro de la persona ingresada como parámetro.
 	 * 
 	 * @param persona
 	 * @throws NegocioException
 	 */
 	void actualizarPersona(Persona persona) throws NegocioException;
-	
-	/**
-	 * Crea un nuevo ciudadano en el sistema
-	 * @param ciudadano
-	 * @throws NegocioException
-	 */
-	void registrarCiudadano(UsuariosCiudadano ciudadano) throws NegocioException;
-	
-	/**
-	 * obtiene un ciudadano por el id
-	 * @param numIdentificacion
-	 * @return
-	 * @throws NegocioException
-	 */
-	UsuariosCiudadano obtenerCiudadano(long numIdentificacion) throws NegocioException;
+
 }

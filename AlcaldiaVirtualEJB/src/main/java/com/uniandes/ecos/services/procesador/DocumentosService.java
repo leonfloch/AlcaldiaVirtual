@@ -1,4 +1,7 @@
-package com.uniandes.ecos.facade;
+/**
+ * 
+ */
+package com.uniandes.ecos.services.procesador;
 
 import java.io.File;
 import java.io.InputStream;
@@ -9,19 +12,29 @@ import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 
-import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
-import com.uniandes.ecos.facadeInterface.ITramitesFacade;
+import com.uniandes.ecos.interfaz.services.procesador.IDocumentosService;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.FileUploader;
-import com.uniandes.ecos.util.JavaMailSender;
 import com.uniandes.ecos.util.NegocioException;
 
+/**
+ * Implementacion Servicio encargado del manejo de los documentos que se cargan
+ * y descargan en el sistema.
+ * @author 80221940
+ *
+ */
 @Stateless
-public class TramitesFacade implements ITramitesFacade {
+public class DocumentosService implements IDocumentosService {
 	
-	private static Logger log = Logger.getLogger(TramitesFacade.class.getName());
-
+	private static Logger log = Logger.getLogger(DocumentosService.class.getName());
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.procesador.IDocumentosService#
+	 * cargarArchivoTramite(java.lang.Long, java.lang.String, java.lang.String, java.io.InputStream)
+	 */
 	@Override
 	public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, String rutaContexto, InputStream data)
 			throws NegocioException {
@@ -48,19 +61,6 @@ public class TramitesFacade implements ITramitesFacade {
 			listaDocumentos.add(temp);
 		}
 		return listaDocumentos;
-	}
-
-	@Override
-	public void enviarCorreo(CorreoElectronicoDto correoElectronicoDto) throws NegocioException {
-		try {
-			JavaMailSender.enviarCorreo(correoElectronicoDto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.log(Level.WARNING, e.getMessage());
-			throw new NegocioException('E', Constantes.CODIGO_ERROR_ENVIO_CORREO,
-					"Se ha presentado un error al enviar el correo");
-		}
-		
 	}
 
 }

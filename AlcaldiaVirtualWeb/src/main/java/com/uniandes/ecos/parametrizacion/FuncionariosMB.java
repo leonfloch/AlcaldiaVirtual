@@ -11,7 +11,7 @@ import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
-import com.uniandes.ecos.facadeInterface.IParametrizacionFacade;
+import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
 

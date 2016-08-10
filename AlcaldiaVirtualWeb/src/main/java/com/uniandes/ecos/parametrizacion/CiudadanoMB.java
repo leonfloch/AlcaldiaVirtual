@@ -12,7 +12,7 @@ import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
-import com.uniandes.ecos.facadeInterface.IParametrizacionFacade;
+import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
 import com.uniandes.ecos.util.NegocioException;
 
 /**

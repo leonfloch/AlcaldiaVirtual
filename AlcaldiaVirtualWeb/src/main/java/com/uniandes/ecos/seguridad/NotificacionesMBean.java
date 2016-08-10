@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
-import com.uniandes.ecos.facadeInterface.ITramitesFacade;
+import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.util.NegocioException;
 
 @ViewScoped
@@ -17,7 +17,7 @@ import com.uniandes.ecos.util.NegocioException;
 public class NotificacionesMBean extends BaseMBean {
 
 	@Inject
-	private ITramitesFacade tramitesFacade;
+	private IProcesadorTramitesFacade tramitesFacade;
 	
 	private static Logger log = Logger.getLogger(NotificacionesMBean.class.getName());
 	/**
@@ -38,6 +38,9 @@ public class NotificacionesMBean extends BaseMBean {
 		correo.setPara(para);
 		correo.setAsunto(asunto);
 		correo.setContenido(contenido);
+		
+		correo.setUsuario("ecos.alcaldia.virtual@gmail.com");
+		correo.setContrasenia("ecos@alcaldia@virtual");
 		
 		try {
 			tramitesFacade.enviarCorreo(correo);

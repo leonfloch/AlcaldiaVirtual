@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.UsuarioSesion;
-import com.uniandes.ecos.facadeInterface.ISeguridadFacade;
+import com.uniandes.ecos.interfaz.facade.ISeguridadFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.SeguridadException;
 

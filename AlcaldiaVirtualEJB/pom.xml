@@ -16,6 +16,15 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.5</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
