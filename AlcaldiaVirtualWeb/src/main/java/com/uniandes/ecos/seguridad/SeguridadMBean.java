@@ -6,9 +6,13 @@ package com.uniandes.ecos.seguridad;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import com.uniandes.ecos.comun.BaseMBean;
+import com.uniandes.ecos.comun.ConstantesApp;
 import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.interfaz.facade.ISeguridadFacade;
@@ -73,15 +77,27 @@ public class SeguridadMBean extends BaseMBean {
 		String redirect = null;
 		try {
 			UsuarioSesion usuario = iSeguridadFacade.autenticar(Integer.parseInt(cedula), password, funcionario);
-			this.adicionarVariableSesion("usuario", usuario);
+			this.adicionarVariableSesion(ConstantesApp.SESION_USUARIO, usuario);
 			redirect = RutasApp.INICIO_RUTA;
 			
 		} catch (SeguridadException e) {
 			adicionarMensaje(Constantes.ERROR, e.getMsg());			
 		}
-		
 		return redirect;
 		
+	}
+	
+	/**
+	 * Cierra la sesion de usuario
+	 * @return
+	 */
+	public String cerrarSesion() {
+		FacesContext contextoFaces = FacesContext.getCurrentInstance();
+        ExternalContext contextoExterno = contextoFaces.getExternalContext();
+        HttpSession sesion = (HttpSession)contextoExterno.getSession(true);        
+        sesion.removeAttribute(ConstantesApp.SESION_USUARIO);
+        contextoExterno.invalidateSession();                
+		return RutasApp.LOGIN_RUTA;
 	}
 	
 	

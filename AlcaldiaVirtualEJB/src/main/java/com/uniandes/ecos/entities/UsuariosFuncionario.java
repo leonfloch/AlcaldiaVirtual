@@ -1,7 +1,9 @@
 package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -29,9 +31,16 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 
 	private String estado;
 	
-	@Column(name="ROL_ID")
-	private long rolId;
+//	@Column(name="ROL_ID")
+//	private long rolId;
 	
+	//bi-directional many-to-one association to Rol
+	@ManyToOne
+	@JoinColumn(name="ROL_ID")
+	private Rol role;
+	
+	
+
 	@Column(name="MUNICIPIO_ID")
 	private long municipioId;
 
@@ -130,19 +139,19 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 		this.persona = persona;
 	}
 
-	/**
-	 * @return the rolId
-	 */
-	public long getRolId() {
-		return rolId;
-	}
-
-	/**
-	 * @param rolId the rolId to set
-	 */
-	public void setRolId(long rolId) {
-		this.rolId = rolId;
-	}
+//	/**
+//	 * @return the rolId
+//	 */
+//	public long getRolId() {
+//		return rolId;
+//	}
+//
+//	/**
+//	 * @param rolId the rolId to set
+//	 */
+//	public void setRolId(long rolId) {
+//		this.rolId = rolId;
+//	}
 
 	/**
 	 * @return the municipioId
@@ -170,6 +179,20 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 	 */
 	public void setContraseniaVal(String contraseniaVal) {
 		this.contraseniaVal = contraseniaVal;
+	}
+	
+	/**
+	 * @return the role
+	 */
+	public Rol getRole() {
+		return role;
+	}
+
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(Rol role) {
+		this.role = role;
 	}
 	
 }

@@ -103,7 +103,7 @@ public class FuncionariosMB extends BaseMBean {
 		this.esRegistro = true;
 		this.funcionarioEntity = new UsuariosFuncionario();
 		this.funcionarioEntity.setEstado(Constantes.ACTIVO);
-		this.funcionarioEntity.setRolId(Constantes.ROL_FUNCIONARIO);
+//		this.funcionarioEntity.setRolId(Constantes.ROL_FUNCIONARIO);
 		this.funcionarioEntity.setMunicipioId(this.municipioId);
 		this.personaEntity = new Persona();
         	

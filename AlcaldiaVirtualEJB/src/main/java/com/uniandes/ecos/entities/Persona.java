@@ -146,5 +146,14 @@ public class Persona implements Serializable {
 
 		return usuariosFuncionario;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@Transient
+	public String getInformacion() {
+		return this.nombres + " " + this.apellidos;
+	}
 
 }

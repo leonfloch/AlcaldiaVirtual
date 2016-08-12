@@ -78,20 +78,17 @@ public class BaseMBean implements Serializable {
 	 * @param llave
 	 * @return
 	 */
-	public Object obtenerVariableSesion(String llave)
-	{
+	public Object obtenerVariableSesion(String llave) {
 		//Obtiene la sesión WEB
 		FacesContext contextoFaces = FacesContext.getCurrentInstance();
         ExternalContext contextoExterno = contextoFaces.getExternalContext();
         HttpSession sesion = (HttpSession)contextoExterno.getSession(true);
         //valida que la sesion no sea null
-        if(sesion!=null)
-        {
+        if( sesion != null ) {
         	//Retorna el objeto
         	return sesion.getAttribute(llave);
         }
-        else
-        {
+        else {
         	//Si la sesión es null, se retorna null, se debe tener cuidado con la validación
         	//del valor de retorno
         	return null;

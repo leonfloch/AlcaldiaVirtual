@@ -27,6 +27,12 @@ public class Funcionalidad implements Serializable {
 	private String descripcion;
 
 	private String nombre;
+	
+	private Long padre;
+	
+	private String icono;
+
+	
 
 	//bi-directional many-to-one association to PermisoXRol
 	@OneToMany(mappedBy="funcionalidade")
@@ -79,6 +85,34 @@ public class Funcionalidad implements Serializable {
 		permisosXRol.setFuncionalidade(null);
 
 		return permisosXRol;
+	}
+
+	/**
+	 * @return the padre
+	 */
+	public Long getPadre() {
+		return padre;
+	}
+
+	/**
+	 * @param padre the padre to set
+	 */
+	public void setPadre(Long padre) {
+		this.padre = padre;
+	}
+	
+	/**
+	 * @return the icono
+	 */
+	public String getIcono() {
+		return icono;
+	}
+
+	/**
+	 * @param icono the icono to set
+	 */
+	public void setIcono(String icono) {
+		this.icono = icono;
 	}
 
 }

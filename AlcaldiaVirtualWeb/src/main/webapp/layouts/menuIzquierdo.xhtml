@@ -3,31 +3,54 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
-    xmlns:pa="http://xmlns.jcp.org/jsf/passthrough">
-    
-<f:loadBundle basename="resources.application" var="msg"/>
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough">
+
+<f:loadBundle basename="resources.application" var="msg" />
 
 <nav class="sidebar-nav">
-                <ul class="nav">
-                    
-                    <li class="divider"></li>
-                    <li class="nav-title">
-                        #{msg.menu_titulo_funciones}
-                    </li>
-                    
-                                        
-                    <li class="nav-item">
-                        <h:link class="nav-link" value="#{msg.menu_subirDocumentos}" outcome="/vista/documentos" />
-                    </li>
-                    <li class="nav-item">
-                    	<h:link class="nav-link" value="#{msg.menu_usuariosAdmin}" outcome="/vista/administracion" />                        
-                    </li>
-                    <li class="nav-item">
-                    	<h:link class="nav-link" value="#{msg.menu_envio_correo}" outcome="/vista/correo" />
-                    </li>
-                    <li class="divider"></li>
-                                                            
-                </ul>
-            </nav>
-            
+	<ul class="nav">
+
+		<li class="nav-title">Inicio</li>
+		<li class="nav-item"><h:link class="nav-link" value="INICIO"
+				outcome="/vista/home" /></li>
+
+		<li class="divider"></li>
+		<li class="nav-title">#{msg.menu_titulo_funciones}</li>
+		
+		
+		<c:forEach var="menu" items="#{menuMB.menuPadre}">
+		<li class="nav-item nav-dropdown">			
+			<a class="nav-link nav-dropdown-toggle" href="#"><i class="#{menu.icono}"></i> #{menu.descripcion}</a>
+			<ul class="nav-dropdown-items">
+				<ui:repeat var="hijo" value="#{menuMB.menuHijos(menu.funcionalidadId)}">
+	               <li class="nav-item">
+	                   <h:link class="nav-link" outcome="#{hijo.nombre}" >
+	                   		<i class="#{hijo.icono}"></i> #{hijo.descripcion}
+	                   </h:link>
+	               </li>	           
+	           </ui:repeat>
+           </ul>
+        </li>
+        </c:forEach>
+        
+           
+  
+
+		<!--
+		<li class="nav-item"><h:link class="nav-link"
+				value="#{msg.menu_usuariosAdmin}" outcome="/vista/administracion" />
+		</li>
+		
+		<li class="nav-item"><h:link class="nav-link"
+				value="#{msg.menu_subirDocumentos}" outcome="/vista/documentos" />
+		</li>
+		<li class="nav-item"><h:link class="nav-link"
+				value="#{msg.menu_envio_correo}" outcome="/vista/correo" /></li>
+		<li class="divider"></li>
+		-->
+
+	</ul>
+</nav>
+
 </html>
