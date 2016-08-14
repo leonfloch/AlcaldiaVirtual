@@ -25,6 +25,13 @@ public class Constantes {
 	public static final long ROL_FUNCIONARIO = 3;
 	public static final long ROL_CIUDADANO = 4;
 	
+	//Definición listas
+	public static final String TIPO_ENTRADA_NUMERO = "N\u00famero";
+	public static final String TIPO_ENTRADA_CARACTER = "Caracter";
+	public static final String TIPO_ENTRADA_EMAIL = "Email";
+	public static final String LBL_ESTADO_ACTIVO = "Activo";
+	public static final String LBL_ESTADO_INACTIVO = "Inactivo";
+	
 	//Usuario de sesión
 	public static final String USUARIO_SESION = "usuario";
 
@@ -34,4 +41,5 @@ public class Constantes {
 	//codigos errores
 	public static final int CODIGO_ERROR_CARGUE_ARCHIVO = 512;
 	public static final int CODIGO_ERROR_ENVIO_CORREO = 513;
+	
 }
