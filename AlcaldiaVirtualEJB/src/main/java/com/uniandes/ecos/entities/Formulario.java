@@ -23,9 +23,11 @@ public class Formulario implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FORMULARIOS_FORMULARIOID_GENERATOR")
 	@Column(name="FORMULARIO_ID")
 	private long formularioId;
+	
+	private String nombre;
 
 	//bi-directional many-to-one association to CampoFormulario
-	@OneToMany(mappedBy="formulario")
+	@OneToMany(mappedBy="formulario", cascade = CascadeType.PERSIST)
 	private List<CampoFormulario> camposFormularios;
 
 	//bi-directional many-to-one association to DocumentoRequerido
@@ -49,6 +51,20 @@ public class Formulario implements Serializable {
 
 	public void setCamposFormularios(List<CampoFormulario> camposFormularios) {
 		this.camposFormularios = camposFormularios;
+	}
+	
+	/**
+	 * @return the nombre
+	 */
+	public String getNombre() {
+		return nombre;
+	}
+
+	/**
+	 * @param nombre the nombre to set
+	 */
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public CampoFormulario addCamposFormulario(CampoFormulario camposFormulario) {

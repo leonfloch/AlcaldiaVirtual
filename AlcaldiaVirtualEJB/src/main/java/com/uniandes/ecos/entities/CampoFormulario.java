@@ -27,6 +27,9 @@ public class CampoFormulario implements Serializable {
 	private String estado;
 
 	private BigDecimal longitud;
+	
+	@Column(name="TIPO_ENTRADA")
+	private String tipoEntrada;
 
 	private String nombre;
 
@@ -136,4 +139,18 @@ public class CampoFormulario implements Serializable {
 		this.tiposCampo = tiposCampo;
 	}
 
+	/**
+	 * @return the tipoEntrada
+	 */
+	public String getTipoEntrada() {
+		return tipoEntrada;
+	}
+
+	/**
+	 * @param tipoEntrada the tipoEntrada to set
+	 */
+	public void setTipoEntrada(String tipoEntrada) {
+		this.tipoEntrada = tipoEntrada;
+	}
+	
 }

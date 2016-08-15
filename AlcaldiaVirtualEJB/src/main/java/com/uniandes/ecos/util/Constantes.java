@@ -27,6 +27,7 @@ public class Constantes {
 	public static final long ROL_FUNCIONARIO = 3;
 	public static final long ROL_CIUDADANO = 4;
 	
+
 	//Definici�n listas
 	public static final String TIPO_ENTRADA_NUMERO = "N\u00famero";
 	public static final String TIPO_ENTRADA_CARACTER = "Caracter";
@@ -34,7 +35,7 @@ public class Constantes {
 	public static final String LBL_ESTADO_ACTIVO = "Activo";
 	public static final String LBL_ESTADO_INACTIVO = "Inactivo";
 	
-	//Usuario de sesi�n
+
 	public static final String USUARIO_SESION = "usuario";
 
 	//carpeta documentos tramite
