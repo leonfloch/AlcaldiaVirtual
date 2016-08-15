@@ -9,13 +9,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+
 
 import com.uniandes.ecos.entities.Funcionalidad;
 import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.UsuarioSesion;
+import com.uniandes.ecos.util.Constantes;
 
 /**
  * @author 80221940
@@ -45,7 +44,7 @@ public class MenuMB extends BaseMBean {
 	 */
 	@PostConstruct
 	public void init() {
-		usuario = (UsuarioSesion)obtenerVariableSesion(ConstantesApp.SESION_USUARIO);
+		usuario = (UsuarioSesion)obtenerVariableSesion(Constantes.SESION_USUARIO);
 	}
 	
 	/**

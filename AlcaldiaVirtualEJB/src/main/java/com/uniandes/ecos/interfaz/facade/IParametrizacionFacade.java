@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.uniandes.ecos.entities.Persona;
+import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.util.NegocioException;
@@ -102,4 +103,25 @@ public interface IParametrizacionFacade {
 	 * @throws NegocioException
 	 */
 	UsuariosCiudadano obtenerCiudadano(long numIdentificacion) throws NegocioException;
+	
+	/**
+	 * consulta la lista de roles del sistema
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<Rol> obtenerRoles() throws NegocioException;
+	
+	/**
+	 * actualiza el rol enviado por paramtetro
+	 * @param rol
+	 * @throws NegocioException
+	 */
+	void actualizarRol(Rol rol) throws NegocioException;
+	
+	/**
+	 * Crea un nuevo rol en el sistema
+	 * @param rol
+	 * @throws NegocioException
+	 */
+	void crearRol(Rol rol) throws NegocioException;
 }

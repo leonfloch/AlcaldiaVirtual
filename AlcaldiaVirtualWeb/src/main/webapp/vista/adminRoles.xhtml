@@ -1,0 +1,142 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui">
+
+
+<body jsf:id="bodyMain">
+
+    <ui:composition template="layout.xhtml">
+        <ui:define name="content">
+            <!-- ======Breadcrumb====== -->
+            <ol class="breadcrumb r-0">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Library</a></li>
+                <li class="active">Data</li>
+            </ol>
+            <!-- ======FIN Breadcrumb====== -->
+            <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                <p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
+            </p:dialog>
+
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fa fa-align-justify"></i> Administracion de Roles
+                        </div>
+                        <div class="card-block">
+
+
+
+                            <form jsf:id="form">
+                                <p:growl id="msgs" showDetail="true" />
+
+                                <p:dataTable id="basicDT" var="rol" value="#{rolesMB.roles}">
+                                    <f:facet name="header">
+                                        Basic
+                                    </f:facet>
+                                    <p:column headerText="Nombre">
+                                        <h:outputText value="#{rol.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Descripcion">
+                                        <h:outputText value="#{rol.descripcion}" />
+                                    </p:column>
+                                    <p:column headerText="Estado">
+                                        <h:outputText value="#{rol.estado}" />
+                                    </p:column>
+
+                                    <p:column style="width:32px;text-align: center">
+                                        <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
+                                            <f:setPropertyActionListener value="#{rol}" target="#{rolesMB.rolSeleccionado}" />
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+
+
+								<!-- DIALOGO -->
+                                <p:dialog style="width:100% !important; height:100% !important;" header="Rol" widgetVar="carDialog" modal="true" showEffect="fade"
+                                    hideEffect="fade" resizable="true">
+                                    
+                                    <p:outputPanel id="carDetail">
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <strong>Editar Rol</strong>
+                                                </div>
+                                                <div class="card-block">
+                                                    
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+                                                            <div class="col-md-9">
+                                                                <input type="text" jsf:value="#{rolesMB.rolSeleccionado.nombre}" class="form-control" placeholder="Nombre"
+                                                                />
+                                                            </div>
+                                                            <label class="col-md-3 form-control-label" for="text-input">Descripcion</label>
+                                                            <div class="col-md-9">
+                                                                <input type="text" jsf:value="#{rolesMB.rolSeleccionado.desripcion}" class="form-control" placeholder="Descripcion" />
+                                                            </div>
+
+                                                            <label class="col-md-3 form-control-label" for="text-input">Estado</label>
+                                                            <div class="col-md-9">
+                                                                <label class="switch switch-3d switch-primary">
+																	<input type="checkbox" class="switch-input"
+																	checked="#{rolesMB.rolSeleccionado.activo}" /> <span class="switch-label"></span> <span
+																	class="switch-handle"></span>
+																</label>
+                                                            </div>
+                                                        </div>
+
+                                                    
+                                                </div>
+                                                <div class="card-footer">
+                                    	<button jsf:id="registroBtn" jsf:action="#{rolesMB.actualizarRol}" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Guardar</button>                                        
+                                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Cancelar</button>
+                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+
+
+
+
+
+
+
+                                   
+                                    </p:outputPanel>
+                                </p:dialog>
+                                <!-- FIN DIALOGO -->
+
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        </ui:define>
+
+    </ui:composition>
+
+</body>
+
+</html>

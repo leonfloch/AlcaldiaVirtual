@@ -38,17 +38,17 @@ public class UsuariosParamService implements IUsuariosParamService {
 	private EntityManager em;
 	
 	/**
-	 * Instanciación del objeto dao para el manejo de persistencia.
+	 * Instanciaciï¿½n del objeto dao para el manejo de persistencia.
 	 */
 	private BaseDao<UsuariosFuncionario, String> funcionarioDao;
 	
 	/**
-	 * Instanciación del objeto dao para el manejo de persistencia.
+	 * Instanciaciï¿½n del objeto dao para el manejo de persistencia.
 	 */
 	private BaseDao<Persona, Long> personaDao;
 	
 	/**
-	 * Inicialización de objetos del bean.
+	 * Inicializaciï¿½n de objetos del bean.
 	 */
 	@PostConstruct
 	public void init() {
@@ -100,7 +100,7 @@ public class UsuariosParamService implements IUsuariosParamService {
 			UsuariosCiudadano ciudadano = ciudadanoDao.findById(String.valueOf(numIdentificacion));
 			return ciudadano;
 		} catch (NoResultException e) {			
-			throw new NegocioException(Constantes.ERROR, 0, "No existe ningún ciudadano que correspoda al usuario ingresado.");
+			throw new NegocioException(Constantes.ERROR, 0, "No existe ningï¿½n ciudadano que correspoda al usuario ingresado.");
 		}
 	}
 	
@@ -163,7 +163,7 @@ public class UsuariosParamService implements IUsuariosParamService {
 			lstFuncionarios = query.getResultList();
 		} catch (NoResultException e) {
 			e.printStackTrace();
-			throw new NegocioException(Constantes.ERROR, 0, "No existen funcionarios parametrizados en esta alcaldía.");
+			throw new NegocioException(Constantes.ERROR, 0, "No existen funcionarios parametrizados en esta alcaldï¿½a.");
 		}
 		
 		return lstFuncionarios;
@@ -177,7 +177,7 @@ public class UsuariosParamService implements IUsuariosParamService {
 			return funcionario;
 		} catch (NoResultException e) {
 			e.printStackTrace();
-			throw new NegocioException(Constantes.ERROR, 0, "No existe ningún funcionario que correspoda al usuario ingresado.");
+			throw new NegocioException(Constantes.ERROR, 0, "No existe ningï¿½n funcionario que correspoda al usuario ingresado.");
 		}
 	}
 	
@@ -202,6 +202,44 @@ public class UsuariosParamService implements IUsuariosParamService {
 	@Override
 	public void actualizarPersona(Persona persona) throws NegocioException {
 		this.personaDao.merge(persona);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerRoles()
+	 */
+	@Override
+	public List<Rol> obtenerRoles() throws NegocioException {
+		
+		List<Rol> roles = new ArrayList<Rol>();
+		try {
+			Query query = this.em.createNamedQuery("Rol.findAll");		
+			roles = query.getResultList();
+		} catch (NoResultException e) {
+			throw new NegocioException(Constantes.ERROR, 0, "No existen roles parametrizados en el sistema.");
+		}
+		return roles;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.
+	 * IUsuariosParamService#actualizarRol(com.uniandes.ecos.entities.Rol)
+	 */
+	@Override
+	public void actualizarRol(Rol rol) throws NegocioException {
+		BaseDao<Rol, Long> rolDao = new BaseDao<Rol, Long>(Rol.class, this.em);
+		rolDao.merge(rol);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#crearRol(com.uniandes.ecos.entities.Rol)
+	 */
+	@Override
+	public void crearRol(Rol rol) throws NegocioException {
+		BaseDao<Rol, Long> rolDao = new BaseDao<Rol, Long>(Rol.class, this.em);
+		rolDao.persist(rol);
 	}
 
 

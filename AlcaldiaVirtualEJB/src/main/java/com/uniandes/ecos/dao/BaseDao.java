@@ -6,9 +6,9 @@ import javax.persistence.EntityManager;
 
 
 /**
- * Clase genérica para manejo de persistencia. 
+ * Clase genï¿½rica para manejo de persistencia. 
  * 
- * @author Juan Albarracín
+ * @author Juan Albarracï¿½n
  * @version 1.0
  * @date 18/07/2016
  */
@@ -21,7 +21,7 @@ public class BaseDao<E, K> {
 	private EntityManager entityManager;
 
 	/**
-	 * Constructor sin parámetros de la clase. 
+	 * Constructor sin parï¿½metros de la clase. 
 	 */
 	@SuppressWarnings("unchecked")
 	public BaseDao() {
@@ -32,7 +32,7 @@ public class BaseDao<E, K> {
 	}
 
 	/**
-	 * Constructor con parámetros. 
+	 * Constructor con parï¿½metros. 
 	 * 
 	 * @param entityClass
 	 * @param entityManager
@@ -44,7 +44,7 @@ public class BaseDao<E, K> {
 	}
 
 	/**
-	 * Constructor con parámetros.
+	 * Constructor con parï¿½metros.
 	 * 
 	 * @param entityManager
 	 */
@@ -54,7 +54,7 @@ public class BaseDao<E, K> {
 	}
 
 	/**
-	 * Persiste la entidad enviada como parámetro.
+	 * Persiste la entidad enviada como parï¿½metro.
 	 * 
 	 * @param entity
 	 */
@@ -63,7 +63,7 @@ public class BaseDao<E, K> {
 	}
 
 	/**
-	 * Actualiza la entidad enviada como parámetro.
+	 * Actualiza la entidad enviada como parï¿½metro.
 	 * 
 	 * @param entity
 	 */
@@ -73,7 +73,7 @@ public class BaseDao<E, K> {
 	}
 
 	/**
-	 * Elimina la entidad enviada como parámetro.
+	 * Elimina la entidad enviada como parï¿½metro.
 	 * 
 	 * @param entity
 	 */
@@ -92,7 +92,7 @@ public class BaseDao<E, K> {
 	}
 
 	/**
-	 * Método genérico para obtención de una entidad por su llave primaria. 
+	 * Mï¿½todo genï¿½rico para obtenciï¿½n de una entidad por su llave primaria. 
 	 * 
 	 * @param entityClass
 	 * @param id

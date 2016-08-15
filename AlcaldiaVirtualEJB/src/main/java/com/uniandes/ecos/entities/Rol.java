@@ -2,12 +2,15 @@ package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.uniandes.ecos.util.Constantes;
+
 import java.util.List;
 
 /**
  * Clase de persistencia para la tabla "ROLES". 
  * 
- * @author Juan Albarracín
+ * @author Juan Albarracï¿½n
  * @version 1.0
  * @date 18/07/2016
  */
@@ -114,6 +117,11 @@ public class Rol implements Serializable {
 		usuariosCiudadano.setRole(null);
 
 		return usuariosCiudadano;
+	}
+	
+	@Transient
+	public boolean isActivo() {
+		return Constantes.ACTIVO.equalsIgnoreCase(this.estado) ? true : false;
 	}
 
 //	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {

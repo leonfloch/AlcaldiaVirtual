@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.uniandes.ecos.entities.Persona;
+import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
@@ -131,6 +132,35 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	@Override
 	public UsuariosCiudadano obtenerCiudadano(long numIdentificacion) throws NegocioException {
 		return usuariosParamService.obtenerCiudadano(numIdentificacion);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#obtenerRoles()
+	 */
+	@Override
+	public List<Rol> obtenerRoles() throws NegocioException {
+		return usuariosParamService.obtenerRoles();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#
+	 * actualizarRol(com.uniandes.ecos.entities.Rol)
+	 */
+	@Override
+	public void actualizarRol(Rol rol) throws NegocioException {
+		usuariosParamService.actualizarRol(rol);
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#crearRol(com.uniandes.ecos.entities.Rol)
+	 */
+	@Override
+	public void crearRol(Rol rol) throws NegocioException {
+		usuariosParamService.crearRol(rol);
 	}
 	
 	

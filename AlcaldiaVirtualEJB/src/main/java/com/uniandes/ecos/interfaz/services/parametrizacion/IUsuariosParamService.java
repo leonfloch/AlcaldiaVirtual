@@ -47,7 +47,7 @@ public interface IUsuariosParamService {
 	
 	
 	/**
-	 * Registra en BD la entidad enviada como parámetro. 
+	 * Registra en BD la entidad enviada como parï¿½metro. 
 	 * 
 	 * @param funcionario
 	 * @throws NegocioException
@@ -55,7 +55,7 @@ public interface IUsuariosParamService {
 	void registrarFuncionario(UsuariosFuncionario funcionario) throws NegocioException;
 	
 	/**
-	 * Actualiza la información del funcionario enviado como parámetro.
+	 * Actualiza la informaciï¿½n del funcionario enviado como parï¿½metro.
 	 * 
 	 * @param funcionario
 	 * @throws NegocioException
@@ -72,7 +72,7 @@ public interface IUsuariosParamService {
 	void cambiarEstadofuncionario(UsuariosFuncionario funcionario, String estado) throws NegocioException;
 	
 	/**
-	 * Retorna la lista de funcionarios pertenencientes a una alcaldía, 
+	 * Retorna la lista de funcionarios pertenencientes a una alcaldï¿½a, 
 	 * dependiendo del tipo de consulta: todos 'T', activos 'A', inactivos 'I'  
 	 * 
 	 * @param municipioId
@@ -82,7 +82,7 @@ public interface IUsuariosParamService {
 	List<UsuariosFuncionario> obtenerFuncionarios(long municipioId, String tipoConsulta) throws NegocioException;
 	
 	/**
-	 * Retorna la información del funcinario a  partir de su usuario. 
+	 * Retorna la informaciï¿½n del funcinario a  partir de su usuario. 
 	 * 
 	 * @param usuario
 	 * @return
@@ -91,7 +91,7 @@ public interface IUsuariosParamService {
 	UsuariosFuncionario obtenerFuncionario(String usuario) throws NegocioException; 
 	
 	/**
-	 * Registra en BD la persona ingresada por parámetro. 
+	 * Registra en BD la persona ingresada por parï¿½metro. 
 	 * 
 	 * @param persona
 	 * @throws NegocioException
@@ -99,7 +99,7 @@ public interface IUsuariosParamService {
 	void registrarPersona(Persona persona) throws NegocioException;
 
 	/**
-	 * Retorna la información de la persona a través de su número de identificación. 
+	 * Retorna la informaciï¿½n de la persona a travï¿½s de su nï¿½mero de identificaciï¿½n. 
 	 * 
 	 * @param numIdentificacion
 	 * @return
@@ -108,11 +108,32 @@ public interface IUsuariosParamService {
 	Persona obtenerPersona(long numIdentificacion) throws NegocioException; 
 	
 	/**
-	 * Actualiza el resgitro de la persona ingresada como parámetro.
+	 * Actualiza el resgitro de la persona ingresada como parï¿½metro.
 	 * 
 	 * @param persona
 	 * @throws NegocioException
 	 */
 	void actualizarPersona(Persona persona) throws NegocioException;
+	
+	/**
+	 * consulta la lista de roles del sistema
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<Rol> obtenerRoles() throws NegocioException;
+	
+	/**
+	 * actualiza el rol enviado por paramtetro
+	 * @param rol
+	 * @throws NegocioException
+	 */
+	void actualizarRol(Rol rol) throws NegocioException;
+	
+	/**
+	 * Crea un nuevo rol en el sistema
+	 * @param rol
+	 * @throws NegocioException
+	 */
+	void crearRol(Rol rol) throws NegocioException;
 
 }
