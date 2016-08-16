@@ -17,7 +17,7 @@
 							<div class="card">
 								<div class="card-header">#{msg.creacion_formulario_label_titulo}</div>
 								<div class="card-block">
-									<form jsf:id="formCrear">
+									<form jsf:id="formListado">
 										<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 										<div class="row">
 											<div class="col-lg-4"></div>
@@ -36,7 +36,8 @@
 											<div class="col-md-10"></div>
 											<div class="col-md-2">
 												<p:commandLink value="#{msg.boton_nuevo_campo}" styleClass="btn btn-sm btn-secondary" 
-													action="#{formulariosMB.adicionarCampo}" immediate="true" update=":formCrear:tblCampos"/>
+													action="#{formulariosMB.inicializarNuevoCampo}" immediate="true" update=":formListado :formCrear" 
+													oncomplete="PF('dlgCampoNuevo').show()"/>
 											</div>
 										</div>
 										
@@ -47,63 +48,112 @@
 														<h6>#{msg.creacion_formulario_tabla_titulo}</h6>
 													</div>
 													<div class="card-block">
-														<p:dataTable id="tblCampos" styleClass="table" var="campo" 
+														<p:dataTable id="tblCampos" styleClass="table" var="campo" editable="true"
 															value="#{formulariosMB.formulario.camposFormularios}" reflow="true" rows="5" paginator="true">
-															<p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_tipo}">
-															    <p:selectOneMenu value="#{campo.tiposCampo}" >  
+															
+															<p:ajax event="rowEdit" update=":formListado:tblCampos" />
+       														<p:ajax event="rowEditCancel" update=":formListado:tblCampos" />
+       														
+															<p:column headerText="#{msg.creacion_formulario_campo_tipo}">
+															    <p:selectOneMenu value="#{campo.tiposCampo}" style="width: 100% !important">  
 															         <f:selectItems value="#{formulariosMB.lstTiposCampos}" var="tipoCampo" 
 															         	itemLabel="#{tipoCampo.nombre}" itemValue="#{tipoCampo}"/>
 															    </p:selectOneMenu>
 														    </p:column>
 															
-														    <p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_label}">
-														        <p:inputText value="#{campo.nombre}" />
+														    <p:column headerText="#{msg.creacion_formulario_campo_label}">
+															    <p:cellEditor>
+													               <f:facet name="output"><h:outputText value="#{campo.nombre}" /></f:facet>
+													               <f:facet name="input"><p:inputText value="#{campo.nombre}" style="width: 100% !important"/></f:facet>
+													           	</p:cellEditor>
 														    </p:column>
 														 
-														    <p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_longitud}">
-														        <p:inputText value="#{campo.longitud}" />
+														    <p:column headerText="#{msg.creacion_formulario_campo_longitud}" style="width:8%">
+														        <p:inputText value="#{campo.longitud}" style="width: 100% !important"/>
 														    </p:column>
 														    
-														    <p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_requerido}">
+														    <p:column headerText="#{msg.creacion_formulario_campo_textoAyuda}">
+														    	<p:inputTextarea value="#{campo.textoAyuda}" rows="1" cols="20" style="width: 100% !important">
+											                   		<f:validateLength maximum="500"/>  
+											                   </p:inputTextarea>
+														    </p:column>
+														    
+														    <p:column headerText="#{msg.creacion_formulario_campo_textoError}">
+														    	<p:inputTextarea value="#{campo.textoError}" rows="1" cols="20" style="width: 100% !important"> 
+											                   		<f:validateLength maximum="500"/>  
+											                   </p:inputTextarea>
+														    </p:column>
+														    
+														    <p:column style="width:8%; text-align: center;" headerText="#{msg.creacion_formulario_campo_requerido}">
 															    <p:selectBooleanCheckbox />
 														    </p:column>
 														    
-														    <p:column style="text-align: center;" headerText="#{msg.label_estado}">
-															    <p:selectOneMenu value="#{campo.estado}" >  
+														    <p:column headerText="#{msg.label_estado}" style="width:11%">
+														    	
+															    <p:selectOneMenu value="#{campo.estado}" style="width: 100% !important">  
 															         <f:selectItems value="#{formulariosMB.lstEstados}" var="estado" 
 															         	itemLabel="#{estado.codigo} - #{estado.valor}" itemValue="#{estado.valor}"/>
 															    </p:selectOneMenu>
 														    </p:column>
 														    
-														    <p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_textoAyuda}">
-														    	<p:inputTextarea value="#{campo.textoAyuda}" rows="1" cols="20">
-											                   		<f:validateLength maximum="500"/>  
-											                   </p:inputTextarea>
-														    </p:column>
-														    
-														    <p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_textoError}">
-														    	<p:inputTextarea value="#{campo.textoError}" rows="1" cols="20">
-											                   		<f:validateLength maximum="500"/>  
-											                   </p:inputTextarea>
-														    </p:column>
+														    <p:column style="width:32px">
+													           <p:rowEditor />
+													       </p:column>
 														</p:dataTable>
 													</div>
 												</div>
 											</div>
 										</h:panelGroup>
+										
 								</form>
 								</div>
 							</div>
 					</div>
 				</div>
 			</div>
-
-			<p:dialog header="#{msg.funcionario_label_modal_titulo}"
-				widgetVar="dlgRegistro" showEffect="explode" hideEffect="explode"
-				resizable="false">
-				<form jsf:id="formRegistro">
-					
-				</form>
+		
+			<p:dialog header="#{msg.creacion_formulario_dialogNuevoCampo_titulo}" widgetVar="dlgCampoNuevo" modal="true" 
+			   		responsive="true" showEffect="explode" hideEffect="explode"	resizable="false">
+			   		<form jsf:id="formCrear">
+				        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
+				            <h:outputLabel for="tipoCampo" value="#{msg.creacion_formulario_campo_tipo}" />
+				            <p:selectOneMenu id="tipoCampo" style="width: 100% !important">  
+								<f:selectItems value="#{formulariosMB.lstTiposCampos}" var="tipoCampo" 
+								        	itemLabel="#{tipoCampo.nombre}" itemValue="#{tipoCampo}"/>
+							</p:selectOneMenu>
+							
+				            <h:outputLabel for="nombreCampo" value="#{msg.creacion_formulario_campo_label}" />
+				            <p:inputText id="nombreCampo" styleClass="form-control" style="width: 100% !important"/>
+				 
+				            <h:outputLabel for="longCampo" value="#{msg.creacion_formulario_campo_longitud}" />
+				            <p:inputText id="longCampo" style="width: 100% !important"/>
+				            
+				            <h:outputLabel for="textoAyuda" value="#{msg.creacion_formulario_campo_textoAyuda}" />
+				            <p:inputTextarea id="textoAyuda" rows="1" cols="20" style="width: 100% !important">
+								<f:validateLength maximum="500"/>  
+							</p:inputTextarea>
+				           	
+				           	<h:outputLabel for="textoError" value="#{msg.creacion_formulario_campo_textoError}" />									
+							<p:inputTextarea id="textoError" rows="1" cols="20" style="width: 100% !important"> 
+								<f:validateLength maximum="500"/>  
+							</p:inputTextarea>								    
+															   
+							<h:outputLabel for="textoRequerido" value="#{msg.creacion_formulario_campo_requerido}" />
+							<p:selectBooleanCheckbox id="textoRequerido" />
+							
+							<h:outputLabel for="estadoCampo" value="#{msg.label_estado}" />
+				            <p:selectOneMenu id="estadoCampo" style="width: 100% !important">  
+								<f:selectItems value="#{formulariosMB.lstEstados}" var="estado"
+								itemLabel="#{estado.codigo} - #{estado.valor}" itemValue="#{estado.valor}"/>
+							</p:selectOneMenu>
+															    
+				            <f:facet name="footer">
+				                <p:commandLink value="#{msg.boton_cancelar}" styleClass="btn btn-sm btn-danger" onclick="PF('dlgCampoNuevo').hide()"/>
+				                <p:commandLink value="#{msg.boton_guardar}"  styleClass="btn btn-sm btn-primary" action="#{formulariosMB.adicionarCampo}"
+				                	update=":formListado" oncomplete="PF('dlgCampoNuevo').hide()" />
+				            </f:facet>  
+				        </p:panelGrid>
+			   		</form>
 			</p:dialog>
 
 		</ui:define>

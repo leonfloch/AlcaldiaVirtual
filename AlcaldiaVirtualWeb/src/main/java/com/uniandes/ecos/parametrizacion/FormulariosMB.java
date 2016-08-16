@@ -40,8 +40,10 @@ public class FormulariosMB extends BaseMBean {
 	private List<TipoCampo> lstTiposCampos;
 	private List<DominioVO> lstEstados;
 	
-	/** Entidad Formulario. */
+	/** Entidades para Formulario. */
 	private Formulario formulario;
+	private CampoFormulario campoFormulario;
+	
 	
 	/**
 	 *  Incializador de variables del bean
@@ -66,8 +68,6 @@ public class FormulariosMB extends BaseMBean {
 			this.lstEstados.add(new DominioVO(Constantes.ACTIVO, Constantes.LBL_ESTADO_ACTIVO));
 			this.lstEstados.add(new DominioVO(Constantes.INACTIVO, Constantes.LBL_ESTADO_INACTIVO));
 			
-			//Adiciona el primer campo
-			adicionarCampo();
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());		
@@ -75,10 +75,17 @@ public class FormulariosMB extends BaseMBean {
 	}
 	
 	/**
+	 * Inicializa un nuevo campo para el formulario. 
+	 */
+	public void inicializarNuevoCampo(){
+		this.campoFormulario = new CampoFormulario();
+	}
+	
+	/**
 	 * Adiciona un nuevo campo al formulario. 
 	 */
 	public void adicionarCampo(){
-		this.formulario.addCamposFormulario(new CampoFormulario());
+		this.formulario.addCamposFormulario(this.campoFormulario);
 	}
 	
 	/**
