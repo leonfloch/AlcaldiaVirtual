@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.uniandes.ecos.entities.Funcionalidad;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
@@ -135,5 +136,15 @@ public interface IUsuariosParamService {
 	 * @throws NegocioException
 	 */
 	void crearRol(Rol rol) throws NegocioException;
+	
+	
+	/**
+	 * consulta las funcionabilidades del sistema
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<Funcionalidad> obtenerFuncionalidades()  throws NegocioException;
+	
+	 
 
 }

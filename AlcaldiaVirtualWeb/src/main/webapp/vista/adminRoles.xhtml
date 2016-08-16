@@ -48,7 +48,7 @@
                                     </p:column>
 
                                     <p:column style="width:32px;text-align: center">
-                                        <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
+                                        <p:commandButton action="#{rolesMB.preEdicion}" update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
                                             <f:setPropertyActionListener value="#{rol}" target="#{rolesMB.rolSeleccionado}" />
                                         </p:commandButton>
                                     </p:column>
@@ -77,7 +77,7 @@
                                                             </div>
                                                             <label class="col-md-3 form-control-label" for="text-input">Descripcion</label>
                                                             <div class="col-md-9">
-                                                                <input type="text" jsf:value="#{rolesMB.rolSeleccionado.desripcion}" class="form-control" placeholder="Descripcion" />
+                                                                <input type="text" jsf:value="#{rolesMB.rolSeleccionado.descripcion}" class="form-control" placeholder="Descripcion" />
                                                             </div>
 
                                                             <label class="col-md-3 form-control-label" for="text-input">Estado</label>
@@ -89,6 +89,11 @@
 																</label>
                                                             </div>
                                                         </div>
+                                                        
+                                                        
+                                                        <label for="text-input">Permisos</label>
+                                                        <p:pickList id="pickList" value="#{rolesMB.funcionalidades}" var="funcion" itemLabel="#{funcion.descripcion}" itemValue="#{funcion.funcionalidadId}" />
+
 
                                                     
                                                 </div>

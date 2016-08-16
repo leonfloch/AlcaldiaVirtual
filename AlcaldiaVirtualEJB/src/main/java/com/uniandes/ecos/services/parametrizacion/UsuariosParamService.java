@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.uniandes.ecos.dao.BaseDao;
+import com.uniandes.ecos.entities.Funcionalidad;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
@@ -208,6 +209,7 @@ public class UsuariosParamService implements IUsuariosParamService {
 	 * (non-Javadoc)
 	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerRoles()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Rol> obtenerRoles() throws NegocioException {
 		
@@ -240,6 +242,23 @@ public class UsuariosParamService implements IUsuariosParamService {
 	public void crearRol(Rol rol) throws NegocioException {
 		BaseDao<Rol, Long> rolDao = new BaseDao<Rol, Long>(Rol.class, this.em);
 		rolDao.persist(rol);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerFuncionalidades()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Funcionalidad> obtenerFuncionalidades() throws NegocioException {
+		List<Funcionalidad> funcionalidades = new ArrayList<Funcionalidad>();
+		try {
+			Query query = this.em.createNamedQuery("Funcionalidad.findAll");		
+			funcionalidades = query.getResultList();
+		} catch (NoResultException e) {
+			throw new NegocioException(Constantes.ERROR, 0, "No existen funcionalidades parametrizados en el sistema.");
+		}
+		return funcionalidades;
 	}
 
 
