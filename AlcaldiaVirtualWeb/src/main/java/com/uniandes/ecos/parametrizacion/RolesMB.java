@@ -21,6 +21,7 @@ import org.primefaces.model.DualListModel;
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.Funcionalidad;
 import com.uniandes.ecos.entities.PermisoXRol;
+import com.uniandes.ecos.entities.PermisoXRolPK;
 import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
 import com.uniandes.ecos.util.Constantes;
@@ -67,8 +68,7 @@ public class RolesMB extends BaseMBean {
 	/**
 	 * constructor
 	 */
-	public RolesMB() {
-		roles = new ArrayList<Rol>();
+	public RolesMB() {						
 	}
 	
 	/**
@@ -77,11 +77,14 @@ public class RolesMB extends BaseMBean {
 	@PostConstruct
 	public void init() {
 		try {
+			rolSeleccionado = new Rol();
+			List<PermisoXRol> permisosXrol = new ArrayList<PermisoXRol>();
+			rolSeleccionado.setPermisosXRols(permisosXrol);
+			
 			funcsSource = new ArrayList<Funcionalidad>();
 			funcsTarget = new ArrayList<Funcionalidad>();
 			funcionalidades = new DualListModel<Funcionalidad>(funcsSource, funcsTarget);
-			
-			rolSeleccionado = new Rol();
+						
 			roles = iParametrizacionFacade.obtenerRoles();
 			
 		} catch (NegocioException e) {
@@ -93,15 +96,27 @@ public class RolesMB extends BaseMBean {
 	 * Realiza la configuracion de la seleccion de funcionalidades
 	 * @throws NegocioException 
 	 */
-	public void preEdicion() {				
+	public void preModal() {				
 		try {			
-			funcsSource = new ArrayList<Funcionalidad>();
-			funcsTarget = new ArrayList<Funcionalidad>();							
-			
-			//organiza los permisos del rol
+			this.cargarPermisos();
+		} catch (NegocioException e) {
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
+		}
+
+	}
+	
+	/**
+	 * Realiza el carge de los permisos del rol
+	 * @throws NegocioException
+	 */
+	private void cargarPermisos() throws NegocioException {
+		funcsSource = new ArrayList<Funcionalidad>();
+		funcsTarget = new ArrayList<Funcionalidad>();							
+		
+		//organiza los permisos del rol
+		if (rolSeleccionado.getPermisosXRols() != null) {
 			for (Funcionalidad funcionalidad : iParametrizacionFacade.obtenerFuncionalidades()) {
-				boolean esta = false; 
-				
+				boolean esta = false; 				
 				for (PermisoXRol perxrol : rolSeleccionado.getPermisosXRols()) {					
 					if (funcionalidad.getFuncionalidadId() == perxrol.getFuncionalidade().getFuncionalidadId()) {
 						esta = true;						
@@ -113,33 +128,43 @@ public class RolesMB extends BaseMBean {
 				} else {
 					funcsSource.add(funcionalidad);
 				}
-			}			
-			funcionalidades = new DualListModel<Funcionalidad>(funcsSource, funcsTarget);
-		} catch (NegocioException e) {
-			this.adicionarMensaje(e.getTipo(), e.getMensaje());
-		}
-
+			}	
+		} else {
+			funcsSource = iParametrizacionFacade.obtenerFuncionalidades();
+		}	
+		funcionalidades = new DualListModel<Funcionalidad>(funcsSource, funcsTarget);
 	}
 	
 	
 	
 	
 	/**
-	 * Actualiza el rol seleccionado
+	 * Persiste el rol seleccionado
 	 */
-	public void actualizarRol() {
+	public void persistirRol() {
 		try {
-			//actualiza los permisos seleccionads
-			rolSeleccionado.getPermisosXRols().clear();
-			for (Funcionalidad funcionalidad : funcsTarget) {
+			//actualiza los permisos seleccionads			
+			for (Funcionalidad funcionalidad : funcionalidades.getTarget()) {
 				PermisoXRol permisoXrol = new PermisoXRol();
+				PermisoXRolPK pk = new PermisoXRolPK();
+				pk.setFuncionalidadId(funcionalidad.getFuncionalidadId());
+				pk.setRolId(rolSeleccionado.getRolId());
+				permisoXrol.setId(pk);
 				permisoXrol.setEstado(Constantes.ACTIVO);
 				permisoXrol.setFuncionalidade(funcionalidad);
 				permisoXrol.setRole(rolSeleccionado);
 				rolSeleccionado.addPermisosXRol(permisoXrol);
 			}
+			rolSeleccionado.setEstado(rolSeleccionado.isActivo() ? 
+					Constantes.ACTIVO : Constantes.INACTIVO);
 			
-			iParametrizacionFacade.actualizarRol(rolSeleccionado);
+			if (rolSeleccionado.getRolId() == 0) {				
+				iParametrizacionFacade.crearRol(rolSeleccionado);
+			} else {
+				iParametrizacionFacade.actualizarRol(rolSeleccionado);
+			}
+			
+			
 			
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());

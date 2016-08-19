@@ -115,9 +115,9 @@ public class Funcionalidad implements Serializable {
 		this.icono = icono;
 	}
 	
-	@Transient
-	public String toString() {
-		return this.descripcion;
-	}
+//	@Transient
+//	public String toString() {
+//		return this.descripcion;
+//	}
 
 }

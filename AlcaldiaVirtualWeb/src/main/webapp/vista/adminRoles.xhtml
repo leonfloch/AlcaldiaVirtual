@@ -30,8 +30,21 @@
 			</p:dialog>
 
 		
-			<h:form id="form">
-				<p:panel id="basic" header="Basic" style="margin-bottom:20px">
+			<form jsf:id="form">									
+			
+				<div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Administracion Roles</strong>                                    
+                                </div>
+                                <div class="card-block">
+                                
+                                <p:commandButton action="#{rolesMB.preModal}" update=":formD"
+									oncomplete="PF('carDialog').show()" value="Crear Rol">									
+								</p:commandButton>                                
+									
+				
 					<h:panelGrid columns="1" layout="grid">
 
 
@@ -48,7 +61,7 @@
 							</p:column>
 
 							<p:column style="width:32px;text-align: center">
-								<p:commandButton action="#{rolesMB.preEdicion}" update=":formD"
+								<p:commandButton action="#{rolesMB.preModal}" update=":formD"
 									oncomplete="PF('carDialog').show()" icon="ui-icon-search"
 									title="View">
 									<f:setPropertyActionListener value="#{rol}"
@@ -58,18 +71,22 @@
 							</p:column>
 						</p:dataTable>
 
-
-
-
 					</h:panelGrid>
-				</p:panel>
-			</h:form>
+					
+					
+					</div>
+					</div>
+					</div>
+					</div>
+					
+				
+			</form>
 
 
 			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
 				hideEffect="fade" resizable="false">
 				<p:outputPanel id="carDetail">
-					<h:form id="formD">
+					<form jsf:id="formD">
 					
 						<div class="row">
 							<div class="col-md-12">
@@ -97,36 +114,33 @@
 										</div>
 										<div class="form-group row">
 											<label class="col-md-3 form-control-label" for="text-input">Estado</label>
-											<label class="switch switch-3d switch-primary"> <input
-												type="checkbox" class="switch-input"
-												value="#{rolesMB.rolSeleccionado.estado}"
-												checked="#{rolesMB.rolSeleccionado.activo}" /> <span
+											<label class="switch switch-3d switch-primary"> 
+											<input type="checkbox" class="switch-input"
+												jsf:value="#{rolesMB.rolSeleccionado.activo}"/> <span
 												class="switch-label"></span> <span class="switch-handle"></span>
 											</label>
 										</div>
-
 										<label for="text-input">Permisos</label>
-										<p:pickList id="pickList" value="#{rolesMB.funcionalidades}"
-											var="funcion" itemLabel="#{funcion}"
-											itemValue="#{funcion}" />
-
+										<p:pickList id="pickList" value="#{rolesMB.funcionalidades}" 
+											var="funcionalidad" itemLabel="#{funcionalidad.descripcion}"
+											itemValue="#{funcionalidad}" converter="entityConverter" />
 									</div>
 								</div>
 
 								<div class="card-footer">
 									<button jsf:id="registroBtn"
-										jsf:action="#{rolesMB.actualizarRol}"
+										jsf:action="#{rolesMB.persistirRol}"
 										class="btn btn-sm btn-primary">
-										<i class="fa fa-dot-circle-o"></i> Submit
+										<i class="fa fa-dot-circle-o"></i> Guardar
 									</button>
-									<button type="reset" class="btn btn-sm btn-danger">
-										<i class="fa fa-ban"></i> Reset
+									<button type="submit" onclick="PF('carDialog').hidden()" class="btn btn-sm btn-danger">
+										<i class="fa fa-ban"></i> Cancelar
 									</button>
 								</div>
 							</div>
 						</div>
 
-					</h:form>
+					</form>
 				</p:outputPanel>
 			</p:dialog>
 
