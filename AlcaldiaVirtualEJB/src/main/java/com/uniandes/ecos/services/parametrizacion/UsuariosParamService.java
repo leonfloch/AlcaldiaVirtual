@@ -15,6 +15,7 @@ import javax.persistence.Query;
 
 import com.uniandes.ecos.dao.BaseDao;
 import com.uniandes.ecos.entities.Funcionalidad;
+import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
@@ -259,6 +260,22 @@ public class UsuariosParamService implements IUsuariosParamService {
 			throw new NegocioException(Constantes.ERROR, 0, "No existen funcionalidades parametrizados en el sistema.");
 		}
 		return funcionalidades;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerPermisosXRol()
+	 */
+	@Override
+	public List<PermisoXRol> obtenerPermisosXRol() throws NegocioException {
+		List<PermisoXRol> permisosXrolList = new ArrayList<PermisoXRol>();
+		try {
+			Query query = this.em.createNamedQuery("PermisoXRol.findAll");		
+			permisosXrolList = query.getResultList();
+		} catch (NoResultException e) {
+			throw new NegocioException(Constantes.ERROR, 0, "No existen permisos x rol parametrizados en el sistema.");
+		}
+		return permisosXrolList;
 	}
 
 

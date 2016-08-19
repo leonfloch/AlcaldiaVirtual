@@ -5,17 +5,11 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
-	
-	
-	<h:head>
-		
-	</h:head>
 
 
-<h:body>	
+<body jsf:id="bodyMain">
 
-
-<ui:composition template="layout.xhtml">
+	<ui:composition template="layout.xhtml">
 		<ui:define name="content">
 			<!-- ======Breadcrumb====== -->
 			<ol class="breadcrumb r-0">
@@ -29,7 +23,7 @@
 				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
 			</p:dialog>
 
-		
+			
 			<h:form id="form">
 				<p:panel id="basic" header="Basic" style="margin-bottom:20px">
 					<h:panelGrid columns="1" layout="grid">
@@ -48,7 +42,7 @@
 							</p:column>
 
 							<p:column style="width:32px;text-align: center">
-								<p:commandButton action="#{rolesMB.preEdicion}" update=":formD"
+								<p:commandButton action="#{rolesMB.preEdicion}" update=":form"
 									oncomplete="PF('carDialog').show()" icon="ui-icon-search"
 									title="View">
 									<f:setPropertyActionListener value="#{rol}"
@@ -70,7 +64,8 @@
 				hideEffect="fade" resizable="false">
 				<p:outputPanel id="carDetail">
 					<h:form id="formD">
-					
+
+
 						<div class="row">
 							<div class="col-md-12">
 								<div class="card">
@@ -79,10 +74,12 @@
 									</div>
 
 									<div class="card-block">
+
+
 										<div class="form-group row">
 											<label class="col-md-3 form-control-label" for="text-input">Nombre</label>
 											<div class="col-md-9">
-												<input type="text" required="true"
+												<input type="text"
 													jsf:value="#{rolesMB.rolSeleccionado.nombre}"
 													 class="form-control"></input>
 											</div>
@@ -90,11 +87,13 @@
 										<div class="form-group row">
 											<label class="col-md-3 form-control-label" for="text-input">Descripcion</label>
 											<div class="col-md-9">
-												<input type="text" required="true"
+												<input type="text"
 													jsf:value="#{rolesMB.rolSeleccionado.descripcion}"
 													 class="form-control"></input>
 											</div>
 										</div>
+
+
 										<div class="form-group row">
 											<label class="col-md-3 form-control-label" for="text-input">Estado</label>
 											<label class="switch switch-3d switch-primary"> <input
@@ -105,10 +104,13 @@
 											</label>
 										</div>
 
+
 										<label for="text-input">Permisos</label>
 										<p:pickList id="pickList" value="#{rolesMB.funcionalidades}"
-											var="funcion" itemLabel="#{funcion}"
-											itemValue="#{funcion}" />
+											var="funcion" itemLabel="#{funcion.descripcion}"
+											itemValue="#{funcion.funcionalidadId}" />
+
+
 
 									</div>
 								</div>
@@ -123,16 +125,22 @@
 										<i class="fa fa-ban"></i> Reset
 									</button>
 								</div>
+
+
+
+
 							</div>
 						</div>
-
 					</h:form>
 				</p:outputPanel>
 			</p:dialog>
 
 
-</ui:define>
-</ui:composition>
-</h:body>
+
+		</ui:define>
+
+	</ui:composition>
+
+</body>
 
 </html>

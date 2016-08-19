@@ -4,14 +4,18 @@
 package com.uniandes.ecos.parametrizacion;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.persistence.Transient;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
 import com.uniandes.ecos.comun.BaseMBean;
@@ -57,7 +61,7 @@ public class RolesMB extends BaseMBean {
 	private DualListModel<Funcionalidad> funcionalidades;
 	private List<Funcionalidad> funcsSource;
 	private List<Funcionalidad> funcsTarget;
-	
+
 	
 	
 	/**
@@ -75,10 +79,11 @@ public class RolesMB extends BaseMBean {
 		try {
 			funcsSource = new ArrayList<Funcionalidad>();
 			funcsTarget = new ArrayList<Funcionalidad>();
-			funcionalidades = new DualListModel<Funcionalidad>();
+			funcionalidades = new DualListModel<Funcionalidad>(funcsSource, funcsTarget);
 			
 			rolSeleccionado = new Rol();
 			roles = iParametrizacionFacade.obtenerRoles();
+			
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
@@ -88,44 +93,32 @@ public class RolesMB extends BaseMBean {
 	 * Realiza la configuracion de la seleccion de funcionalidades
 	 * @throws NegocioException 
 	 */
-	public void preEdicion() {		
-		try {
-			funcsSource = iParametrizacionFacade.obtenerFuncionalidades();
-			funcsTarget = new ArrayList<Funcionalidad>();
-			funcsTarget.addAll(funcsSource);
+	public void preEdicion() {				
+		try {			
+			funcsSource = new ArrayList<Funcionalidad>();
+			funcsTarget = new ArrayList<Funcionalidad>();							
 			
-			for (PermisoXRol permisoXRol : rolSeleccionado.getPermisosXRols()) {
+			//organiza los permisos del rol
+			for (Funcionalidad funcionalidad : iParametrizacionFacade.obtenerFuncionalidades()) {
+				boolean esta = false; 
 				
-				//TODO terminar implementacion
-				
-
-								
-				Iterator<Funcionalidad> it = funcsSource.iterator();
-				while(it.hasNext()) {
-					if (permisoXRol.getFuncionalidade().getFuncionalidadId() == it.next().getFuncionalidadId()) {
-						it.remove();
+				for (PermisoXRol perxrol : rolSeleccionado.getPermisosXRols()) {					
+					if (funcionalidad.getFuncionalidadId() == perxrol.getFuncionalidade().getFuncionalidadId()) {
+						esta = true;						
 						break;
 					}
 				}
-				
-				Iterator<Funcionalidad> itT =funcsTarget.iterator();
-				while(itT.hasNext()) {
-					
-					
-					
-					if (permisoXRol.getFuncionalidade().getFuncionalidadId() != it.next().getFuncionalidadId()) {
-						itT.remove();
-						break;
-					}
+				if (esta) {
+					funcsTarget.add(funcionalidad);					
+				} else {
+					funcsSource.add(funcionalidad);
 				}
-				
-			}
+			}			
 			funcionalidades = new DualListModel<Funcionalidad>(funcsSource, funcsTarget);
-			
-			
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
+
 	}
 	
 	
@@ -151,6 +144,7 @@ public class RolesMB extends BaseMBean {
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
+		rolSeleccionado = new Rol();
 	}
 	
 	/**
@@ -209,5 +203,8 @@ public class RolesMB extends BaseMBean {
 	public void setFuncionalidades(DualListModel<Funcionalidad> funcionalidades) {
 		this.funcionalidades = funcionalidades;
 	}
+
+	
+
 
 }

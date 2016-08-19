@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.uniandes.ecos.entities.Funcionalidad;
+import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
@@ -171,6 +172,11 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	@Override
 	public List<Funcionalidad> obtenerFuncionalidades() throws NegocioException {
 		return usuariosParamService.obtenerFuncionalidades();
+	}
+
+	@Override
+	public List<PermisoXRol> obtenerPermisosXRol() throws NegocioException {
+		return usuariosParamService.obtenerPermisosXRol();
 	}
 	
 	

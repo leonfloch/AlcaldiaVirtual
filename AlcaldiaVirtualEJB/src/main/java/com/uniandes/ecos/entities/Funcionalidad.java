@@ -114,5 +114,10 @@ public class Funcionalidad implements Serializable {
 	public void setIcono(String icono) {
 		this.icono = icono;
 	}
+	
+	@Transient
+	public String toString() {
+		return this.descripcion;
+	}
 
 }

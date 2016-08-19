@@ -31,9 +31,12 @@ public class Rol implements Serializable {
 	private String estado;
 
 	private String nombre;
+	
+	@Transient
+	private boolean activo;
 
 	//bi-directional many-to-one association to PermisoXRol
-	@OneToMany(mappedBy="role")
+	@OneToMany(mappedBy="role", cascade = CascadeType.ALL)
 	private List<PermisoXRol> permisosXRols;
 
 	//bi-directional many-to-one association to UsuariosCiudadano
@@ -118,11 +121,22 @@ public class Rol implements Serializable {
 
 		return usuariosCiudadano;
 	}
-	
-	@Transient
+
+	/**
+	 * @return the activo
+	 */
 	public boolean isActivo() {
-		return Constantes.ACTIVO.equalsIgnoreCase(this.estado) ? true : false;
+		return activo;
 	}
+
+	/**
+	 * @param activo the activo to set
+	 */
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	
+	
 
 //	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
 //		getUsuariosFuncionarios().add(usuariosFuncionario);

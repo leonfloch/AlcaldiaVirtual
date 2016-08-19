@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.uniandes.ecos.entities.Funcionalidad;
+import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
@@ -144,6 +145,13 @@ public interface IUsuariosParamService {
 	 * @throws NegocioException
 	 */
 	List<Funcionalidad> obtenerFuncionalidades()  throws NegocioException;
+	
+	/**
+	 * consulta la tabla permisoXRol
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<PermisoXRol> obtenerPermisosXRol()  throws NegocioException;
 	
 	 
 
