@@ -15,6 +15,7 @@ import javax.persistence.Query;
 
 import com.uniandes.ecos.dao.BaseDao;
 import com.uniandes.ecos.entities.Funcionalidad;
+import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
@@ -170,6 +171,33 @@ public class UsuariosParamService implements IUsuariosParamService {
 		
 		return lstFuncionarios;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerFuncionarios(java.lang.Long)
+	 */
+	@Override
+	public List<UsuariosFuncionario> obtenerFuncionarios(Long municipioId)
+			throws NegocioException {		
+		Query query;
+		List<UsuariosFuncionario> lstFuncionarios = new ArrayList<>();
+		
+		if (municipioId > 0) {
+			query = this.em.createNamedQuery("UsuariosFuncionario.findByAlcaldia");			
+			query.setParameter("municipioId", municipioId);
+		} else {
+			query = this.em.createNamedQuery("UsuariosFuncionario.findAll");
+		}		
+		//Se ejecuta la consulta
+		try {
+			lstFuncionarios = query.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			throw new NegocioException(Constantes.ERROR, 0, "No existen funcionarios parametrizados en esta alcald�a.");
+		}
+		
+		return lstFuncionarios;
+	}
 
 	
 	@Override
@@ -277,6 +305,70 @@ public class UsuariosParamService implements IUsuariosParamService {
 		}
 		return permisosXrolList;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerMaxIdRol()
+	 */
+	@Override
+	public long obtenerMaxIdRol() throws NegocioException {
+		long max = (long) em.createQuery("select max(r.rolId) from Rol r").getSingleResult();		
+		return max;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerPersonas()
+	 */
+	@Override
+	public List<Persona> obtenerPersonas() throws NegocioException {
+		List<Persona> personasList = new ArrayList<Persona>();
+		try {
+			Query query = this.em.createNamedQuery("Persona.findAll");		
+			personasList = query.getResultList();
+		} catch (NoResultException e) {
+			throw new NegocioException(Constantes.ERROR, 0, "No existen personas parametrizados en el sistema.");
+		}
+		return personasList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.
+	 * IUsuariosParamService#obtenerMunicipio(long)
+	 */
+	@Override
+	public Municipio obtenerMunicipio(long idMunicipio) throws NegocioException {
+		BaseDao<Municipio, Long> municipioDao = new BaseDao<Municipio, Long>(Municipio.class, this.em);
+		Municipio municipio = null;
+		try {			
+			municipio = municipioDao.findById(idMunicipio);
+		} catch (NoResultException e) {
+			throw new NegocioException(Constantes.ERROR, 0, "No existen el municipio buscado.");
+		}
+		
+		
+		
+		return municipio;		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerMunicipios()
+	 */
+	@Override
+	public List<Municipio> obtenerMunicipios() throws NegocioException {
+		List<Municipio> municipiosList = new ArrayList<Municipio>();
+		try {
+			Query query = this.em.createNamedQuery("Municipio.findAll");		
+			municipiosList = query.getResultList();
+		} catch (NoResultException e) {
+			throw new NegocioException(Constantes.ERROR, 0, "No existen municipios parametrizados en el sistema.");
+		}
+		return municipiosList;		
+	}
+
+	
 
 
 

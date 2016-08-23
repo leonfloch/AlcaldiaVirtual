@@ -7,6 +7,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
@@ -43,11 +45,22 @@ public class AutenticacionService implements IAutenticacionService {
 	public UsuarioSesion autenticar(int cedula, String password, boolean esFuncionario) 
 			throws SeguridadException {
 		
+		UsuarioSesion usuario = null;
 		if (esFuncionario) {
-			return this.loginPorFuncionario(cedula, password);			
+			usuario = this.loginPorFuncionario(cedula, password);			
 		} else {			
-			return this.loginPorCiudadano(cedula, password);
-		}
+			usuario = this.loginPorCiudadano(cedula, password);
+		}		
+		if (usuario.getMunicipioId() > 0) {
+			//se carga el objeto municipio al usuario
+			try {
+				Municipio municipio = usuariosParamService.obtenerMunicipio(usuario.getMunicipioId());
+				usuario.setMunicipio(municipio);
+			} catch (NegocioException e) {		
+				throw new SeguridadException(e.getMensaje());
+			}
+		}		
+		return usuario;
 	}
 	
 	/**

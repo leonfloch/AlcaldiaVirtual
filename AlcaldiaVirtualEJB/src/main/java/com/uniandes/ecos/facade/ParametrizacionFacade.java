@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.uniandes.ecos.entities.Funcionalidad;
+import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
@@ -177,6 +178,53 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	@Override
 	public List<PermisoXRol> obtenerPermisosXRol() throws NegocioException {
 		return usuariosParamService.obtenerPermisosXRol();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#obtenerMaxIdRol()
+	 */
+	@Override
+	public long obtenerMaxIdRol() throws NegocioException {
+		return usuariosParamService.obtenerMaxIdRol();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#obtenerPersonas()
+	 */
+	@Override
+	public List<Persona> obtenerPersonas() throws NegocioException {
+		return usuariosParamService.obtenerPersonas();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#obtenerFuncionarios(java.lang.Long)
+	 */
+	@Override
+	public List<UsuariosFuncionario> obtenerFuncionarios(Long municipioId)
+			throws NegocioException {
+		return usuariosParamService.obtenerFuncionarios(municipioId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#obtenerMunicipio(long)
+	 */
+	@Override
+	public Municipio obtenerMunicipio(long idMunicipio) throws NegocioException {
+		return usuariosParamService.obtenerMunicipio(idMunicipio);
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#obtenerMunicipios()
+	 */
+	@Override
+	public List<Municipio> obtenerMunicipios() throws NegocioException {
+		return usuariosParamService.obtenerMunicipios();
 	}
 	
 	

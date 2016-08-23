@@ -40,9 +40,19 @@
                                 </div>
                                 <div class="card-block">
                                 
-                                <p:commandButton action="#{rolesMB.preModal}" update=":formD"
-									oncomplete="PF('carDialog').show()" value="Crear Rol">									
-								</p:commandButton>                                
+                                <div class="row">
+									<div class="col-md-10"></div>
+									<div class="col-md-2">
+										<p:commandButton action="#{rolesMB.preModal}" update=":formD"
+											oncomplete="PF('carDialog').show()" value="Crear Rol">
+											<f:setPropertyActionListener value="#{true}"
+												target="#{rolesMB.creacion}" />									
+										</p:commandButton>
+									</div>
+								</div>
+                                
+                                
+                                                                
 									
 				
 					<h:panelGrid columns="1" layout="grid">
@@ -61,7 +71,7 @@
 							</p:column>
 
 							<p:column style="width:32px;text-align: center">
-								<p:commandButton action="#{rolesMB.preModal}" update=":formD"
+								<p:commandButton action="#{rolesMB.preModal}" update=":formD :form"
 									oncomplete="PF('carDialog').show()" icon="ui-icon-search"
 									title="View">
 									<f:setPropertyActionListener value="#{rol}"

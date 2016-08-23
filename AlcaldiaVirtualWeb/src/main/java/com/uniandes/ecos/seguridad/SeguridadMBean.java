@@ -75,15 +75,14 @@ public class SeguridadMBean extends BaseMBean {
 	public String autenticar() {
 		String redirect = null;
 		try {
-			UsuarioSesion usuario = iSeguridadFacade.autenticar(Integer.parseInt(cedula), password, funcionario);
+			UsuarioSesion usuario = iSeguridadFacade.autenticar(Integer.parseInt(cedula), password, funcionario);			
 			this.adicionarVariableSesion(Constantes.SESION_USUARIO, usuario);
 			redirect = RutasApp.INICIO_RUTA;
 			
 		} catch (SeguridadException e) {
 			adicionarMensaje(Constantes.ERROR, e.getMsg());			
 		}
-		return redirect;
-		
+		return redirect;		
 	}
 	
 	/**

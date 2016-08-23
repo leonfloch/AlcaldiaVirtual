@@ -18,8 +18,8 @@ import java.util.List;
 @Table(name="USUARIOS_FUNCIONARIO")
 @NamedQueries({
 	@NamedQuery(name="UsuariosFuncionario.findAll", query="SELECT u FROM UsuariosFuncionario u"),
-	@NamedQuery(name="UsuariosFuncionario.findByAlcaldia", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipioId = :municipioId"),
-	@NamedQuery(name="UsuariosFuncionario.findByEstado", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipioId = :municipioId AND u.estado = :estado")
+	@NamedQuery(name="UsuariosFuncionario.findByAlcaldia", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipio.municipioId = :municipioId"),
+	@NamedQuery(name="UsuariosFuncionario.findByEstado", query="SELECT u FROM UsuariosFuncionario u WHERE u.municipio.municipioId = :municipioId AND u.estado = :estado")
 })
 public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -35,14 +35,17 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 //	private long rolId;
 	
 	//bi-directional many-to-one association to Rol
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="ROL_ID")
 	private Rol role;
 	
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="MUNICIPIO_ID")
+	private Municipio municipio;
 	
 
-	@Column(name="MUNICIPIO_ID")
-	private long municipioId;
+//	@Column(name="MUNICIPIO_ID")
+//	private long municipioId;
 
 	//bi-directional many-to-one association to CambioEstadoTramite
 	@OneToMany(mappedBy="usuariosFuncionario")
@@ -153,19 +156,19 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 //		this.rolId = rolId;
 //	}
 
-	/**
-	 * @return the municipioId
-	 */
-	public long getMunicipioId() {
-		return municipioId;
-	}
-
-	/**
-	 * @param municipioId the municipioId to set
-	 */
-	public void setMunicipioId(long municipioId) {
-		this.municipioId = municipioId;
-	}
+//	/**
+//	 * @return the municipioId
+//	 */
+//	public long getMunicipioId() {
+//		return municipioId;
+//	}
+//
+//	/**
+//	 * @param municipioId the municipioId to set
+//	 */
+//	public void setMunicipioId(long municipioId) {
+//		this.municipioId = municipioId;
+//	}
 
 	/**
 	 * @return the contraseniaVal

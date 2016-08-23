@@ -19,6 +19,10 @@ public class UsuarioSesion {
 	
 	private Rol role;
 	
+	private long municipioId;
+	
+	private Municipio municipio;
+	
 
 	/**
 	 * @return the usuario
@@ -102,6 +106,34 @@ public class UsuarioSesion {
 	 */
 	public void setRole(Rol role) {
 		this.role = role;
+	}
+
+	/**
+	 * @return the municipioId
+	 */
+	public long getMunicipioId() {
+		return municipioId;
+	}
+
+	/**
+	 * @param municipioId the municipioId to set
+	 */
+	public void setMunicipioId(long municipioId) {
+		this.municipioId = municipioId;
+	}
+
+	/**
+	 * @return the municipio
+	 */
+	public Municipio getMunicipio() {
+		return municipio;
+	}
+
+	/**
+	 * @param municipio the municipio to set
+	 */
+	public void setMunicipio(Municipio municipio) {
+		this.municipio = municipio;
 	}
 
 	

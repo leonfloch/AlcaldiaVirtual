@@ -55,6 +55,11 @@ public class RolesMB extends BaseMBean {
 	 */
 	private Rol rolSeleccionado;
 	
+	/**
+	 * indica si se va a crear un rol
+	 */
+	private boolean creacion;
+	
 	
 	/**
 	 * lista de funcionalidades del sistema
@@ -97,8 +102,14 @@ public class RolesMB extends BaseMBean {
 	 * @throws NegocioException 
 	 */
 	public void preModal() {				
-		try {			
+		try {		
+			if (creacion) {
+				rolSeleccionado = new Rol();				
+				List<PermisoXRol> permisosXrol = new ArrayList<PermisoXRol>();
+				rolSeleccionado.setPermisosXRols(permisosXrol);
+			}
 			this.cargarPermisos();
+			creacion = false;
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
@@ -142,7 +153,13 @@ public class RolesMB extends BaseMBean {
 	 * Persiste el rol seleccionado
 	 */
 	public void persistirRol() {
-		try {
+		boolean creacion = rolSeleccionado.getRolId() == 0 ? true : false;
+		try {						
+			if (creacion) {
+				rolSeleccionado.setRolId(iParametrizacionFacade.obtenerMaxIdRol() + 1);
+			} else {
+				rolSeleccionado.getPermisosXRols().clear();
+			}								
 			//actualiza los permisos seleccionads			
 			for (Funcionalidad funcionalidad : funcionalidades.getTarget()) {
 				PermisoXRol permisoXrol = new PermisoXRol();
@@ -158,14 +175,11 @@ public class RolesMB extends BaseMBean {
 			rolSeleccionado.setEstado(rolSeleccionado.isActivo() ? 
 					Constantes.ACTIVO : Constantes.INACTIVO);
 			
-			if (rolSeleccionado.getRolId() == 0) {				
+			if (creacion) {				
 				iParametrizacionFacade.crearRol(rolSeleccionado);
 			} else {
 				iParametrizacionFacade.actualizarRol(rolSeleccionado);
 			}
-			
-			
-			
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
@@ -227,6 +241,20 @@ public class RolesMB extends BaseMBean {
 	 */
 	public void setFuncionalidades(DualListModel<Funcionalidad> funcionalidades) {
 		this.funcionalidades = funcionalidades;
+	}
+
+	/**
+	 * @return the creacion
+	 */
+	public boolean isCreacion() {
+		return creacion;
+	}
+
+	/**
+	 * @param creacion the creacion to set
+	 */
+	public void setCreacion(boolean creacion) {
+		this.creacion = creacion;
 	}
 
 	

@@ -11,6 +11,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import com.uniandes.ecos.entities.UsuarioSesion;
+import com.uniandes.ecos.util.Constantes;
+
 /**
  * Clase genérica los comportamientos comunes de los Mangedbean de la aplicación.
  *
@@ -93,6 +96,14 @@ public class BaseMBean implements Serializable {
         	//del valor de retorno
         	return null;
         }      
+	}
+	
+	/**
+	 * Retorna el usuario activo del sistema
+	 * @return
+	 */
+	public UsuarioSesion getSesion() {
+		return (UsuarioSesion)obtenerVariableSesion(Constantes.SESION_USUARIO);
 	}
 
 }

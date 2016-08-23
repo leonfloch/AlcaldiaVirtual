@@ -1,0 +1,196 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<h:head>
+		
+	</h:head>
+
+
+<h:body>	
+
+
+<ui:composition template="layout.xhtml">
+		<ui:define name="content">
+			<!-- ======Breadcrumb====== -->
+			<ol class="breadcrumb r-0">
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Library</a></li>
+				<li class="active">Data</li>
+			</ol>
+			<!-- ======FIN Breadcrumb====== -->
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
+			</p:dialog>
+
+		
+			<form jsf:id="form">									
+			
+				<div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Administracion Usuarios</strong>                                    
+                                </div>
+                                <div class="card-block">
+                                
+                                <div class="row">
+									<div class="col-md-10"></div>
+									<div class="col-md-2">
+										<p:commandButton action="#{funcionariosMB.preModal}" update=":formD"
+											oncomplete="PF('carDialog').show()" value="Crear Funcionario">
+											<f:setPropertyActionListener value="#{true}"
+												target="#{funcionariosMB.creacion}" />									
+										</p:commandButton>
+									</div>
+								</div>
+                                
+                                
+                                                                
+									
+				
+					<h:panelGrid columns="1" layout="grid">
+
+
+						<p:growl id="msgs" showDetail="true" />
+						<p:dataTable id="basicDT" var="user" value="#{funcionariosMB.usuarios}">
+							<p:column headerText="Nombres">
+								<h:outputText value="#{user.persona.nombres}" />
+							</p:column>
+							<p:column headerText="Apellidos">
+								<h:outputText value="#{user.persona.apellidos}" />
+							</p:column>
+							<p:column headerText="e-mail">
+								<h:outputText value="#{user.persona.email}" />
+							</p:column>
+							<p:column headerText="Telefono">
+								<h:outputText value="#{user.persona.telefono}" />
+							</p:column>
+							<p:column headerText="Rol">
+								<h:outputText value="#{user.role.nombre}" />
+							</p:column>
+							
+							<p:column style="width:32px;text-align: center">
+								<p:commandButton action="#{funcionariosMB.preModal}" update=":formD :form"
+									oncomplete="PF('carDialog').show()" icon="ui-icon-search"
+									title="View">
+									<f:setPropertyActionListener value="#{user}"
+										target="#{funcionariosMB.usuarioSelecc}" />
+								</p:commandButton>
+
+							</p:column>
+						</p:dataTable>
+
+					</h:panelGrid>
+					
+					
+					</div>
+					</div>
+					</div>
+					</div>
+					
+				
+			</form>
+
+
+			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
+				hideEffect="fade" resizable="false">
+				<p:outputPanel id="carDetail">
+					<form jsf:id="formD">
+					
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<strong>Información Funcionario</strong>
+									</div>
+
+									<div class="card-block">
+										<div class="form-group row">
+											<label class="col-md-3 form-control-label" for="text-input">Nombres</label>
+											<div class="col-md-9">
+												<input type="text" required="true"
+													jsf:value="#{funcionariosMB.usuarioSelecc.persona.nombres}"
+													 class="form-control"></input>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-md-3 form-control-label" for="text-input">Apellidos</label>
+											<div class="col-md-9">
+												<input type="text" required="true"
+													jsf:value="#{funcionariosMB.usuarioSelecc.persona.apellidos}"
+													 class="form-control"></input>
+											</div>
+											</div>
+											<div class="form-group row">
+											<label class="col-md-3 form-control-label" for="text-input">e-mail</label>
+											<div class="col-md-9">
+												<input type="text" required="true"
+													jsf:value="#{funcionariosMB.usuarioSelecc.persona.email}"
+													 class="form-control"></input>
+											</div>
+											</div>
+											<div class="form-group row">
+											<label class="col-md-3 form-control-label" for="text-input">Telefono</label>
+											<div class="col-md-9">
+												<input type="text" required="true"
+													jsf:value="#{funcionariosMB.usuarioSelecc.persona.telefono}"
+													 class="form-control"></input>
+											</div>
+											</div>
+											<div class="form-group row">
+											<label class="col-md-3 form-control-label" for="text-input">Rol</label>
+											<div class="col-md-9">
+												<p:selectOneMenu id="rolSelecc" value="#{funcionariosMB.usuarioSelecc.role}" effect="fold">
+            										<f:selectItem itemLabel="#{funcionariosMB.usuarioSelecc.role.nombre}" itemValue="#{funcionariosMB.usuarioSelecc.role}" />
+            										<f:selectItems value="#{funcionariosMB.roles}" />
+        										</p:selectOneMenu>        											
+											</div>
+											</div>
+											<div class="form-group row">
+											<label class="col-md-3 form-control-label" for="text-input">Municipio</label>
+											<div class="col-md-9">
+												<p:selectOneMenu id="muniSelecc" value="#{funcionariosMB.usuarioSelecc.municipio}" effect="fold">
+            										<f:selectItem itemLabel="#{funcionariosMB.usuarioSelecc.municipio.nombre}" itemValue="#{funcionariosMB.usuarioSelecc.municipio}" />
+            										<f:selectItems value="#{funcionariosMB.municipios}" />
+        										</p:selectOneMenu>
+											</div>
+																		</div>				
+											
+											
+										
+										
+										
+										
+									</div>
+								</div>
+
+								<div class="card-footer">
+									<button jsf:id="registroBtn"
+										jsf:action="#{funcionariosMB.persistirUsuario}"
+										class="btn btn-sm btn-primary">
+										<i class="fa fa-dot-circle-o"></i> Guardar
+									</button>
+									<button type="submit" onclick="PF('carDialog').hidden()" class="btn btn-sm btn-danger">
+										<i class="fa fa-ban"></i> Cancelar
+									</button>
+								</div>
+							</div>
+						</div>
+
+					</form>
+				</p:outputPanel>
+			</p:dialog>
+
+
+</ui:define>
+</ui:composition>
+</h:body>
+
+</html>

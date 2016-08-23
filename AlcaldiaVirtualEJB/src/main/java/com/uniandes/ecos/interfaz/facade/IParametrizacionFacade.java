@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.uniandes.ecos.entities.Funcionalidad;
+import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
@@ -140,6 +141,43 @@ public interface IParametrizacionFacade {
 	 * @throws NegocioException
 	 */
 	List<PermisoXRol> obtenerPermisosXRol()  throws NegocioException;
+	
+	/**
+	 * Retorna el listado de personas del sistema
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<Persona> obtenerPersonas() throws NegocioException;
+	
+	/**
+	 * Retorna el id maximo de roles
+	 * @return
+	 * @throws NegocioException
+	 */
+	long obtenerMaxIdRol() throws NegocioException;
+	
+	/**
+	 * Retorna todos los funcionarios x municipio, si no envia municipio
+	 * retorna todos los funcionarios
+	 * @param municipioId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<UsuariosFuncionario> obtenerFuncionarios(Long municipioId) throws NegocioException;
+	
+	/**
+	 * Retorna el municipio a partir de su id
+	 * @param idMunicipio codigo del municipio
+	 * @return
+	 */
+	Municipio obtenerMunicipio(long idMunicipio) throws NegocioException;
+	
+	/**
+	 * Retorna todos los municipios de todo el sistema
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<Municipio> obtenerMunicipios() throws NegocioException;
 	
 	
 }

@@ -136,6 +136,17 @@ public class Rol implements Serializable {
 		this.activo = activo;
 	}
 	
+	/**
+	 * 
+	 */
+	public String toString() {
+		String to = "";
+		if (this.nombre != null) {
+			to = this.nombre;
+		}
+		return to;
+	}
+	
 	
 
 //	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {

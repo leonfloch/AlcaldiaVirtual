@@ -107,6 +107,13 @@ public class Municipio implements Serializable {
 
 		return tramitesXMunicipio;
 	}
+	
+	/**
+	 * 
+	 */
+	public String toString() {
+		return this.nombre;
+	}
 
 //	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
 //		getUsuariosFuncionarios().add(usuariosFuncionario);
