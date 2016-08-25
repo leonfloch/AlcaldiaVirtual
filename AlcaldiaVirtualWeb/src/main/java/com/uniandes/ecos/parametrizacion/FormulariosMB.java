@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 
 import com.uniandes.ecos.comun.BaseMBean;
@@ -38,12 +39,14 @@ public class FormulariosMB extends BaseMBean {
 	/** Listas en pantalla. */
 	private List<DominioVO> lstTiposEntrada;
 	private List<TipoCampo> lstTiposCampos;
-	private List<DominioVO> lstEstados;
 	
 	/** Entidades para Formulario. */
 	private Formulario formulario;
 	private CampoFormulario campoFormulario;
 	
+	/** Variables para control de pantalla. */
+	private boolean modificacion;
+	private boolean inputText;
 	
 	/**
 	 *  Incializador de variables del bean
@@ -52,21 +55,18 @@ public class FormulariosMB extends BaseMBean {
 	public void init() {
 		this.lstTiposEntrada = new ArrayList<>();
 		this.lstTiposCampos = new ArrayList<>();
-		this.lstEstados = new ArrayList<>();
 		this.formulario = new Formulario();
 		this.formulario.setCamposFormularios(new ArrayList<CampoFormulario>());
+		this.campoFormulario = new CampoFormulario();
+		this.inputText = true;
 		
 		try {
 			this.lstTiposCampos = iParamTramitesFacade.obtenerTiposCampoForm();
 			
 			//Lista de tipos de entrada.
-			this.lstTiposEntrada.add(new DominioVO(Constantes.TIPO_ENTRADA_NUMERO, Constantes.TIPO_ENTRADA_NUMERO));
+			this.lstTiposEntrada.add(new DominioVO(Constantes.TIPO_ENTRADA_NUMERO, Constantes.TIPO_ENTRADA_NUMERO_VALUE));
 			this.lstTiposEntrada.add(new DominioVO(Constantes.TIPO_ENTRADA_CARACTER, Constantes.TIPO_ENTRADA_CARACTER));
 			this.lstTiposEntrada.add(new DominioVO(Constantes.TIPO_ENTRADA_EMAIL, Constantes.TIPO_ENTRADA_EMAIL));
-			
-			//Lista de estados
-			this.lstEstados.add(new DominioVO(Constantes.ACTIVO, Constantes.LBL_ESTADO_ACTIVO));
-			this.lstEstados.add(new DominioVO(Constantes.INACTIVO, Constantes.LBL_ESTADO_INACTIVO));
 			
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -77,8 +77,14 @@ public class FormulariosMB extends BaseMBean {
 	/**
 	 * Inicializa un nuevo campo para el formulario. 
 	 */
-	public void inicializarNuevoCampo(){
-		this.campoFormulario = new CampoFormulario();
+	public void inicializarCampo(boolean esCreacion){
+		if (esCreacion) {
+			this.modificacion = false;
+			this.inputText = true;
+			this.campoFormulario = new CampoFormulario();
+		}else{
+			this.modificacion = true;
+		}
 	}
 	
 	/**
@@ -98,10 +104,27 @@ public class FormulariosMB extends BaseMBean {
 	}
 	
 	/**
+	 * Escucha del evento de cambio de tipo campo. 
+	 * @param event
+	 */
+	public void cambiarTipoCampo(ValueChangeEvent event){
+		TipoCampo tipoCampo = (TipoCampo) event.getNewValue();
+		if (Constantes.TIPO_CAMPO_INPUT.equals(tipoCampo.getNombre())) {
+			this.inputText = true;
+		}else{
+			this.inputText = false;
+		}
+	}
+	
+	/**
 	 * Persiste en BD el formulario creado.
 	 * @return
 	 */
 	public String guardarFormulario(){
+		if (this.formulario.getNombre() == null || this.formulario.getNombre().trim().isEmpty()) {
+			this.adicionarMensaje(Constantes.ERROR, "El campo nombre no puede estar vac\u00EDo.");
+			return "";
+		}
 		try {
 			iParamTramitesFacade.crearFormulario(this.formulario);
 		} catch (NegocioException e) {
@@ -156,17 +179,45 @@ public class FormulariosMB extends BaseMBean {
 	}
 
 	/**
-	 * @return the lstEstados
+	 * @return the campoFormulario
 	 */
-	public List<DominioVO> getLstEstados() {
-		return lstEstados;
+	public CampoFormulario getCampoFormulario() {
+		return campoFormulario;
 	}
 
 	/**
-	 * @param lstEstados the lstEstados to set
+	 * @param campoFormulario the campoFormulario to set
 	 */
-	public void setLstEstados(List<DominioVO> lstEstados) {
-		this.lstEstados = lstEstados;
+	public void setCampoFormulario(CampoFormulario campoFormulario) {
+		this.campoFormulario = campoFormulario;
+	}
+
+	/**
+	 * @return the inputText
+	 */
+	public boolean isInputText() {
+		return inputText;
+	}
+
+	/**
+	 * @param inputText the inputText to set
+	 */
+	public void setInputText(boolean inputText) {
+		this.inputText = inputText;
+	}
+
+	/**
+	 * @return the modificacion
+	 */
+	public boolean isModificacion() {
+		return modificacion;
+	}
+
+	/**
+	 * @param modificacion the modificacion to set
+	 */
+	public void setModificacion(boolean modificacion) {
+		this.modificacion = modificacion;
 	}
 	
 }

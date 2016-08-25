@@ -55,7 +55,8 @@ public class FormulariosParamService implements IFormulariosParamService {
 	 */
 	@Override
 	public void crearFormulario(Formulario formulario) throws NegocioException {
-		this.formularioDao.persist(formulario);
+		this.formularioDao.merge(formulario);
+		this.em.flush();
 	}
 
 	/*

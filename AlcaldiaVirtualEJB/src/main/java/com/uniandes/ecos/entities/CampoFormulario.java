@@ -2,6 +2,11 @@ package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.uniandes.ecos.util.Constantes;
+
+import oracle.jdbc.Const;
+
 import java.math.BigDecimal;
 
 
@@ -55,6 +60,12 @@ public class CampoFormulario implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="TIPO_CAMPO_ID")
 	private TipoCampo tiposCampo;
+	
+	@Transient
+	private boolean activo;
+	
+	@Transient
+	private boolean requeridoT;
 
 	public CampoFormulario() {
 	}
@@ -151,6 +162,41 @@ public class CampoFormulario implements Serializable {
 	 */
 	public void setTipoEntrada(String tipoEntrada) {
 		this.tipoEntrada = tipoEntrada;
+	}
+
+	/**
+	 * @return the activo
+	 */
+	public boolean isActivo() {
+		return activo;
+	}
+
+	/**
+	 * @param activo the activo to set
+	 */
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+		this.estado = activo ? Constantes.ACTIVO : Constantes.INACTIVO;
+	}
+
+	/**
+	 * @return the requeridoT
+	 */
+	public boolean isRequeridoT() {
+		if (Constantes.SI.equals(this.requerido)) {
+			this.requeridoT = true;
+		}else{
+			this.requeridoT = false;
+		}
+		return requeridoT;
+	}
+
+	/**
+	 * @param requeridoT the requeridoT to set
+	 */
+	public void setRequeridoT(boolean requeridoT) {
+		this.requeridoT = requeridoT;
+		this.requerido = requeridoT ? Constantes.SI : Constantes.NO;
 	}
 	
 }

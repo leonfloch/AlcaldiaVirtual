@@ -30,11 +30,12 @@ public class Constantes {
 
 	//Definici�n listas
 	public static final String TIPO_ENTRADA_NUMERO = "N\u00famero";
+	public static final String TIPO_ENTRADA_NUMERO_VALUE = "Numero";
 	public static final String TIPO_ENTRADA_CARACTER = "Caracter";
 	public static final String TIPO_ENTRADA_EMAIL = "Email";
 	public static final String LBL_ESTADO_ACTIVO = "Activo";
 	public static final String LBL_ESTADO_INACTIVO = "Inactivo";
-	
+	public static final String TIPO_CAMPO_INPUT = "InputText";
 
 	public static final String USUARIO_SESION = "usuario";
 
@@ -44,5 +45,9 @@ public class Constantes {
 	//codigos errores
 	public static final int CODIGO_ERROR_CARGUE_ARCHIVO = 512;
 	public static final int CODIGO_ERROR_ENVIO_CORREO = 513;
+	
+	//Varios
+	public static final String SI = "S";
+	public static final String NO = "N";
 	
 }
