@@ -14,6 +14,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="FORMULARIOS")
+@NamedQueries({
+	@NamedQuery(name="Formulario.findAll", query="SELECT f FROM Formulario f"),
+	@NamedQuery(name="Formulario.findByNombre", query="SELECT f FROM Formulario f WHERE UPPER(f.nombre) = :nombre")
+})
 @NamedQuery(name="Formulario.findAll", query="SELECT f FROM Formulario f")
 public class Formulario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +31,7 @@ public class Formulario implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to CampoFormulario
-	@OneToMany(mappedBy="formulario", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy="formulario", cascade = CascadeType.ALL)
 	private List<CampoFormulario> camposFormularios;
 
 	//bi-directional many-to-one association to DocumentoRequerido
@@ -64,7 +68,7 @@ public class Formulario implements Serializable {
 	 * @param nombre the nombre to set
 	 */
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.nombre = nombre.trim();
 	}
 
 	public CampoFormulario addCamposFormulario(CampoFormulario camposFormulario) {

@@ -1,25 +1,21 @@
 package com.uniandes.ecos.parametrizacion;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 
 import com.uniandes.ecos.comun.BaseMBean;
-import com.uniandes.ecos.entities.CampoFormulario;
+import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.Formulario;
-import com.uniandes.ecos.entities.TipoCampo;
 import com.uniandes.ecos.interfaz.facade.IParamTramitesFacade;
 import com.uniandes.ecos.util.Constantes;
-import com.uniandes.ecos.util.DominioVO;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
- * Managed bean para manejo de campos de pantalla de creación de formualrios dinámicos. 
+ * Managed bean para manejo de campos de pantalla en la administración de formularios. 
  * 
  * @author Juan Albarracín
  * @version 1.0
@@ -37,36 +33,22 @@ public class FormulariosMB extends BaseMBean {
 	private IParamTramitesFacade iParamTramitesFacade;
 	
 	/** Listas en pantalla. */
-	private List<DominioVO> lstTiposEntrada;
-	private List<TipoCampo> lstTiposCampos;
+	private List<Formulario> lstFormularios;
 	
-	/** Entidades para Formulario. */
-	private Formulario formulario;
-	private CampoFormulario campoFormulario;
+	/** Entidades en pantalla. */
+	private Formulario formularioSeleccionado;
 	
 	/** Variables para control de pantalla. */
-	private boolean modificacion;
-	private boolean inputText;
+	private String nombreFormulario;
+	private boolean ejecutoConsulta;
 	
 	/**
 	 *  Incializador de variables del bean
 	 */
 	@PostConstruct
 	public void init() {
-		this.lstTiposEntrada = new ArrayList<>();
-		this.lstTiposCampos = new ArrayList<>();
-		this.formulario = new Formulario();
-		this.formulario.setCamposFormularios(new ArrayList<CampoFormulario>());
-		this.campoFormulario = new CampoFormulario();
-		this.inputText = true;
-		
 		try {
-			this.lstTiposCampos = iParamTramitesFacade.obtenerTiposCampoForm();
-			
-			//Lista de tipos de entrada.
-			this.lstTiposEntrada.add(new DominioVO(Constantes.TIPO_ENTRADA_NUMERO, Constantes.TIPO_ENTRADA_NUMERO_VALUE));
-			this.lstTiposEntrada.add(new DominioVO(Constantes.TIPO_ENTRADA_CARACTER, Constantes.TIPO_ENTRADA_CARACTER));
-			this.lstTiposEntrada.add(new DominioVO(Constantes.TIPO_ENTRADA_EMAIL, Constantes.TIPO_ENTRADA_EMAIL));
+			this.lstFormularios = iParamTramitesFacade.obtenerFormularios(null);
 			
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -75,149 +57,82 @@ public class FormulariosMB extends BaseMBean {
 	}
 	
 	/**
-	 * Inicializa un nuevo campo para el formulario. 
+	 * Consulta la lista de formularios de acuerdo al nombre ingresado en el filtro. 
 	 */
-	public void inicializarCampo(boolean esCreacion){
-		if (esCreacion) {
-			this.modificacion = false;
-			this.inputText = true;
-			this.campoFormulario = new CampoFormulario();
-		}else{
-			this.modificacion = true;
-		}
-	}
-	
-	/**
-	 * Adiciona un nuevo campo al formulario. 
-	 */
-	public void adicionarCampo(){
-		this.formulario.addCamposFormulario(this.campoFormulario);
-	}
-	
-	/**
-	 * Elimmina el campo seleccionado del formulario.
-	 * 
-	 * @param campoAEliminar
-	 */
-	public void eliminarCampo(CampoFormulario campoAEliminar){
-		this.formulario.getCamposFormularios().remove(campoAEliminar);
-	}
-	
-	/**
-	 * Escucha del evento de cambio de tipo campo. 
-	 * @param event
-	 */
-	public void cambiarTipoCampo(ValueChangeEvent event){
-		TipoCampo tipoCampo = (TipoCampo) event.getNewValue();
-		if (Constantes.TIPO_CAMPO_INPUT.equals(tipoCampo.getNombre())) {
-			this.inputText = true;
-		}else{
-			this.inputText = false;
-		}
-	}
-	
-	/**
-	 * Persiste en BD el formulario creado.
-	 * @return
-	 */
-	public String guardarFormulario(){
-		if (this.formulario.getNombre() == null || this.formulario.getNombre().trim().isEmpty()) {
-			this.adicionarMensaje(Constantes.ERROR, "El campo nombre no puede estar vac\u00EDo.");
-			return "";
-		}
+	public void buscarFormularios(){
 		try {
-			iParamTramitesFacade.crearFormulario(this.formulario);
+			this.lstFormularios = iParamTramitesFacade.obtenerFormularios(this.nombreFormulario);
+			this.ejecutoConsulta = true;
 		} catch (NegocioException e) {
 			e.printStackTrace();
-			this.adicionarMensaje(e.getTipo(), e.getMensaje());	
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
-		
-		//La redirección aún no se ha definido. 
-		return "";
 	}
 
 	/**
-	 * @return the lstTiposEntrada
+	 * Redirecciona a la forma para editar o crear el formulario. 
 	 */
-	public List<DominioVO> getLstTiposEntrada() {
-		return lstTiposEntrada;
+	public String redireccionarFormulario(boolean esEdicion){
+		if (esEdicion){
+			this.adicionarVariableSesion(Constantes.FORMULARIO_MODIFICAR_ID, this.formularioSeleccionado.getFormularioId());
+		}
+		return RutasApp.FORMULARIOS_CREACION_RUTA;
+	}
+	
+	/**
+	 * @return the lstFormularios
+	 */
+	public List<Formulario> getLstFormularios() {
+		return lstFormularios;
 	}
 
 	/**
-	 * @param lstTiposEntrada the lstTiposEntrada to set
+	 * @param lstFormularios the lstFormularios to set
 	 */
-	public void setLstTiposEntrada(List<DominioVO> lstTiposEntrada) {
-		this.lstTiposEntrada = lstTiposEntrada;
+	public void setLstFormularios(List<Formulario> lstFormularios) {
+		this.lstFormularios = lstFormularios;
 	}
 
 	/**
-	 * @return the lstTiposCampos
+	 * @return the nombreFormulario
 	 */
-	public List<TipoCampo> getLstTiposCampos() {
-		return lstTiposCampos;
+	public String getNombreFormulario() {
+		return nombreFormulario;
 	}
 
 	/**
-	 * @param lstTiposCampos the lstTiposCampos to set
+	 * @param nombreFormulario the nombreFormulario to set
 	 */
-	public void setLstTiposCampos(List<TipoCampo> lstTiposCampos) {
-		this.lstTiposCampos = lstTiposCampos;
+	public void setNombreFormulario(String nombreFormulario) {
+		this.nombreFormulario = nombreFormulario;
 	}
 
 	/**
-	 * @return the formulario
+	 * @return the formularioSeleccionado
 	 */
-	public Formulario getFormulario() {
-		return formulario;
+	public Formulario getFormularioSeleccionado() {
+		return formularioSeleccionado;
 	}
 
 	/**
-	 * @param formulario the formulario to set
+	 * @param formularioSeleccionado the formularioSeleccionado to set
 	 */
-	public void setFormulario(Formulario formulario) {
-		this.formulario = formulario;
+	public void setFormularioSeleccionado(Formulario formularioSeleccionado) {
+		this.formularioSeleccionado = formularioSeleccionado;
 	}
 
 	/**
-	 * @return the campoFormulario
+	 * @return the ejecutoConsulta
 	 */
-	public CampoFormulario getCampoFormulario() {
-		return campoFormulario;
+	public boolean isEjecutoConsulta() {
+		return ejecutoConsulta;
 	}
 
 	/**
-	 * @param campoFormulario the campoFormulario to set
+	 * @param ejecutoConsulta the ejecutoConsulta to set
 	 */
-	public void setCampoFormulario(CampoFormulario campoFormulario) {
-		this.campoFormulario = campoFormulario;
-	}
-
-	/**
-	 * @return the inputText
-	 */
-	public boolean isInputText() {
-		return inputText;
-	}
-
-	/**
-	 * @param inputText the inputText to set
-	 */
-	public void setInputText(boolean inputText) {
-		this.inputText = inputText;
-	}
-
-	/**
-	 * @return the modificacion
-	 */
-	public boolean isModificacion() {
-		return modificacion;
-	}
-
-	/**
-	 * @param modificacion the modificacion to set
-	 */
-	public void setModificacion(boolean modificacion) {
-		this.modificacion = modificacion;
+	public void setEjecutoConsulta(boolean ejecutoConsulta) {
+		this.ejecutoConsulta = ejecutoConsulta;
 	}
 	
 }

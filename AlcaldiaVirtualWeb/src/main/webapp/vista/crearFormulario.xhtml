@@ -15,7 +15,7 @@
 				<div class="animated fadeIn">
 					<div class="row">
 							<div class="card">
-								<div class="card-header">#{msg.creacion_formulario_label_titulo}</div>
+								<div class="card-header">#{formulariosCreacionMB.modificacionformulario ? msg.actualizacion_formulario_label_titulo : msg.creacion_formulario_label_titulo}</div>
 								<div class="card-block">
 									<form jsf:id="formListado">
 										<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
@@ -25,19 +25,19 @@
 												<div class="form-group">
 													<h:panelGrid columns="2" border="0">
 														<span class="input-group-addon">#{msg.creacion_formulario_campo_nombreFormulario}</span> 
-														<input type="text" id="txtNombreForm" maxlength="20"
-																jsf:value="#{formulariosMB.formulario.nombre}"
+														<input type="text" id="txtNombreForm" maxlength="39"
+																jsf:value="#{formulariosCreacionMB.formulario.nombre}"
 																class="form-control"/>
 													</h:panelGrid>
 												</div>
 											</div>
 											<div class="col-lg-4"></div>
-										</div>`
+										</div>
 										<div class="row">
 											<div class="col-md-10"></div>
 											<div class="col-md-2">
-												<p:commandLink value="#{msg.boton_nuevo_campo}" styleClass="btn btn-sm btn-secondary" 
-													action="#{formulariosMB.inicializarCampo(true)}" update=":formCrear" 
+												<p:commandLink value="#{msg.boton_nuevo_campo}" styleClass="btn btn-md btn-secondary" 
+													action="#{formulariosCreacionMB.inicializarCampo(true)}" update=":formCrear" 
 													oncomplete="PF('dlgCampoNuevo').show()"/>
 											</div>
 										</div>
@@ -49,17 +49,17 @@
 														<h6>#{msg.creacion_formulario_tabla_titulo}</h6>
 													</div>
 													<div class="card-block">
-														<p:dataTable id="tblCampos" var="campo" 
-															value="#{formulariosMB.formulario.camposFormularios}" reflow="true" rows="5" paginator="true">
-															<p:column headerText="#{msg.creacion_formulario_campo_tipo}">
+														<p:dataTable id="tblCampos" var="campo" rendered="#{!empty formulariosCreacionMB.formulario.camposFormularios}"
+															value="#{formulariosCreacionMB.formulario.camposFormularios}" reflow="true" rows="5" paginator="true">
+															<p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_tipo}">
 																<h:outputText value="#{campo.tiposCampo.nombre}" />
 														    </p:column>
 															
-														    <p:column headerText="#{msg.creacion_formulario_campo_label}">
+														    <p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_label}">
 														        <h:outputText value="#{campo.nombre}" style="width: 100% !important"/>
 														    </p:column>
 														 
-														    <p:column headerText="#{msg.creacion_formulario_campo_longitud}" style="width:8%">
+														    <p:column style="width:8%; text-align: center;" headerText="#{msg.creacion_formulario_campo_longitud}" >
 														        <h:outputText value="#{campo.longitud}" style="width: 100% !important"/>
 														    </p:column>
 														    
@@ -75,14 +75,15 @@
 															    <p:selectBooleanCheckbox disabled="true" value="#{campo.requeridoT}" />
 														    </p:column>
 														    
-														    <p:column headerText="#{msg.label_estado}" style="width:11%">
+														    <p:column headerText="#{msg.label_estado}" style="width:11%;text-align: center;">
 														    	<h:outputText value="#{campo.estado eq 'A' ? 'Activo' : 'Inactivo'}" style="width: 100% !important"/>
 														    </p:column>
 														    
-														    <p:column style="width:32px;text-align: center">
-													             <p:commandButton action="#{formulariosMB.inicializarCampo(false)}" update="campoNuevoPanel" oncomplete="PF('dlgCampoNuevo').show()" icon="ui-icon-search" title="View">
+														    <p:column style="width:5%;text-align: center">
+													             <p:commandButton action="#{formulariosCreacionMB.inicializarCampo(false)}" update="campoNuevoPanel" oncomplete="PF('dlgCampoNuevo').show()" 
+													             	icon="ui-icon-pencil" title="#{msg.boton_editar}">
 													             	<f:setPropertyActionListener value="#{campo}"
-																		target="#{formulariosMB.campoFormulario}" />
+																		target="#{formulariosCreacionMB.campoFormulario}" />
 													            </p:commandButton>
 													        </p:column>
 														</p:dataTable>
@@ -92,12 +93,18 @@
 										</h:panelGroup>
 										
 										<div class="card-footer">
-											<button jsf:id="btnGuardarFormulario"
-												jsf:action="#{formulariosMB.guardarFormulario}" jsf:oncomplete="PF('dlgCampoNuevo').hide()"
+											<button jsf:id="btnGuardarFormulario" jsf:rendered="#{!formulariosCreacionMB.modificacionformulario}"
+												jsf:action="#{formulariosCreacionMB.guardarFormulario}" jsf:oncomplete="PF('dlgCampoNuevo').hide()"
 												class="btn btn-sm btn-primary">
 												<i class="fa fa-floppy-o"></i> #{msg.boton_guardar}
 											</button>
-											<button type="reset" class="btn btn-sm btn-danger">
+											<button jsf:id="btnActualizarFormulario" jsf:rendered="#{formulariosCreacionMB.modificacionformulario}"
+												jsf:action="#{formulariosCreacionMB.actualizarFormulario}" jsf:oncomplete="PF('dlgCampoNuevo').hide()"
+												class="btn btn-sm btn-primary">
+												<i class="fa fa-floppy-o"></i> #{msg.boton_guardar}
+											</button>
+											<button class="btn btn-sm btn-danger" 
+												jsf:action="#{formulariosCreacionMB.volver}">
 												<i class="fa fa-ban"></i> #{msg.boton_cancelar}
 											</button>
 										</div>
@@ -108,7 +115,7 @@
 				</div>
 			</div>
 				
-			<p:dialog header="#{msg.creacion_formulario_dialogNuevoCampo_titulo}" widgetVar="dlgCampoNuevo" modal="true" 
+			<p:dialog header="" widgetVar="dlgCampoNuevo" modal="true" 
 			   		responsive="true" showEffect="explode" hideEffect="explode"	resizable="false">
 			   		<p:outputPanel id="campoNuevoPanel">
 				   		<form jsf:id="formCrear">
@@ -123,23 +130,23 @@
 										<div class="form-group row">
 											<label class="col-md-3 form-control-label" for="text-input">#{msg.creacion_formulario_campo_tipo}</label>
 											<div class="col-md-9">
-												<p:selectOneMenu id="tipoCampo" valueChangeListener="#{formulariosMB.cambiarTipoCampo}"
-													 value="#{formulariosMB.campoFormulario.tiposCampo}" converter="entityConverter"
+												<p:selectOneMenu id="tipoCampo" valueChangeListener="#{formulariosCreacionMB.cambiarTipoCampo}"
+													 value="#{formulariosCreacionMB.campoFormulario.tiposCampo}" converter="entityConverter"
 													 style="width: 100% !important">
 													<f:ajax event="change" execute="@this" render="formCrear"/>
-				 									<f:selectItems value="#{formulariosMB.lstTiposCampos}" var="tipoCampo"  
+				 									<f:selectItems value="#{formulariosCreacionMB.lstTiposCampos}" var="tipoCampo"  
 													        	itemLabel="#{tipoCampo.nombre}" itemValue="#{tipoCampo}"/> 
 												</p:selectOneMenu>
 											</div>
 										</div>
 										<div class="form-group row">
 											<p:outputLabel id="tipoEntradaLabel" styleClass="col-md-3 form-control-label" 
-											rendered="#{formulariosMB.inputText}" value="#{msg.creacion_formulario_campo_entrada}" for="tipoEntrada"/>
+											rendered="#{formulariosCreacionMB.inputText}" value="#{msg.creacion_formulario_campo_entrada}" for="tipoEntrada"/>
 											<div class="col-md-9">
-												<p:selectOneMenu rendered="#{formulariosMB.inputText}" id="tipoEntrada"
-													 value="#{formulariosMB.campoFormulario.tipoEntrada}"
+												<p:selectOneMenu rendered="#{formulariosCreacionMB.inputText}" id="tipoEntrada"
+													 value="#{formulariosCreacionMB.campoFormulario.tipoEntrada}"
 													 style="width: 100% !important">
-				 									<f:selectItems value="#{formulariosMB.lstTiposEntrada}" var="tipoEntrada"  
+				 									<f:selectItems value="#{formulariosCreacionMB.lstTiposEntrada}" var="tipoEntrada"  
 													        	itemLabel="#{tipoEntrada.codigo}" itemValue="#{tipoEntrada.valor}"/> 
 												</p:selectOneMenu>
 											</div>
@@ -148,7 +155,7 @@
 											<label class="col-md-3 form-control-label" for="text-input">#{msg.creacion_formulario_campo_label}</label>
 											<div class="col-md-9">
 												<input type="text" required="true" maxlength="20"
-													jsf:value="#{formulariosMB.campoFormulario.nombre}"
+													jsf:value="#{formulariosCreacionMB.campoFormulario.nombre}"
 													 class="form-control"></input>
 											</div>
 										</div>
@@ -156,7 +163,7 @@
 											<label class="col-md-3 form-control-label" for="text-input">#{msg.creacion_formulario_campo_longitud}</label>
 											<div class="col-md-9">
 												<input type="number" max="9999" required="true"
-													jsf:value="#{formulariosMB.campoFormulario.longitud}"
+													jsf:value="#{formulariosCreacionMB.campoFormulario.longitud}"
 													 class="form-control"></input>
 											</div>
 										</div>
@@ -164,7 +171,7 @@
 											<label class="col-md-3 form-control-label" for="text-input">#{msg.creacion_formulario_campo_textoAyuda}</label>
 											<div class="col-md-9">
 												<input type="text" required="true" maxlength="50"
-													jsf:value="#{formulariosMB.campoFormulario.textoAyuda}"
+													jsf:value="#{formulariosCreacionMB.campoFormulario.textoAyuda}"
 													 class="form-control"></input>
 											</div>
 										</div>
@@ -172,21 +179,21 @@
 											<label class="col-md-3 form-control-label" for="text-input">#{msg.creacion_formulario_campo_textoError}</label>
 											<div class="col-md-9">
 												<input type="text" required="true" maxlength="50"
-													jsf:value="#{formulariosMB.campoFormulario.textoError}"
+													jsf:value="#{formulariosCreacionMB.campoFormulario.textoError}"
 													 class="form-control"></input>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-md-3 form-control-label" for="text-input">#{msg.creacion_formulario_campo_requerido}</label>
 											<div class="col-md-9">
-												<input type="checkbox" id="checkbox1" name="checkbox1" jsf:value="#{formulariosMB.campoFormulario.requeridoT}"/>
+												<input type="checkbox" id="checkbox1" name="checkbox1" jsf:value="#{formulariosCreacionMB.campoFormulario.requeridoT}"/>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-md-3 form-control-label" for="text-input">#{msg.label_estado}</label>
 											<label class="switch switch-3d switch-primary"> <input
 												type="checkbox" class="switch-input"
-												jsf:value="#{formulariosMB.campoFormulario.activo}"
+												jsf:value="#{formulariosCreacionMB.campoFormulario.activo}"
 												 /> <span
 												class="switch-label"></span> <span class="switch-handle"></span>
 											</label>
@@ -196,18 +203,47 @@
 								</div>
 
 								<div class="card-footer">
-									<button jsf:id="btnGuardarCampo" jsf:rendered="#{!formulariosMB.modificacion}"
-										jsf:action="#{formulariosMB.adicionarCampo}" jsf:oncomplete="PF('dlgCampoNuevo').hide()"
+									<button jsf:id="btnGuardarCampo" jsf:rendered="#{!formulariosCreacionMB.modificacion}"
+										jsf:action="#{formulariosCreacionMB.adicionarCampo}" jsf:oncomplete="PF('dlgCampoNuevo').hide()"
 										class="btn btn-sm btn-primary">
 										<i class="fa fa-floppy-o"></i> #{msg.boton_adicionar}
 									</button>
-									<button jsf:id="btnActualizarCampo" jsf:rendered="#{formulariosMB.modificacion}"
+									<button jsf:id="btnActualizarCampo" jsf:rendered="#{formulariosCreacionMB.modificacion}"
 										jsf:oncomplete="PF('dlgCampoNuevo').hide()"
 										class="btn btn-sm btn-primary">
 										<i class="fa fa-floppy-o"></i> #{msg.boton_guardar}
 									</button>
 									<button type="reset" class="btn btn-sm btn-danger" jsf:onclick="PF('dlgCampoNuevo').hide()">
 										<i class="fa fa-ban"></i> #{msg.boton_cancelar}
+									</button>
+								</div>
+							</div>
+						</div>
+
+				   		</form>
+			   		</p:outputPanel>
+			</p:dialog>
+			
+			<p:dialog header="#{msg.label_mensaje_confirmacion}" widgetVar="dlgConfirmCancelar" modal="true" 
+			   		responsive="true" showEffect="explode" hideEffect="explode"	resizable="false">
+			   		<p:outputPanel id="confirmCancelarPanel">
+				   		<form jsf:id="formCancelar">
+				   		<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-block">
+										<h6>#{msg.creacion_formulario_mg_confirmacion_cancelar}</h6>
+									</div>
+								</div>
+
+								<div class="card-footer">
+									<button jsf:id="btnAceptarCancelar"
+										jsf:action="#{formulariosCreacionMB.volver}"
+										class="btn btn-sm btn-primary">
+										<i class="fa fa-floppy-o"></i> #{msg.boton_aceptar}
+									</button>
+									<button type="reset" class="btn btn-sm btn-danger" jsf:onclick="PF('dlgConfirmCancelar').hide()">
+										<i class="fa fa-ban"></i> #{msg.registro_label_volver}
 									</button>
 								</div>
 							</div>

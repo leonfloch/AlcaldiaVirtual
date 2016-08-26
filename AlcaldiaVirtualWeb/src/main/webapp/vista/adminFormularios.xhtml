@@ -1,0 +1,139 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<body jsf:id="bodyCrearFormulario">
+
+	<ui:composition template="layout.xhtml">
+		<ui:define name="content">
+			<div class="container-fluid">
+				<div class="animated fadeIn">
+					<div class="row">
+							<div class="card">
+								<div class="card-header">#{msg.adminformulario_label_titulo}</div>
+								<div class="card-block">
+									<form jsf:id="formListado">
+										<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+										<div class="row">
+											<div class="col-lg-4"></div>
+											<div class="col-lg-4">
+												<div class="form-group">
+													<h:panelGrid columns="3" border="0">
+														<span class="input-group-addon">#{msg.creacion_formulario_campo_nombreFormulario}</span> 
+														<input type="text" id="txtNombreForm" maxlength="39"
+																jsf:value="#{formulariosMB.nombreFormulario}"
+																class="form-control"/>
+														<p:commandLink id="btnBuscar" value="#{msg.boton_buscar}" styleClass="btn btn-md btn-primary" 
+																action="#{formulariosMB.buscarFormularios}" update=":formListado"/>
+													</h:panelGrid>
+												</div>
+											</div>
+											<div class="col-lg-4"></div>
+										</div>
+										<div class="row">
+											<div class="col-md-10"></div>
+											<div class="col-md-2">
+												<p:commandLink value="#{msg.boton_nuevo_formulario}" styleClass="btn btn-md btn-secondary" 
+													action="#{formulariosMB.redireccionarFormulario(false)}" />
+											</div>
+										</div>
+										
+										<h:panelGroup id="pngTabla" rendered="#{!empty formulariosMB.lstFormularios or formulariosMB.ejecutoConsulta}" styleClass="row">
+											<div class="col-lg-12">
+												<div class="card">
+													<div class="card-header">
+														<h6>#{msg.adminformulario_label_titulo}</h6>
+													</div>
+													<div class="card-block">
+														<h:outputLabel id="lblSinResultados" style="color: red;" rendered="#{empty formulariosMB.lstFormularios and formulariosMB.ejecutoConsulta}"><h6>#{msg.adminformulario_msg_sinResultados}</h6></h:outputLabel>
+														<p:dataTable id="tblFormularios" var="formulario" rendered="#{!empty formulariosMB.lstFormularios}"
+															value="#{formulariosMB.lstFormularios}" reflow="true" rows="5" paginator="true">
+															<p:column style="width:20%;text-align: center" headerText="#{msg.adminformulario_formulario_id}">
+																<h:outputText value="#{formulario.formularioId}" />
+														    </p:column>
+															
+														    <p:column style="width:71%;text-align: center" headerText="#{msg.adminformulario_formulario_nombre}">
+														        <h:outputText value="#{formulario.nombre}" style="width: 100% !important"/>
+														    </p:column>
+														 
+														    <p:column style="width:9%;text-align: center">
+													             <p:commandButton update="formularioPanel" oncomplete="PF('dlgDetalleFormulario').show()" icon="ui-icon-search" 
+													             	title="#{msg.adminformulario_formulario_btn_verDetalle}">
+													             	<f:setPropertyActionListener value="#{formulario}"
+																		target="#{formulariosMB.formularioSeleccionado}" />
+													            </p:commandButton>
+													             <p:commandButton action="#{formulariosMB.redireccionarFormulario(true)}" update="formularioPanel" icon="ui-icon-pencil" 
+													             	title="#{msg.boton_editar}">
+													             	<f:setPropertyActionListener value="#{formulario}"
+																		target="#{formulariosMB.formularioSeleccionado}" />
+													            </p:commandButton>
+													        </p:column>
+														</p:dataTable>
+													</div>
+												</div>
+											</div>
+										</h:panelGroup>
+								</form>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+				
+			<p:dialog header="#{formulariosMB.formularioSeleccionado.nombre}" widgetVar="dlgDetalleFormulario" modal="true" 
+			   		responsive="true" showEffect="explode" hideEffect="explode"	resizable="false">
+			   		<p:outputPanel id="formularioPanel">
+				   		<form jsf:id="formDetalle">
+				   			<div class="card">
+								<div class="card-header">
+									<h6>Campos formulario - #{formulariosMB.formularioSeleccionado.nombre}</h6>
+								</div>
+								<div class="card-block">
+									<p:dataTable id="tblCampos" var="campo" 
+										value="#{formulariosMB.formularioSeleccionado.camposFormularios}" reflow="true" rows="5" paginator="true">
+										<p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_tipo}">
+											<h:outputText value="#{campo.tiposCampo.nombre}" />
+									    </p:column>
+										
+									    <p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_label}">
+									        <h:outputText value="#{campo.nombre}" style="width: 100% !important"/>
+									    </p:column>
+														 
+									    <p:column style="width:8%;text-align: center;" headerText="#{msg.creacion_formulario_campo_longitud}">
+	 								        <h:outputText value="#{campo.longitud}" style="width: 100% !important"/>
+									    </p:column>
+												    
+									    <p:column headerText="#{msg.creacion_formulario_campo_textoAyuda}">
+									    	<h:outputText value="#{campo.textoAyuda}" style="width: 100% !important"/>
+									    </p:column>
+														    
+									    <p:column headerText="#{msg.creacion_formulario_campo_textoError}">
+									    	<h:outputText value="#{campo.textoError}" style="width: 100% !important"/>
+									    </p:column>
+											    
+									    <p:column style="width:8%; text-align: center;" headerText="#{msg.creacion_formulario_campo_requerido}">
+										    <p:selectBooleanCheckbox disabled="true" value="#{campo.requeridoT}" />
+									    </p:column>
+														    
+									    <p:column headerText="#{msg.label_estado}" style="width:11%;text-align: center;">
+									    	<h:outputText value="#{campo.estado eq 'A' ? 'Activo' : 'Inactivo'}" style="width: 100% !important"/>
+									    </p:column>
+
+									</p:dataTable>
+			 					</div>
+			 				</div>
+				   		</form>
+			   		</p:outputPanel>
+			</p:dialog>
+
+		</ui:define>
+	</ui:composition>
+
+</body>
+
+</html>

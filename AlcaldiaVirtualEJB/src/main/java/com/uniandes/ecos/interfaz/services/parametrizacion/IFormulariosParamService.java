@@ -37,6 +37,23 @@ public interface IFormulariosParamService {
 	void actualizarFormulario(Formulario formulario) throws NegocioException;
 	
 	/**
+	 * Obtiene los formularios parametrizados en el sistema. 
+	 * 
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<Formulario> obtenerFormularios(String nombre) throws NegocioException; 
+	
+	/**
+	 * Obtiene el formulario a partir del Id. 
+	 * 
+	 * @param formularioId
+	 * @return
+	 * @throws NegocioException
+	 */
+	Formulario obtenerFormulario(long formularioId) throws NegocioException;
+	
+	/**
 	 * Obtiene los tipos de campo parametrizados en el sistema. 
 	 * 
 	 * @return

@@ -28,7 +28,7 @@ public class Constantes {
 	public static final long ROL_CIUDADANO = 4;
 	
 
-	//Definici�n listas
+	//Definici\u00F3n listas
 	public static final String TIPO_ENTRADA_NUMERO = "N\u00famero";
 	public static final String TIPO_ENTRADA_NUMERO_VALUE = "Numero";
 	public static final String TIPO_ENTRADA_CARACTER = "Caracter";
@@ -50,4 +50,7 @@ public class Constantes {
 	public static final String SI = "S";
 	public static final String NO = "N";
 	
+	//Administraci\u00F3n de formularios
+	public static final String FORMULARIO_MODIFICAR_ID = "formularioId";
+		
 }

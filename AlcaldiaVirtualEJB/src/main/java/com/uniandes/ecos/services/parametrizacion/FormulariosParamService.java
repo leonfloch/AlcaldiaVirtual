@@ -38,14 +38,14 @@ public class FormulariosParamService implements IFormulariosParamService {
 	/**
 	 * Instanciación del objeto dao para el manejo de persistencia.
 	 */
-	private BaseDao<Formulario, String> formularioDao;
+	private BaseDao<Formulario, Long> formularioDao;
 	
 	/**
 	 * Inicialización de objetos del bean.
 	 */
 	@PostConstruct
 	public void init() {
-		this.formularioDao = new BaseDao<Formulario, String>(Formulario.class, this.em);
+		this.formularioDao = new BaseDao<Formulario, Long>(Formulario.class, this.em);
 	}
 
 	/*
@@ -55,8 +55,7 @@ public class FormulariosParamService implements IFormulariosParamService {
 	 */
 	@Override
 	public void crearFormulario(Formulario formulario) throws NegocioException {
-		this.formularioDao.merge(formulario);
-		this.em.flush();
+		this.formularioDao.persist(formulario);
 	}
 
 	/*
@@ -66,6 +65,52 @@ public class FormulariosParamService implements IFormulariosParamService {
 	 */
 	@Override
 	public void actualizarFormulario(Formulario formulario) throws NegocioException {
+		Formulario formularioAux = this.formularioDao.findById(formulario.getFormularioId());
+		formularioAux.setNombre(formulario.getNombre());
+		formularioAux.setCamposFormularios(formulario.getCamposFormularios());
+		formularioAux.setDocumentosRequeridos(formulario.getDocumentosRequeridos());
+		
+		this.formularioDao.merge(formularioAux);
+		this.em.flush();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IFormulariosParamService#
+	 * obtenerFormularios()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Formulario> obtenerFormularios(String nombre) throws NegocioException {
+		Query query;
+		List<Formulario> lstFormularios = new ArrayList<>();
+		
+		if (nombre != null && !nombre.isEmpty()) {
+			query = this.em.createNamedQuery("Formulario.findByNombre");			
+			query.setParameter("nombre", nombre.toUpperCase());
+		} else {
+			query = this.em.createNamedQuery("Formulario.findAll");
+		}	
+
+		//Se ejecuta la consulta
+		try {
+			lstFormularios = query.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		
+		return lstFormularios;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IFormulariosParamService#
+	 * obtenerFormulario()
+	 */
+	@Override
+	public Formulario obtenerFormulario(long formularioId) throws NegocioException {
+		Formulario formulario = this.formularioDao.findById(formularioId);
+		return formulario;
 	}
 	
 	/*
@@ -90,8 +135,6 @@ public class FormulariosParamService implements IFormulariosParamService {
 		
 		return lstTiposCampo;
 	}
-	
-	
-	
+
 
 }

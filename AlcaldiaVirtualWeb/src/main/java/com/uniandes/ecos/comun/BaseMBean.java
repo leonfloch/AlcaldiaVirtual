@@ -57,6 +57,7 @@ public class BaseMBean implements Serializable {
 			break;
 		}
 	}
+	
 	/**
 	 * Adiciona un objeto de sesion a la sesion WEB del usuario
 	 * @param llave
@@ -73,6 +74,25 @@ public class BaseMBean implements Serializable {
         {
         	//Adiciona el mensaje web
         	sesion.setAttribute(llave, objeto);
+        }
+	}
+	
+	/**
+	 * Remueve un objeto de sesion de la sesion WEB del usuario
+	 * @param llave
+	 * @param objeto
+	 */
+	public void removerVariableSesion(String llave)
+	{
+		//Obtiene la sesión WEB
+		FacesContext contextoFaces = FacesContext.getCurrentInstance();
+        ExternalContext contextoExterno = contextoFaces.getExternalContext();
+        HttpSession sesion = (HttpSession)contextoExterno.getSession(true);
+        //Valida que la sesion no sea nula
+        if(sesion != null)
+        {
+        	//Adiciona el mensaje web
+        	sesion.removeAttribute(llave);
         }
 	}
 	

@@ -40,11 +40,42 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 	/*
 	 * (non-Javadoc)
 	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * actualizarFormulario(com.uniandes.ecos.entities.Formulario)
+	 */
+	@Override
+	public void actualizarFormulario(Formulario formulario) throws NegocioException {
+		iFormulariosParamService.actualizarFormulario(formulario);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * obtenerFormularios()
+	 */
+	@Override
+	public List<Formulario> obtenerFormularios(String nombre) throws NegocioException {
+		return iFormulariosParamService.obtenerFormularios(nombre);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * obtenerFormulario()
+	 */
+	@Override
+	public Formulario obtenerFormulario(long formularioId) throws NegocioException {
+		return iFormulariosParamService.obtenerFormulario(formularioId);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
 	 * obtenerTiposCampoForm()
 	 */
 	@Override
 	public List<TipoCampo> obtenerTiposCampoForm() throws NegocioException {
 		return iFormulariosParamService.obtenerTiposCampoForm();
 	}
+
 
 }
