@@ -5,17 +5,17 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
-	
-	
-	<h:head>
-		
-	</h:head>
 
 
-<h:body>	
+<h:head>
+
+</h:head>
 
 
-<ui:composition template="layout.xhtml">
+<h:body>
+
+
+	<ui:composition template="layout.xhtml">
 		<ui:define name="content">
 			<!-- ======Breadcrumb====== -->
 			<ol class="breadcrumb r-0">
@@ -29,145 +29,191 @@
 				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
 			</p:dialog>
 
-		
-			<form jsf:id="form">									
-			
+
+			<form jsf:id="form">
+
 				<div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <strong>Administracion Usuarios</strong>                                    
-                                </div>
-                                <div class="card-block">
-                                
-                                <div class="row">
-									<div class="col-md-10"></div>
-									<div class="col-md-2">
-										<p:commandButton action="#{funcionariosMB.preModal}" update=":formD"
-											oncomplete="PF('carDialog').show()" value="Crear Funcionario">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<strong>Administracion Usuarios</strong>
+							</div>
+							<div class="card-block">
+
+								<div class="row">
+									<div class="col-md-9"></div>
+									<div class="col-md-3">
+										<p:commandButton action="#{funcionariosMB.preModal}"
+											update=":formD" oncomplete="PF('carDialog').show()"
+											value="Crear Funcionario">
 											<f:setPropertyActionListener value="#{true}"
-												target="#{funcionariosMB.creacion}" />									
+												target="#{funcionariosMB.creacion}" />
 										</p:commandButton>
 									</div>
 								</div>
-                                
-                                
-                                                                
-									
-				
-					<h:panelGrid columns="1" layout="grid">
+
+								<h:panelGrid columns="1" layout="grid">
+									<p:growl id="msgs" showDetail="true" />
+									<p:dataTable id="basicDT" var="user"
+										value="#{funcionariosMB.usuarios}">
+										<p:column headerText="Nombres">
+											<h:outputText value="#{user.persona.nombres}" />
+										</p:column>
+										<p:column headerText="Apellidos">
+											<h:outputText value="#{user.persona.apellidos}" />
+										</p:column>
+										<p:column headerText="e-mail">
+											<h:outputText value="#{user.persona.email}" />
+										</p:column>
+										<p:column headerText="Telefono">
+											<h:outputText value="#{user.persona.telefono}" />
+										</p:column>
+										<p:column headerText="Rol">
+											<h:outputText value="#{user.role.nombre}" />
+										</p:column>
+
+										<p:column style="width:32px;text-align: center">
+											<p:commandButton action="#{funcionariosMB.preModal}"
+												update=":formD :form" oncomplete="PF('carDialog').show()"
+												icon="ui-icon-search" title="View">
+												<f:setPropertyActionListener value="#{user}"
+													target="#{funcionariosMB.usuarioSelecc}" />
+											</p:commandButton>
+
+										</p:column>
+									</p:dataTable>
+
+								</h:panelGrid>
 
 
-						<p:growl id="msgs" showDetail="true" />
-						<p:dataTable id="basicDT" var="user" value="#{funcionariosMB.usuarios}">
-							<p:column headerText="Nombres">
-								<h:outputText value="#{user.persona.nombres}" />
-							</p:column>
-							<p:column headerText="Apellidos">
-								<h:outputText value="#{user.persona.apellidos}" />
-							</p:column>
-							<p:column headerText="e-mail">
-								<h:outputText value="#{user.persona.email}" />
-							</p:column>
-							<p:column headerText="Telefono">
-								<h:outputText value="#{user.persona.telefono}" />
-							</p:column>
-							<p:column headerText="Rol">
-								<h:outputText value="#{user.role.nombre}" />
-							</p:column>
-							
-							<p:column style="width:32px;text-align: center">
-								<p:commandButton action="#{funcionariosMB.preModal}" update=":formD :form"
-									oncomplete="PF('carDialog').show()" icon="ui-icon-search"
-									title="View">
-									<f:setPropertyActionListener value="#{user}"
-										target="#{funcionariosMB.usuarioSelecc}" />
-								</p:commandButton>
-
-							</p:column>
-						</p:dataTable>
-
-					</h:panelGrid>
-					
-					
+							</div>
+						</div>
 					</div>
-					</div>
-					</div>
-					</div>
-					
-				
+				</div>
 			</form>
 
 
 			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
-				hideEffect="fade" resizable="false">
-				<p:outputPanel id="carDetail">
+				hideEffect="fade" resizable="true">
+				
+				<p:scrollPanel id="carDetail" mode="native" style="height:600px">
+<!-- 				<p:outputPanel id="carDetail"> -->
 					<form jsf:id="formD">
 					
-						<div class="row">
+					
+					<div class="row">
 							<div class="col-md-12">
 								<div class="card">
 									<div class="card-header">
 										<strong>Información Funcionario</strong>
 									</div>
 
-									<div class="card-block">
-										<div class="form-group row">
-											<label class="col-md-3 form-control-label" for="text-input">Nombres</label>
-											<div class="col-md-9">
-												<input type="text" required="true"
-													jsf:value="#{funcionariosMB.usuarioSelecc.persona.nombres}"
-													 class="form-control"></input>
-											</div>
-										</div>
-										<div class="form-group row">
-											<label class="col-md-3 form-control-label" for="text-input">Apellidos</label>
-											<div class="col-md-9">
-												<input type="text" required="true"
-													jsf:value="#{funcionariosMB.usuarioSelecc.persona.apellidos}"
-													 class="form-control"></input>
-											</div>
-											</div>
-											<div class="form-group row">
-											<label class="col-md-3 form-control-label" for="text-input">e-mail</label>
-											<div class="col-md-9">
-												<input type="text" required="true"
-													jsf:value="#{funcionariosMB.usuarioSelecc.persona.email}"
-													 class="form-control"></input>
-											</div>
-											</div>
-											<div class="form-group row">
-											<label class="col-md-3 form-control-label" for="text-input">Telefono</label>
-											<div class="col-md-9">
-												<input type="text" required="true"
-													jsf:value="#{funcionariosMB.usuarioSelecc.persona.telefono}"
-													 class="form-control"></input>
-											</div>
-											</div>
-											<div class="form-group row">
-											<label class="col-md-3 form-control-label" for="text-input">Rol</label>
-											<div class="col-md-9">
-												<p:selectOneMenu id="rolSelecc" value="#{funcionariosMB.usuarioSelecc.role}" effect="fold">
-            										<f:selectItem itemLabel="#{funcionariosMB.usuarioSelecc.role.nombre}" itemValue="#{funcionariosMB.usuarioSelecc.role}" />
-            										<f:selectItems value="#{funcionariosMB.roles}" />
-        										</p:selectOneMenu>        											
-											</div>
-											</div>
-											<div class="form-group row">
-											<label class="col-md-3 form-control-label" for="text-input">Municipio</label>
-											<div class="col-md-9">
-												<p:selectOneMenu id="muniSelecc" value="#{funcionariosMB.usuarioSelecc.municipio}" effect="fold">
-            										<f:selectItem itemLabel="#{funcionariosMB.usuarioSelecc.municipio.nombre}" itemValue="#{funcionariosMB.usuarioSelecc.municipio}" />
-            										<f:selectItems value="#{funcionariosMB.municipios}" />
-        										</p:selectOneMenu>
-											</div>
-																		</div>				
-											
-											
-										
-										
-										
-										
+						<div class="card-block">
+						
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label >TipoIdentificacion</label>
+							<p:selectOneMenu id="console"
+								value="#{funcionariosMB.usuarioSelecc.persona.tipoIdentificacion}"
+								style="width:100%">
+								<f:selectItem itemLabel="CC" itemValue="CC" />
+								<f:selectItem itemLabel="CE" itemValue="CC" />
+							</p:selectOneMenu>
+							
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Num Identificacion</label> 
+								<input type="number" required="true"
+								placeholder="Identificacion"
+								jsf:value="#{funcionariosMB.usuarioSelecc.persona.numIdentificacion}"
+								class="form-control">
+							</input>
+							
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Nombres</label>
+								<input type="text" required="true" placeholder="Nombres" jsf:value="#{funcionariosMB.usuarioSelecc.persona.nombres}" class="form-control"></input>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Apellidos</label>
+								<input type="text" required="true" placeholder="Apellidos" jsf:value="#{funcionariosMB.usuarioSelecc.persona.apellidos}" class="form-control"></input>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>e-mail</label>
+								<input type="email" required="true" placeholder="email" jsf:value="#{funcionariosMB.usuarioSelecc.persona.email}" class="form-control"></input>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Direccion</label>
+								<input type="text" required="true" placeholder="Direccion" jsf:value="#{funcionariosMB.usuarioSelecc.persona.direccion}" class="form-control"></input>
+							</div>						
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Telefono</label>
+								<input type="number" required="true" placeholder="Telefono" jsf:value="#{funcionariosMB.usuarioSelecc.persona.telefono}" class="form-control"></input>
+							</div>
+							<div class="form-group col-sm-6">
+																
+							</div>						
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Rol</label>
+								<p:selectOneMenu id="rolSelecc" style="width:100%"
+									value="#{funcionariosMB.usuarioSelecc.role}" converter="entityConverter">
+									<f:selectItem
+										itemLabel="#{funcionariosMB.usuarioSelecc.role.nombre}"
+										itemValue="#{funcionariosMB.usuarioSelecc.role}" />
+									<f:selectItems value="#{funcionariosMB.roles}" var="rol"
+										itemLabel="#{rol.nombre}" itemValue="#{rol}" />
+								</p:selectOneMenu>								
+							</div>
+							
+							<div class="form-group col-sm-6">
+								<label>Municipio</label>
+								<p:selectOneMenu id="muniSelecc" style="width:100%"
+									value="#{funcionariosMB.usuarioSelecc.municipio}" converter="entityConverter">
+									<f:selectItem
+										itemLabel="#{funcionariosMB.usuarioSelecc.municipio.nombre}"
+										itemValue="#{funcionariosMB.usuarioSelecc.municipio}" />
+									<f:selectItems value="#{funcionariosMB.municipios}" var="mun"
+										itemLabel="#{mun.nombre}" itemValue="#{mun}" />
+								</p:selectOneMenu>
+							</div>
+						
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Clave</label>
+								<input type="password" required="true" placeholder="Clave" jsf:value="#{funcionariosMB.usuarioSelecc.contrasenia}" class="form-control"></input>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Repetir Clave</label>
+								<input type="password" required="true" placeholder="Repetir Clave" jsf:value="#{funcionariosMB.usuarioSelecc.contraseniaVal}" class="form-control"></input>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<div class="form-group col-sm-12">
+								<label>Estado</label>
+								<label class="switch switch-3d switch-primary"> 
+								<input type="checkbox" class="switch-input"
+									jsf:value="#{funcionariosMB.usuarioSelecc.activo}"/> <span
+									class="switch-label"></span> <span class="switch-handle"></span>
+								</label>
+							</div>
+							</div>
+						</div>
+						
+						
+							
+
 									</div>
 								</div>
 
@@ -177,7 +223,8 @@
 										class="btn btn-sm btn-primary">
 										<i class="fa fa-dot-circle-o"></i> Guardar
 									</button>
-									<button type="submit" onclick="PF('carDialog').hidden()" class="btn btn-sm btn-danger">
+									<button onclick="PF('carDialog').hidden()"
+										class="btn btn-sm btn-danger">
 										<i class="fa fa-ban"></i> Cancelar
 									</button>
 								</div>
@@ -185,12 +232,13 @@
 						</div>
 
 					</form>
-				</p:outputPanel>
+<!-- 				</p:outputPanel> -->
+					</p:scrollPanel>
 			</p:dialog>
 
 
-</ui:define>
-</ui:composition>
+		</ui:define>
+	</ui:composition>
 </h:body>
 
 </html>

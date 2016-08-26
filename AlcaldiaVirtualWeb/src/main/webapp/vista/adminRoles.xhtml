@@ -94,7 +94,7 @@
 
 
 			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
-				hideEffect="fade" resizable="false">
+				hideEffect="fade" resizable="true">
 				<p:outputPanel id="carDetail">
 					<form jsf:id="formD">
 					
@@ -136,7 +136,6 @@
 											itemValue="#{funcionalidad}" converter="entityConverter" />
 									</div>
 								</div>
-
 								<div class="card-footer">
 									<button jsf:id="registroBtn"
 										jsf:action="#{rolesMB.persistirRol}"

@@ -70,11 +70,20 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	public FuncionariosMB () {
 		creacion = false;
+		this.initFuncionario();
 		
+				
+		
+	}
+	
+	/**
+	 * 
+	 */
+	private void initFuncionario() {
 		usuarioSelecc = new UsuariosFuncionario();
 		usuarioSelecc.setRole(new Rol());
-		usuarioSelecc.setMunicipio(new Municipio());		
-		
+		usuarioSelecc.setMunicipio(new Municipio());
+		usuarioSelecc.setPersona(new Persona());
 	}
 	
 	
@@ -97,6 +106,10 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	public void preModal() {
 		
+		if (creacion) {
+			this.initFuncionario();
+		}
+		
 		
 			
 			
@@ -112,12 +125,15 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	public void persistirUsuario() {
 		try {		
-			
+			usuarioSelecc.setEstado(usuarioSelecc.isActivo() ? 
+					Constantes.ACTIVO : Constantes.INACTIVO);			
+			usuarioSelecc.setUsuario(String.valueOf(usuarioSelecc.getPersona().getNumIdentificacion()));			
 							
 			if (creacion) {
-				iParametrizacionFacade.actualizarFuncionario(usuarioSelecc);				
+				iParametrizacionFacade.registrarFuncionario(usuarioSelecc);	
+				usuarios = iParametrizacionFacade.obtenerFuncionarios(this.getSesion().getMunicipioId());
 			} else {
-				iParametrizacionFacade.registrarFuncionario(usuarioSelecc);
+				iParametrizacionFacade.actualizarFuncionario(usuarioSelecc);
 			}				
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());

@@ -126,6 +126,11 @@ public class Rol implements Serializable {
 	 * @return the activo
 	 */
 	public boolean isActivo() {
+		if (Constantes.ACTIVO.equalsIgnoreCase(this.estado)) {
+			activo = true;
+		} else {
+			activo = false;
+		}
 		return activo;
 	}
 

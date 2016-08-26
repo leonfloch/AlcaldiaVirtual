@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.uniandes.ecos.util.Constantes;
+
 import java.util.List;
 
 
@@ -31,15 +33,21 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 
 	private String estado;
 	
+	@Transient
+	private boolean activo;
+	
+	
 //	@Column(name="ROL_ID")
 //	private long rolId;
 	
+	
+
 	//bi-directional many-to-one association to Rol
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name="ROL_ID")
 	private Rol role;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name="MUNICIPIO_ID")
 	private Municipio municipio;
 	
@@ -196,6 +204,25 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 	 */
 	public void setRole(Rol role) {
 		this.role = role;
+	}
+	
+	/**
+	 * @return the activo
+	 */
+	public boolean isActivo() {
+		if (Constantes.ACTIVO.equalsIgnoreCase(this.estado)) {
+			activo = true;
+		} else {
+			activo = false;
+		}
+		return activo;
+	}
+
+	/**
+	 * @param activo the activo to set
+	 */
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 	
 }
