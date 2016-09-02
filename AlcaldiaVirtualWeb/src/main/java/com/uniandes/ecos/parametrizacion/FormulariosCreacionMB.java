@@ -9,6 +9,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 
+import org.primefaces.event.ReorderEvent;
+
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.CampoFormulario;
@@ -62,7 +64,6 @@ public class FormulariosCreacionMB extends BaseMBean {
 		this.formulario.setCamposFormularios(new ArrayList<CampoFormulario>());
 		
 		try {
-			//Temporal mientras se soluciona conversacion entre beans. 
 			//Se obtiene variable de sesión en caso de ser una modificación. 
 			if (this.obtenerVariableSesion(Constantes.FORMULARIO_MODIFICAR_ID) != null ) {
 				long formularioId = (long) this.obtenerVariableSesion(Constantes.FORMULARIO_MODIFICAR_ID);
@@ -102,7 +103,24 @@ public class FormulariosCreacionMB extends BaseMBean {
 	 * Adiciona un nuevo campo al formulario. 
 	 */
 	public void adicionarCampo(){
-		this.formulario.addCamposFormulario(this.campoFormulario);
+		String mensaje = validarCampo();
+		if (mensaje.isEmpty()) {
+			this.formulario.addCamposFormulario(this.campoFormulario);
+		}else{
+			this.adicionarMensaje(Constantes.ERROR, mensaje);
+			return;
+		}
+	}
+	
+	/**
+	 * Vala las condiciones de actualización del campo. 
+	 */
+	public void actualizarCampo(){
+		String mensaje = validarCampo();
+		if (!mensaje.isEmpty()) {
+			this.adicionarMensaje(Constantes.ERROR, mensaje);
+			return;
+		}
 	}
 	
 	/**
@@ -172,6 +190,27 @@ public class FormulariosCreacionMB extends BaseMBean {
 	}
 	
 	/**
+	 * Valida que no se ingresen campos con nombres repetidos o con posiciones que ya existen. 
+	 * @return un string vacío si el campo es válido, si no, retorna el mensaje de error. 
+	 */
+	private String validarCampo(){
+		String mensaje = "";
+		
+		
+		for (CampoFormulario campoAux : this.formulario.getCamposFormularios()) {
+			if (campoAux.getNombre().trim().equals(this.campoFormulario.getNombre().trim())) {
+				mensaje = "Ya existe un campo en el formulario con el label ingresado";
+				break;
+			} else if(campoAux.getPosicion() == this.campoFormulario.getPosicion()){
+				mensaje = "Ya existe un campo para el formulario con la posici\u00F3n ingresada."; 
+				break;
+			}
+		}
+		
+		return mensaje;
+	}
+	
+	/**
 	 * Redirecciona a la página de aministración de formularios.
 	 * @return
 	 */
@@ -179,6 +218,14 @@ public class FormulariosCreacionMB extends BaseMBean {
 		return RutasApp.FORMULARIOS_ADMINISTRACION_RUTA;
 	}
 
+	/** 
+	 * Setea el campo formulario a modificar. 
+	 * @param index
+	 */
+	public void setObjectCampo(int index){
+		this.campoFormulario = this.formulario.getCamposFormularios().get(index);
+	}
+	
 	/**
 	 * @return the lstTiposEntrada
 	 */

@@ -67,10 +67,11 @@
 													             	<f:setPropertyActionListener value="#{formulario}"
 																		target="#{formulariosMB.formularioSeleccionado}" />
 													            </p:commandButton>
-													             <p:commandButton action="#{formulariosMB.redireccionarFormulario(true)}" update="formularioPanel" icon="ui-icon-pencil" 
+													             <p:commandButton action="#{formulariosMB.redireccionarFormulario(true)}" actionListener="#{formulariosMB.setObjectCampo(index)}"
+													                update="formularioPanel" icon="ui-icon-pencil" 
 													             	title="#{msg.boton_editar}">
-													             	<f:setPropertyActionListener value="#{formulario}"
-																		target="#{formulariosMB.formularioSeleccionado}" />
+<!-- 													             	<f:setPropertyActionListener value="#{formulario}" -->
+<!-- 																		target="#{formulariosMB.formularioSeleccionado}" /> -->
 													            </p:commandButton>
 													        </p:column>
 														</p:dataTable>

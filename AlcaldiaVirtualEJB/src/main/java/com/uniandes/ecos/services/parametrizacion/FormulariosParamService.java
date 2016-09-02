@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.uniandes.ecos.dao.BaseDao;
+import com.uniandes.ecos.entities.CampoFormulario;
 import com.uniandes.ecos.entities.Formulario;
 import com.uniandes.ecos.entities.TipoCampo;
 import com.uniandes.ecos.interfaz.services.parametrizacion.IFormulariosParamService;
@@ -55,7 +56,16 @@ public class FormulariosParamService implements IFormulariosParamService {
 	 */
 	@Override
 	public void crearFormulario(Formulario formulario) throws NegocioException {
-		this.formularioDao.persist(formulario);
+		if (existeNombreFormulario(formulario.getNombre())) {
+			throw new NegocioException(Constantes.ERROR, 0, "Ya existe un formulario con el mismo nombre, por favor verifique.");
+		}else{
+			int cont = 0;
+			for (CampoFormulario campoAux : formulario.getCamposFormularios()) {
+				campoAux.setPosicion(cont);
+				cont++; 
+			}
+			this.formularioDao.persist(formulario);
+		}
 	}
 
 	/*
@@ -65,13 +75,22 @@ public class FormulariosParamService implements IFormulariosParamService {
 	 */
 	@Override
 	public void actualizarFormulario(Formulario formulario) throws NegocioException {
-		Formulario formularioAux = this.formularioDao.findById(formulario.getFormularioId());
-		formularioAux.setNombre(formulario.getNombre());
-		formularioAux.setCamposFormularios(formulario.getCamposFormularios());
-		formularioAux.setDocumentosRequeridos(formulario.getDocumentosRequeridos());
-		
-		this.formularioDao.merge(formularioAux);
-		this.em.flush();
+		if (existeNombreFormulario(formulario.getNombre())) {
+			throw new NegocioException(Constantes.ERROR, 0, "Ya existe un formulario con el mismo nombre, por favor verifique.");
+		}else{
+			int cont = 0;
+			Formulario formularioAux = this.formularioDao.findById(formulario.getFormularioId());
+			formularioAux.setNombre(formulario.getNombre());
+			formularioAux.setCamposFormularios(formulario.getCamposFormularios());
+			for (CampoFormulario campoAux : formulario.getCamposFormularios()) {
+				campoAux.setPosicion(cont);
+				cont++; 
+			}
+			formularioAux.setDocumentosRequeridos(formulario.getDocumentosRequeridos());
+
+			this.formularioDao.merge(formularioAux);
+			this.em.flush();
+		}
 	}
 	
 	/*
@@ -86,8 +105,8 @@ public class FormulariosParamService implements IFormulariosParamService {
 		List<Formulario> lstFormularios = new ArrayList<>();
 		
 		if (nombre != null && !nombre.isEmpty()) {
-			query = this.em.createNamedQuery("Formulario.findByNombre");			
-			query.setParameter("nombre", nombre.toUpperCase());
+			query = this.em.createNamedQuery("Formulario.findByNombreLike");			
+			query.setParameter("nombre", "%" + nombre.toUpperCase() + "%");
 		} else {
 			query = this.em.createNamedQuery("Formulario.findAll");
 		}	
@@ -135,6 +154,24 @@ public class FormulariosParamService implements IFormulariosParamService {
 		
 		return lstTiposCampo;
 	}
-
+	
+	/**
+	 * Verfiica que no exista un formualario con el mismo nombre en la base de datos. 
+	 * @return
+	 */
+	private boolean existeNombreFormulario(String nombre){
+		boolean existeNombreFormulario = false;
+		
+		Query query = this.em.createNamedQuery("Formulario.findByNombre");
+		query.setParameter("nombre", nombre.toUpperCase());
+		
+		try {
+			query.getSingleResult();
+			existeNombreFormulario = true;
+		} catch (NoResultException e) {
+		}
+		
+		return existeNombreFormulario;
+	}
 
 }

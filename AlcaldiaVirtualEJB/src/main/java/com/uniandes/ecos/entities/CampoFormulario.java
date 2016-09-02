@@ -39,6 +39,8 @@ public class CampoFormulario implements Serializable {
 	private String nombre;
 
 	private String requerido;
+	
+	private int posicion;
 
 	@Column(name="TEXTO_AYUDA")
 	private String textoAyuda;
@@ -197,6 +199,20 @@ public class CampoFormulario implements Serializable {
 	public void setRequeridoT(boolean requeridoT) {
 		this.requeridoT = requeridoT;
 		this.requerido = requeridoT ? Constantes.SI : Constantes.NO;
+	}
+
+	/**
+	 * @return the posicion
+	 */
+	public int getPosicion() {
+		return posicion;
+	}
+
+	/**
+	 * @param posicion the posicion to set
+	 */
+	public void setPosicion(int posicion) {
+		this.posicion = posicion;
 	}
 	
 }

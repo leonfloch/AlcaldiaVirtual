@@ -16,7 +16,8 @@ import java.util.List;
 @Table(name="FORMULARIOS")
 @NamedQueries({
 	@NamedQuery(name="Formulario.findAll", query="SELECT f FROM Formulario f"),
-	@NamedQuery(name="Formulario.findByNombre", query="SELECT f FROM Formulario f WHERE UPPER(f.nombre) = :nombre")
+	@NamedQuery(name="Formulario.findByNombre", query="SELECT f FROM Formulario f WHERE UPPER(f.nombre) = :nombre"),
+	@NamedQuery(name="Formulario.findByNombreLike", query="SELECT f FROM Formulario f WHERE UPPER(f.nombre) like :nombre")
 })
 @NamedQuery(name="Formulario.findAll", query="SELECT f FROM Formulario f")
 public class Formulario implements Serializable {

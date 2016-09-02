@@ -50,7 +50,8 @@
 													</div>
 													<div class="card-block">
 														<p:dataTable id="tblCampos" var="campo" rendered="#{!empty formulariosCreacionMB.formulario.camposFormularios}"
-															value="#{formulariosCreacionMB.formulario.camposFormularios}" reflow="true" rows="5" paginator="true">
+															value="#{formulariosCreacionMB.formulario.camposFormularios}" reflow="true" rows="5" paginator="true"
+															draggableRows="true" rowIndexVar="index">
 															<p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_tipo}">
 																<h:outputText value="#{campo.tiposCampo.nombre}" />
 														    </p:column>
@@ -80,7 +81,8 @@
 														    </p:column>
 														    
 														    <p:column style="width:5%;text-align: center">
-													             <p:commandButton action="#{formulariosCreacionMB.inicializarCampo(false)}" update="campoNuevoPanel" oncomplete="PF('dlgCampoNuevo').show()" 
+													             <p:commandButton action="#{formulariosCreacionMB.inicializarCampo(false)}" actionListener="#{formulariosCreacionMB.setObjectCampo(index)}" 
+													             	update="campoNuevoPanel" oncomplete="PF('dlgCampoNuevo').show()" 
 													             	icon="ui-icon-pencil" title="#{msg.boton_editar}">
 													             	<f:setPropertyActionListener value="#{campo}"
 																		target="#{formulariosCreacionMB.campoFormulario}" />
@@ -117,7 +119,8 @@
 				
 			<p:dialog header="" widgetVar="dlgCampoNuevo" modal="true" 
 			   		responsive="true" showEffect="explode" hideEffect="explode"	resizable="false">
-			   		<p:outputPanel id="campoNuevoPanel">
+			   		<p:scrollPanel id="campoNuevoPanel" mode="native" style="height:600px">
+<!-- 			   		<p:outputPanel id="campoNuevoPanel"> -->
 				   		<form jsf:id="formCrear">
 				   		<div class="row">
 							<div class="col-md-12">
@@ -183,6 +186,14 @@
 													 class="form-control"></input>
 											</div>
 										</div>
+<!-- 										<div class="form-group row"> -->
+<!-- 											<label class="col-md-3 form-control-label" for="text-input">#{msg.creacion_formulario_campo_posicion}</label> -->
+<!-- 											<div class="col-md-9"> -->
+<!-- 												<input type="number" max="99" required="true" -->
+<!-- 													jsf:value="#{formulariosCreacionMB.campoFormulario.posicion}" -->
+<!-- 													 class="form-control"></input> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
 										<div class="form-group row">
 											<label class="col-md-3 form-control-label" for="text-input">#{msg.creacion_formulario_campo_requerido}</label>
 											<div class="col-md-9">
@@ -209,6 +220,7 @@
 										<i class="fa fa-floppy-o"></i> #{msg.boton_adicionar}
 									</button>
 									<button jsf:id="btnActualizarCampo" jsf:rendered="#{formulariosCreacionMB.modificacion}"
+										jsf:action="#{formulariosCreacionMB.actualizarCampo}"
 										jsf:oncomplete="PF('dlgCampoNuevo').hide()"
 										class="btn btn-sm btn-primary">
 										<i class="fa fa-floppy-o"></i> #{msg.boton_guardar}
@@ -221,7 +233,8 @@
 						</div>
 
 				   		</form>
-			   		</p:outputPanel>
+<!-- 			   		</p:outputPanel> -->
+					</p:scrollPanel>
 			</p:dialog>
 			
 			<p:dialog header="#{msg.label_mensaje_confirmacion}" widgetVar="dlgConfirmCancelar" modal="true" 
