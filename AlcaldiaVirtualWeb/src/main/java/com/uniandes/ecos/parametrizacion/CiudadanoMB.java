@@ -24,6 +24,11 @@ import com.uniandes.ecos.util.NegocioException;
 @ManagedBean
 public class CiudadanoMB extends BaseMBean {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** Inyecci�n de dependecia con fachada de parametrizaci�n. */
 	@Inject
 	private IParametrizacionFacade iParametrizacionFacade;
@@ -55,9 +60,7 @@ public class CiudadanoMB extends BaseMBean {
 			adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
 		return redirect;
-	}
-	
-	
+	}		
 
 
 	/**

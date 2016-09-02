@@ -6,16 +6,18 @@
 	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
 
+<h:head>
 
-<body jsf:id="bodyMain">
+</h:head>
+<h:body>
 
 	<ui:composition template="layout.xhtml">
 		<ui:define name="content">
 			<!-- ======Breadcrumb====== -->
 			<ol class="breadcrumb r-0">
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Library</a></li>
-				<li class="active">Data</li>
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">Administracion Usuarios</a></li>
+				<li class="active">Admin Ciudadanos</li>
 			</ol>
 			<!-- ======FIN Breadcrumb====== -->
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
@@ -23,22 +25,188 @@
 				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
 			</p:dialog>
 					
-			<div class="container-fluid">
-				<div class="animated fadeIn">
-					<div class="row row-equal"></div>
-					
-					<div class="card">
-						<div class="card-header">Administracion Ciudadanos</div>
+			<form jsf:id="form">
 
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">Administracion Ciudadanos</div>
+							<div class="card-block">
+
+								<div class="row">
+									<div class="col-md-9"></div>
+									<div class="col-md-3">
+										<p:commandButton action="#{adminCiudadanoMB.preModal}"
+											update=":formD" oncomplete="PF('carDialog').show()"
+											value="Crear Ciudadano">
+											<f:setPropertyActionListener value="#{true}"
+												target="#{adminCiudadanoMB.creacion}" />
+										</p:commandButton>
+									</div>
+								</div>
+
+								<h:panelGrid columns="1" layout="grid">
+									<p:growl id="msgs" showDetail="true" />
+									<p:dataTable id="basicDT" var="user" value="#{adminCiudadanoMB.usuarios}" >										
+										<p:column headerText="Identificacion" sortBy="#{user.persona.numIdentificacion}" 
+											filterBy="#{user.persona.numIdentificacion}" filterStyle="height:20px;">
+											<h:outputText value="#{user.persona.numIdentificacion}" />
+										</p:column>
+										<p:column headerText="Nombres" sortBy="#{user.persona.nombres}" 
+											filterBy="#{user.persona.nombres}" filterStyle="height:20px;">
+											<h:outputText value="#{user.persona.nombres}" />
+										</p:column>
+										<p:column headerText="Apellidos" sortBy="#{user.persona.apellidos}" 
+											filterBy="#{user.persona.apellidos}" filterStyle="height:20px;">
+											<h:outputText value="#{user.persona.apellidos}" />
+										</p:column>
+										<p:column headerText="e-mail" sortBy="#{user.persona.email}" 
+											filterBy="#{user.persona.email}" filterStyle="height:20px;">
+											<h:outputText value="#{user.persona.email}" />
+										</p:column>
+										<p:column headerText="Telefono" sortBy="#{user.persona.telefono}" 
+											filterBy="#{user.persona.email}" filterStyle="height:20px;">
+											<h:outputText value="#{user.persona.telefono}" />
+										</p:column>
+										<p:column headerText="Estado" sortBy="#{user.estado}" 
+											filterBy="#{user.estado}" filterStyle="height:20px;">
+											<h:outputText value="#{user.estado}" />
+										</p:column>
+										<p:column style="width:5%;text-align: center">
+											<p:commandButton action="#{adminCiudadanoMB.preModal}"
+												update=":formD :form" oncomplete="PF('carDialog').show()"
+												icon="ui-icon-search" title="View">
+												<f:setPropertyActionListener value="#{user}"
+													target="#{adminCiudadanoMB.usuarioSelecc}" />
+												<f:setPropertyActionListener value="#{false}"
+													target="#{adminCiudadanoMB.creacion}" />
+											</p:commandButton>
+
+										</p:column>
+									</p:dataTable>
+
+								</h:panelGrid>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+
+			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
+				hideEffect="fade" resizable="true">				
+				<p:scrollPanel id="carDetail" mode="native" style="height:600px">
+
+					<form jsf:id="formD">
+										
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<strong>Información Ciudadano</strong>
+								</div>
+						<div class="card-block">
+						
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label >TipoIdentificacion</label>
+							<p:selectOneMenu id="console" disabled="#{!adminCiudadanoMB.creacion}"
+								value="#{adminCiudadanoMB.usuarioSelecc.persona.tipoIdentificacion}"
+								style="width:100%">
+								<f:selectItem itemLabel="CC" itemValue="CC" />
+								<f:selectItem itemLabel="CE" itemValue="CC" />
+							</p:selectOneMenu>
+							
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Num Identificacion</label> 
+								<input type="number" required="true" jsf:disabled="#{!adminCiudadanoMB.creacion}"
+								placeholder="Identificacion"
+								jsf:value="#{adminCiudadanoMB.usuarioSelecc.persona.numIdentificacion}"
+								class="form-control">
+							</input>
+							
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Nombres</label>
+								<input type="text" required="true" placeholder="Nombres" jsf:value="#{adminCiudadanoMB.usuarioSelecc.persona.nombres}" class="form-control"></input>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Apellidos</label>
+								<input type="text" required="true" placeholder="Apellidos" jsf:value="#{adminCiudadanoMB.usuarioSelecc.persona.apellidos}" class="form-control"></input>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>e-mail</label>
+								<input type="email" required="true" placeholder="email" jsf:value="#{adminCiudadanoMB.usuarioSelecc.persona.email}" class="form-control"></input>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Direccion</label>
+								<input type="text" required="true" placeholder="Direccion" jsf:value="#{adminCiudadanoMB.usuarioSelecc.persona.direccion}" class="form-control"></input>
+							</div>						
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Telefono</label>
+								<input type="number" required="true" placeholder="Telefono" jsf:value="#{adminCiudadanoMB.usuarioSelecc.persona.telefono}" class="form-control"></input>
+							</div>
+							<div class="form-group col-sm-6">
+																
+							</div>						
+						</div>
+						
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Clave</label>
+								<input type="password" required="true" placeholder="Clave" jsf:value="#{adminCiudadanoMB.usuarioSelecc.contrasenia}" class="form-control"></input>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Repetir Clave</label>
+								<input type="password" required="true" placeholder="Repetir Clave" jsf:value="#{adminCiudadanoMB.usuarioSelecc.contraseniaVal}" class="form-control"></input>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<div class="form-group col-sm-12">
+								<label>Estado</label>
+								<label class="switch switch-3d switch-primary"> 
+								<input type="checkbox" class="switch-input"
+									jsf:value="#{adminCiudadanoMB.usuarioSelecc.activo}"/> <span
+									class="switch-label"></span> <span class="switch-handle"></span>
+								</label>
+							</div>
+							</div>
+						</div>
+																			
+
+						</div>
 					</div>
 
-				</div>
-			</div>
+						<div class="card-footer">
+							<button jsf:id="registroBtn"
+								jsf:action="#{adminCiudadanoMB.persistirUsuario}"
+								class="btn btn-sm btn-primary">
+								<i class="fa fa-floppy-o"></i> Guardar
+							</button>
+							<button onclick="PF('carDialog').hide();$('#formD').trigger('reset');"								
+								class="btn btn-sm btn-danger">
+								<i class="fa fa-ban"></i> Cancelar
+							</button>
+						</div>
+								
+						</div>
+					</div>
+				</form>
+				</p:scrollPanel>
+		</p:dialog>
 
 		</ui:define>
-
 	</ui:composition>
-
-</body>
+</h:body>
 
 </html>

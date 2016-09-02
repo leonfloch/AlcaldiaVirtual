@@ -40,6 +40,13 @@ public interface IParametrizacionFacade {
 	void actualizarFuncionario(UsuariosFuncionario funcionario) throws NegocioException;
 	
 	/**
+	 * actualiza la informacion de un ciudadano
+	 * @param ciudadano
+	 * @throws NegocioException
+	 */
+	void actualizarCiudadano(UsuariosCiudadano ciudadano) throws NegocioException;
+	
+	/**
 	 * Cambia el estado del funcionario a inactivo 'I' o activo 'A'.
 	 * 
 	 * @param funcionario
@@ -164,6 +171,13 @@ public interface IParametrizacionFacade {
 	 * @throws NegocioException
 	 */
 	List<UsuariosFuncionario> obtenerFuncionarios(Long municipioId) throws NegocioException;
+	
+	/**
+	 * Retrona todos los ciudadanos del sistema
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<UsuariosCiudadano> obtenerCiudadanos() throws NegocioException;
 	
 	/**
 	 * Retorna el municipio a partir de su id

@@ -66,6 +66,13 @@ public interface IUsuariosParamService {
 	void actualizarFuncionario(UsuariosFuncionario funcionario) throws NegocioException;
 	
 	/**
+	 * actualiza la informacion de un ciudadano
+	 * @param ciudadano
+	 * @throws NegocioException
+	 */
+	void actualizarCiudadano(UsuariosCiudadano ciudadano) throws NegocioException;
+	
+	/**
 	 * Cambia el estado del funcionario a inactivo 'I' o activo 'A'.
 	 * 
 	 * @param funcionario
@@ -92,6 +99,13 @@ public interface IUsuariosParamService {
 	 * @throws NegocioException
 	 */
 	List<UsuariosFuncionario> obtenerFuncionarios(Long municipioId) throws NegocioException;
+	
+	/**
+	 * Retrona todos los ciudadanos del sistema
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<UsuariosCiudadano> obtenerCiudadanos() throws NegocioException;
 	
 	/**
 	 * Retorna la informaci�n del funcinario a  partir de su usuario. 

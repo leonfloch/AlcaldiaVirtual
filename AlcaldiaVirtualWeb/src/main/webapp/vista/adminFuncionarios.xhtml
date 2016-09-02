@@ -19,9 +19,9 @@
 		<ui:define name="content">
 			<!-- ======Breadcrumb====== -->
 			<ol class="breadcrumb r-0">
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Library</a></li>
-				<li class="active">Data</li>
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">Administracion Usuarios</a></li>
+				<li class="active">Admin Funcionarios</li>
 			</ol>
 			<!-- ======FIN Breadcrumb====== -->
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
@@ -35,9 +35,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="card">
-							<div class="card-header">
-								<strong>Administracion Funcionarios</strong>
-							</div>
+							<div class="card-header">Administracion Funcionarios</div>
 							<div class="card-block">
 
 								<div class="row">
@@ -54,24 +52,29 @@
 
 								<h:panelGrid columns="1" layout="grid">
 									<p:growl id="msgs" showDetail="true" />
-									<p:dataTable id="basicDT" var="user"
-										value="#{funcionariosMB.usuarios}">
-										<p:column headerText="Identificacion">
+									<p:dataTable id="basicDT" var="user" value="#{funcionariosMB.usuarios}" >										
+										<p:column headerText="Identificacion" sortBy="#{user.persona.numIdentificacion}" 
+											filterBy="#{user.persona.numIdentificacion}" filterStyle="height:20px;">
 											<h:outputText value="#{user.persona.numIdentificacion}" />
 										</p:column>
-										<p:column headerText="Nombres">
+										<p:column headerText="Nombres" sortBy="#{user.persona.nombres}" 
+											filterBy="#{user.persona.nombres}" filterStyle="height:20px;">
 											<h:outputText value="#{user.persona.nombres}" />
 										</p:column>
-										<p:column headerText="Apellidos">
+										<p:column headerText="Apellidos" sortBy="#{user.persona.apellidos}" 
+											filterBy="#{user.persona.apellidos}" filterStyle="height:20px;">
 											<h:outputText value="#{user.persona.apellidos}" />
 										</p:column>
-										<p:column headerText="e-mail">
+										<p:column headerText="e-mail" sortBy="#{user.persona.email}" 
+											filterBy="#{user.persona.email}" filterStyle="height:20px;">
 											<h:outputText value="#{user.persona.email}" />
 										</p:column>
-										<p:column headerText="Municipio">
+										<p:column headerText="Municipio" sortBy="#{user.municipio.nombre}" 
+											filterBy="#{user.municipio.nombre}" filterStyle="height:20px;">
 											<h:outputText value="#{user.municipio.nombre}" />
 										</p:column>
-										<p:column headerText="Rol">
+										<p:column headerText="Rol" sortBy="#{user.role.nombre}" 
+											filterBy="#{user.role.nombre}" filterStyle="height:20px;">
 											<h:outputText value="#{user.role.nombre}" />
 										</p:column>
 
@@ -81,6 +84,8 @@
 												icon="ui-icon-search" title="View">
 												<f:setPropertyActionListener value="#{user}"
 													target="#{funcionariosMB.usuarioSelecc}" />
+												<f:setPropertyActionListener value="#{false}"
+													target="#{funcionariosMB.creacion}" />
 											</p:commandButton>
 
 										</p:column>
@@ -96,19 +101,17 @@
 
 
 			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
-				hideEffect="fade" resizable="true">
-				
+				hideEffect="fade" resizable="true">				
 				<p:scrollPanel id="carDetail" mode="native" style="height:600px">
-<!-- 				<p:outputPanel id="carDetail"> -->
+
 					<form jsf:id="formD">
-					
-					
+										
 					<div class="row">
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<strong>Información Funcionario</strong>
-									</div>
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<strong>Información Funcionario</strong>
+								</div>
 
 						<div class="card-block">
 						
@@ -210,32 +213,28 @@
 							</div>
 							</div>
 						</div>
-						
-						
-							
+																			
 
-									</div>
-								</div>
-
-								<div class="card-footer">
-									<button jsf:id="registroBtn"
-										jsf:action="#{funcionariosMB.persistirUsuario}"
-										class="btn btn-sm btn-primary">
-										<i class="fa fa-dot-circle-o"></i> Guardar
-									</button>
-									<button onclick="PF('carDialog').hidden()"
-										class="btn btn-sm btn-danger">
-										<i class="fa fa-ban"></i> Cancelar
-									</button>
-								</div>
-							</div>
 						</div>
+					</div>
 
-					</form>
-<!-- 				</p:outputPanel> -->
-					</p:scrollPanel>
-			</p:dialog>
-
+						<div class="card-footer">
+							<button jsf:id="registroBtn"
+								jsf:action="#{funcionariosMB.persistirUsuario}"
+								class="btn btn-sm btn-primary">
+								<i class="fa fa-floppy-o"></i> Guardar
+							</button>
+							<button onclick="PF('carDialog').hide();$('#formD').trigger('reset');"								
+								class="btn btn-sm btn-danger">
+								<i class="fa fa-ban"></i> Cancelar
+							</button>
+						</div>
+								
+						</div>
+					</div>
+				</form>
+				</p:scrollPanel>
+		</p:dialog>
 
 		</ui:define>
 	</ui:composition>

@@ -1,7 +1,11 @@
 package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.uniandes.ecos.util.Constantes;
+
 import java.util.List;
 
 
@@ -27,6 +31,9 @@ public class UsuariosCiudadano extends UsuarioSesion implements Serializable {
 	
 	@Transient
 	private String contraseniaVal;
+	
+	@Transient
+	private boolean activo;
 	
 
 	//bi-directional many-to-one association to Tramite
@@ -121,6 +128,30 @@ public class UsuariosCiudadano extends UsuarioSesion implements Serializable {
 	 */
 	public void setContraseniaVal(String contraseniaVal) {
 		this.contraseniaVal = contraseniaVal;
+	}
+	
+	/**
+	 * @return the activo
+	 */
+	public boolean isActivo() {	
+		if (Constantes.ACTIVO.equalsIgnoreCase(this.estado)) {
+			activo = true;
+		} else {
+			activo = false;
+		}
+		return activo;
+	}
+
+	/**
+	 * @param activo the activo to set
+	 */
+	public void setActivo(boolean activo) {		
+		if (activo) {
+			this.estado = Constantes.ACTIVO;
+		} else {
+			this.estado = Constantes.INACTIVO;
+		}		
+		this.activo = activo;
 	}
 
 }
