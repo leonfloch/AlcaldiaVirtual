@@ -55,6 +55,8 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 //	@Column(name="MUNICIPIO_ID")
 //	private long municipioId;
 
+	
+
 	//bi-directional many-to-one association to CambioEstadoTramite
 	@OneToMany(mappedBy="usuariosFuncionario")
 	private List<CambioEstadoTramite> cambiosEstadoTramites;
@@ -150,33 +152,6 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 		this.persona = persona;
 	}
 
-//	/**
-//	 * @return the rolId
-//	 */
-//	public long getRolId() {
-//		return rolId;
-//	}
-//
-//	/**
-//	 * @param rolId the rolId to set
-//	 */
-//	public void setRolId(long rolId) {
-//		this.rolId = rolId;
-//	}
-
-//	/**
-//	 * @return the municipioId
-//	 */
-//	public long getMunicipioId() {
-//		return municipioId;
-//	}
-//
-//	/**
-//	 * @param municipioId the municipioId to set
-//	 */
-//	public void setMunicipioId(long municipioId) {
-//		this.municipioId = municipioId;
-//	}
 
 	/**
 	 * @return the contraseniaVal
@@ -209,7 +184,7 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 	/**
 	 * @return the activo
 	 */
-	public boolean isActivo() {
+	public boolean isActivo() {	
 		if (Constantes.ACTIVO.equalsIgnoreCase(this.estado)) {
 			activo = true;
 		} else {
@@ -221,8 +196,27 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 	/**
 	 * @param activo the activo to set
 	 */
-	public void setActivo(boolean activo) {
+	public void setActivo(boolean activo) {		
+		if (activo) {
+			this.estado = Constantes.ACTIVO;
+		} else {
+			this.estado = Constantes.INACTIVO;
+		}		
 		this.activo = activo;
+	}
+	
+	/**
+	 * @return the municipio
+	 */
+	public Municipio getMunicipio() {
+		return municipio;
+	}
+
+	/**
+	 * @param municipio the municipio to set
+	 */
+	public void setMunicipio(Municipio municipio) {
+		this.municipio = municipio;
 	}
 	
 }

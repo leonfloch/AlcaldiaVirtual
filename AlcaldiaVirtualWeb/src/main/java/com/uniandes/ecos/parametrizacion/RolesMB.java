@@ -171,12 +171,11 @@ public class RolesMB extends BaseMBean {
 				permisoXrol.setFuncionalidade(funcionalidad);
 				permisoXrol.setRole(rolSeleccionado);
 				rolSeleccionado.addPermisosXRol(permisoXrol);
-			}
-			rolSeleccionado.setEstado(rolSeleccionado.isActivo() ? 
-					Constantes.ACTIVO : Constantes.INACTIVO);
+			}			
 			
 			if (creacion) {				
 				iParametrizacionFacade.crearRol(rolSeleccionado);
+				roles = iParametrizacionFacade.obtenerRoles();
 			} else {
 				iParametrizacionFacade.actualizarRol(rolSeleccionado);
 			}

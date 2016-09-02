@@ -138,8 +138,22 @@ public class Rol implements Serializable {
 	 * @param activo the activo to set
 	 */
 	public void setActivo(boolean activo) {
+		if (activo) {
+			this.estado = Constantes.ACTIVO;
+		} else {
+			this.estado = Constantes.INACTIVO;
+		}		
 		this.activo = activo;
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+    public boolean equals(Object other) {
+        return (other instanceof Rol) ? rolId == ((Rol) other).rolId : (other == this);
+    }
+	
 	
 	/**
 	 * 

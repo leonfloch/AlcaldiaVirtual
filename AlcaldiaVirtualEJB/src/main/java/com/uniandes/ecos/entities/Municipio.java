@@ -1,7 +1,9 @@
 package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -114,6 +116,14 @@ public class Municipio implements Serializable {
 	public String toString() {
 		return this.nombre;
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+    public boolean equals(Object other) {
+        return (other instanceof Municipio) ? municipioId == ((Municipio) other).municipioId : (other == this);
+    }
 
 //	public UsuariosFuncionario addUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
 //		getUsuariosFuncionarios().add(usuariosFuncionario);
