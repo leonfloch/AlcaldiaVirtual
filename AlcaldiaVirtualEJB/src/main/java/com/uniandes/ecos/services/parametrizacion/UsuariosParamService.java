@@ -368,6 +368,34 @@ public class UsuariosParamService implements IUsuariosParamService {
 		return municipiosList;		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#obtenerCiudadanos()
+	 */
+	@Override
+	public List<UsuariosCiudadano> obtenerCiudadanos() throws NegocioException {
+		List<UsuariosCiudadano> ciudadanos = new ArrayList<UsuariosCiudadano>();
+		try {
+			Query query = this.em.createNamedQuery("UsuariosCiudadano.findAll");		
+			ciudadanos = query.getResultList();
+		} catch (NoResultException e) {
+			throw new NegocioException(Constantes.ERROR, 0, "No existen ciudadanos parametrizados en el sistema.");
+		}
+		return ciudadanos;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService#actualizarCiudadano(com.uniandes.ecos.entities.UsuariosCiudadano)
+	 */
+	@Override
+	public void actualizarCiudadano(UsuariosCiudadano ciudadano)
+			throws NegocioException {
+		BaseDao<UsuariosCiudadano, String> ciudadanoDao = new BaseDao<UsuariosCiudadano, String>(
+				UsuariosCiudadano.class, this.em);
+		ciudadanoDao.merge(ciudadano);
+	}
+
 	
 
 

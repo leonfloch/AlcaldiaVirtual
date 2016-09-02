@@ -226,6 +226,21 @@ public class ParametrizacionFacade implements IParametrizacionFacade{
 	public List<Municipio> obtenerMunicipios() throws NegocioException {
 		return usuariosParamService.obtenerMunicipios();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParametrizacionFacade#obtenerCiudadanos()
+	 */
+	@Override
+	public List<UsuariosCiudadano> obtenerCiudadanos() throws NegocioException {
+		return usuariosParamService.obtenerCiudadanos();
+	}
+
+	@Override
+	public void actualizarCiudadano(UsuariosCiudadano ciudadano)
+			throws NegocioException {
+		usuariosParamService.actualizarCiudadano(ciudadano);		
+	}
 	
 	
 

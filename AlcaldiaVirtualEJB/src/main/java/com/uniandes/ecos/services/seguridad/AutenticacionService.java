@@ -14,6 +14,7 @@ import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService;
 import com.uniandes.ecos.interfaz.services.seguridad.IAutenticacionService;
+import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
 import com.uniandes.ecos.util.SeguridadException;
 
@@ -74,6 +75,10 @@ public class AutenticacionService implements IAutenticacionService {
 			UsuariosCiudadano ciudadano = usuariosParamService.obtenerCiudadano(cedula);			
 			if (ciudadano == null || !ciudadano.getContrasenia().equals(password)) {
 				throw new SeguridadException("Usuario o clave invalida");
+			} else if (!Constantes.ACTIVO.equalsIgnoreCase(ciudadano.getEstado())) {
+				throw new SeguridadException("Usuario Inactivo");
+			} else if (!Constantes.ACTIVO.equalsIgnoreCase(ciudadano.getRole().getEstado())) {
+				throw new SeguridadException("Perfil Inactivo");
 			}
 			return ciudadano;
 		} catch (NegocioException e) {
@@ -92,6 +97,10 @@ public class AutenticacionService implements IAutenticacionService {
 			UsuariosFuncionario funcionario = usuariosParamService.obtenerFuncionario(String.valueOf(cedula));
 			if (funcionario == null || !funcionario.getContrasenia().equals(password)) {
 				throw new SeguridadException("Usuario o clave invalida");
+			} else if (!Constantes.ACTIVO.equalsIgnoreCase(funcionario.getEstado())) {
+				throw new SeguridadException("Usuario Inactivo");
+			} else if (!Constantes.ACTIVO.equalsIgnoreCase(funcionario.getRole().getEstado())) {
+				throw new SeguridadException("Perfil Inactivo");
 			}
 			return funcionario;
 		} catch (NegocioException e) {

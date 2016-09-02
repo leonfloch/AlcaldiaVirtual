@@ -3,24 +3,23 @@
  */
 package com.uniandes.ecos.parametrizacion;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
-import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
+ * Mbean encargado de la parametrizacion de funcionarios
  * @author 80221940
  *
  */
@@ -60,7 +59,12 @@ public class FuncionariosMB extends BaseMBean {
 	/**
 	 * indica si se cra un nuevo funcionario
 	 */
-	private boolean creacion;
+	private boolean creacion;	
+	
+	/**
+	 * indica si se muestra la lista de municipios
+	 */
+	private boolean muestraMunicipio;
 	
 	
 	
@@ -70,14 +74,13 @@ public class FuncionariosMB extends BaseMBean {
 	 */
 	public FuncionariosMB () {
 		creacion = false;
+		muestraMunicipio = false;
 		this.initFuncionario();
-		
-				
-		
+
 	}
 	
 	/**
-	 * 
+	 * limpia la informacion del funcionario
 	 */
 	private void initFuncionario() {
 		usuarioSelecc = new UsuariosFuncionario();
@@ -95,7 +98,7 @@ public class FuncionariosMB extends BaseMBean {
 		try {			
 			usuarios = iParametrizacionFacade.obtenerFuncionarios(this.getSesion().getMunicipioId());
 			roles = iParametrizacionFacade.obtenerRoles();
-			municipios = iParametrizacionFacade.obtenerMunicipios();
+			municipios = new ArrayList<Municipio>();
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}		
@@ -104,19 +107,12 @@ public class FuncionariosMB extends BaseMBean {
 	/**
 	 * Se ejecuta antes de abril el modal de edicion de usuarios
 	 */
-	public void preModal() {
-		
+	public void preModal() {		
 		if (creacion) {
 			this.initFuncionario();
+		} else {
+			this.validaMunicipios();
 		}
-		
-		
-			
-			
-			
-			
-		
-		
 	}
 	
 	
@@ -124,9 +120,7 @@ public class FuncionariosMB extends BaseMBean {
 	 * Persiste el usuario seleccionado
 	 */
 	public void persistirUsuario() {
-		try {		
-			usuarioSelecc.setEstado(usuarioSelecc.isActivo() ? 
-					Constantes.ACTIVO : Constantes.INACTIVO);			
+		try {
 			usuarioSelecc.setUsuario(String.valueOf(usuarioSelecc.getPersona().getNumIdentificacion()));			
 							
 			if (creacion) {
@@ -140,7 +134,26 @@ public class FuncionariosMB extends BaseMBean {
 		}
 		creacion = false;
 	}
-
+	
+	
+	
+	/**
+	 * Valida si se deben cargar o no municipios
+	 */
+	public void validaMunicipios() {
+		municipios = new ArrayList<Municipio>();
+		
+		if (usuarioSelecc.getRole() != null) {
+			if (Constantes.ROL_ADMIN_MINTIC != usuarioSelecc.getRole().getRolId() && 
+					Constantes.ROL_CIUDADANO != usuarioSelecc.getRole().getRolId()) {
+				try {
+					municipios = iParametrizacionFacade.obtenerMunicipios();
+				} catch (NegocioException e) {
+				}				
+			}
+		}		
+	}
+	
 
 	/**
 	 * @return the usuarios
@@ -190,9 +203,6 @@ public class FuncionariosMB extends BaseMBean {
 	}
 
 
-	
-
-
 	/**
 	 * @return the creacion
 	 */
@@ -204,7 +214,7 @@ public class FuncionariosMB extends BaseMBean {
 	/**
 	 * @param creacion the creacion to set
 	 */
-	public void setCreacion(boolean creacion) {
+	public void setCreacion(boolean creacion) {		
 		this.creacion = creacion;
 	}
 
@@ -224,9 +234,18 @@ public class FuncionariosMB extends BaseMBean {
 		this.municipios = municipios;
 	}
 
+	/**
+	 * @return the muestraMunicipio
+	 */
+	public boolean isMuestraMunicipio() {
+		return muestraMunicipio;
+	}
 
-
-
-	
+	/**
+	 * @param muestraMunicipio the muestraMunicipio to set
+	 */
+	public void setMuestraMunicipio(boolean muestraMunicipio) {
+		this.muestraMunicipio = muestraMunicipio;
+	}
 
 }

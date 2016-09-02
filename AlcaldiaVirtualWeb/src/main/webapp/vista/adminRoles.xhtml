@@ -19,9 +19,9 @@
 		<ui:define name="content">
 			<!-- ======Breadcrumb====== -->
 			<ol class="breadcrumb r-0">
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Library</a></li>
-				<li class="active">Data</li>
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">Administracion Usuarios</a></li>
+				<li class="active">Admin Roles</li>
 			</ol>
 			<!-- ======FIN Breadcrumb====== -->
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
@@ -60,17 +60,23 @@
 
 						<p:growl id="msgs" showDetail="true" />
 						<p:dataTable id="basicDT" var="rol" value="#{rolesMB.roles}">
-							<p:column headerText="Nombre">
+							
+							<p:column headerText="Nombre" sortBy="#{rol.nombre}" 
+								filterBy="#{rol.nombre}" filterStyle="height:20px;">
 								<h:outputText value="#{rol.nombre}" />
 							</p:column>
-							<p:column headerText="Descripcion">
+							
+							<p:column headerText="Descripcion" sortBy="#{rol.descripcion}" 
+								filterBy="#{rol.descripcion}" filterStyle="height:20px;">
 								<h:outputText value="#{rol.descripcion}" />
 							</p:column>
-							<p:column headerText="Estado">
+							
+							<p:column headerText="Estado" sortBy="#{rol.estado}" 
+								filterBy="#{rol.estado}" filterStyle="height:20px;">
 								<h:outputText value="#{rol.estado}" />
 							</p:column>
 
-							<p:column style="width:32px;text-align: center">
+							<p:column style="width:5%;text-align: center">
 								<p:commandButton action="#{rolesMB.preModal}" update=":formD :form"
 									oncomplete="PF('carDialog').show()" icon="ui-icon-search"
 									title="View">
@@ -140,9 +146,10 @@
 									<button jsf:id="registroBtn"
 										jsf:action="#{rolesMB.persistirRol}"
 										class="btn btn-sm btn-primary">
-										<i class="fa fa-dot-circle-o"></i> Guardar
+										<i class="fa fa-floppy-o"></i> Guardar
 									</button>
-									<button type="submit" onclick="PF('carDialog').hidden()" class="btn btn-sm btn-danger">
+									<button onclick="PF('carDialog').hide();$('#formD').trigger('reset');"
+										class="btn btn-sm btn-danger">
 										<i class="fa fa-ban"></i> Cancelar
 									</button>
 								</div>
