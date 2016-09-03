@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.uniandes.ecos.services.parametrizacion;
 
@@ -9,6 +9,7 @@ import com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 
 /**
  * Implementacion Servicio encargado de crear los tipo tramites
+ *
  * @author 80221940
  *
  */

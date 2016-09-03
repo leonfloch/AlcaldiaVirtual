@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.uniandes.ecos.services.procesador;
 
@@ -16,30 +16,31 @@ import com.uniandes.ecos.util.NegocioException;
 
 /**
  * Implementacion Servicio encargado de el envio de correos electronicos
+ *
  * @author 80221940
  *
  */
 @Stateless
 public class CorreosService implements ICorreosService {
-	
-	private static Logger log = Logger.getLogger(CorreosService.class.getName());
-	
-	/*
+
+    private static Logger log = Logger.getLogger(CorreosService.class.getName());
+
+    /*
 	 * (non-Javadoc)
 	 * @see com.uniandes.ecos.interfaz.services.procesador.ICorreosService#
 	 * enviarCorreo(com.uniandes.ecos.dtos.CorreoElectronicoDto)
-	 */
-	@Override
-	public void enviarCorreo(CorreoElectronicoDto correoElectronicoDto) throws NegocioException {
-		try {
-			JavaMailSender.enviarCorreo(correoElectronicoDto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.log(Level.WARNING, e.getMessage());
-			throw new NegocioException('E', Constantes.CODIGO_ERROR_ENVIO_CORREO,
-					"Se ha presentado un error al enviar el correo");
-		}
-		
-	}
+     */
+    @Override
+    public void enviarCorreo(CorreoElectronicoDto correoElectronicoDto) throws NegocioException {
+        try {
+            JavaMailSender.enviarCorreo(correoElectronicoDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.log(Level.WARNING, e.getMessage());
+            throw new NegocioException('E', Constantes.CODIGO_ERROR_ENVIO_CORREO,
+                    "Se ha presentado un error al enviar el correo");
+        }
+
+    }
 
 }
