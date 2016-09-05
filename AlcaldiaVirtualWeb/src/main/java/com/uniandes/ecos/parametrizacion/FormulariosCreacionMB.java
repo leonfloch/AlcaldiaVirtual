@@ -201,10 +201,11 @@ public class FormulariosCreacionMB extends BaseMBean {
 			if (campoAux.getNombre().trim().equals(this.campoFormulario.getNombre().trim())) {
 				mensaje = "Ya existe un campo en el formulario con el label ingresado";
 				break;
-			} else if(campoAux.getPosicion() == this.campoFormulario.getPosicion()){
-				mensaje = "Ya existe un campo para el formulario con la posici\u00F3n ingresada."; 
-				break;
-			}
+			} 
+//			else if(campoAux.getPosicion() == this.campoFormulario.getPosicion()){
+//				mensaje = "Ya existe un campo para el formulario con la posici\u00F3n ingresada."; 
+//				break;
+//			}
 		}
 		
 		return mensaje;

@@ -52,6 +52,7 @@
 														<p:dataTable id="tblCampos" var="campo" rendered="#{!empty formulariosCreacionMB.formulario.camposFormularios}"
 															value="#{formulariosCreacionMB.formulario.camposFormularios}" reflow="true" rows="5" paginator="true"
 															draggableRows="true" rowIndexVar="index">
+															<p:ajax event="rowReorder" update=":formListado:tblCampos" />
 															<p:column style="text-align: center;" headerText="#{msg.creacion_formulario_campo_tipo}">
 																<h:outputText value="#{campo.tiposCampo.nombre}" />
 														    </p:column>
