@@ -56,7 +56,7 @@ public class FormulariosParamService implements IFormulariosParamService {
      */
     @Override
     public void crearFormulario(Formulario formulario) throws NegocioException {
-        if (existeNombreFormulario(formulario.getNombre())) {
+        if (existeNombreFormulario(formulario)) {
             throw new NegocioException(Constantes.ERROR, 0, "Ya existe un formulario con el mismo nombre, por favor verifique.");
         } else {
             int cont = 0;
@@ -75,7 +75,7 @@ public class FormulariosParamService implements IFormulariosParamService {
      */
     @Override
     public void actualizarFormulario(Formulario formulario) throws NegocioException {
-        if (existeNombreFormulario(formulario.getNombre())) {
+        if (existeNombreFormulario(formulario)) {
             throw new NegocioException(Constantes.ERROR, 0, "Ya existe un formulario con el mismo nombre, por favor verifique.");
         } else {
             int cont = 0;
@@ -161,15 +161,17 @@ public class FormulariosParamService implements IFormulariosParamService {
      *
      * @return
      */
-    private boolean existeNombreFormulario(String nombre) {
+    private boolean existeNombreFormulario(Formulario formulario) {
         boolean existeNombreFormulario = false;
 
         Query query = this.em.createNamedQuery("Formulario.findByNombre");
-        query.setParameter("nombre", nombre.toUpperCase());
+        query.setParameter("nombre", formulario.getNombre().toUpperCase());
 
         try {
-            query.getSingleResult();
-            existeNombreFormulario = true;
+            Formulario formularioExistente = (Formulario) query.getSingleResult();
+            if (formularioExistente.getFormularioId() != formulario.getFormularioId()) {
+            	existeNombreFormulario = true;
+			}
         } catch (NoResultException e) {
         }
 

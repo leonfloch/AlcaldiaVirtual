@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 
-import org.primefaces.event.ReorderEvent;
+import org.primefaces.context.RequestContext;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.comun.RutasApp;
@@ -110,6 +110,10 @@ public class FormulariosCreacionMB extends BaseMBean {
 			this.adicionarMensaje(Constantes.ERROR, mensaje);
 			return;
 		}
+		
+		//Si no hay errores se cierra el popup.
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dlgCampoNuevo').hide();");
 	}
 	
 	/**
@@ -121,6 +125,10 @@ public class FormulariosCreacionMB extends BaseMBean {
 			this.adicionarMensaje(Constantes.ERROR, mensaje);
 			return;
 		}
+		
+		//Si no hay errores se cierra el popup.
+		RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dlgCampoNuevo').hide();");
 	}
 	
 	/**
@@ -159,12 +167,13 @@ public class FormulariosCreacionMB extends BaseMBean {
 		}
 		try {
 			iParamTramitesFacade.crearFormulario(this.formulario);
+			return RutasApp.FORMULARIOS_ADMINISTRACION_RUTA;
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());	
+			return "";
 		}
 		
-		return RutasApp.FORMULARIOS_ADMINISTRACION_RUTA;
 	}
 	
 	/**
@@ -181,12 +190,13 @@ public class FormulariosCreacionMB extends BaseMBean {
 		}
 		try {
 			iParamTramitesFacade.actualizarFormulario(this.formulario);
+			return RutasApp.FORMULARIOS_ADMINISTRACION_RUTA;
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());	
+			return "";
 		}
 		
-		return RutasApp.FORMULARIOS_ADMINISTRACION_RUTA;
 	}
 	
 	/**
@@ -198,7 +208,7 @@ public class FormulariosCreacionMB extends BaseMBean {
 		
 		
 		for (CampoFormulario campoAux : this.formulario.getCamposFormularios()) {
-			if (campoAux.getNombre().trim().equals(this.campoFormulario.getNombre().trim())) {
+			if (campoAux.getCampoId() != this.campoFormulario.getCampoId() && campoAux.getNombre().trim().toUpperCase().equals(this.campoFormulario.getNombre().trim().toUpperCase())) {
 				mensaje = "Ya existe un campo en el formulario con el label ingresado";
 				break;
 			} 

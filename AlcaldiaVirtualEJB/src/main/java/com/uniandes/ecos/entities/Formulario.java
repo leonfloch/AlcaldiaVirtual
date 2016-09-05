@@ -33,6 +33,7 @@ public class Formulario implements Serializable {
 
 	//bi-directional many-to-one association to CampoFormulario
 	@OneToMany(mappedBy="formulario", cascade = CascadeType.ALL)
+	@OrderBy("posicion ASC")
 	private List<CampoFormulario> camposFormularios;
 
 	//bi-directional many-to-one association to DocumentoRequerido

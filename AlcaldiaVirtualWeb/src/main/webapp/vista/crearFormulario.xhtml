@@ -216,13 +216,12 @@
 
 								<div class="card-footer">
 									<button jsf:id="btnGuardarCampo" jsf:rendered="#{!formulariosCreacionMB.modificacion}"
-										jsf:action="#{formulariosCreacionMB.adicionarCampo}" jsf:oncomplete="PF('dlgCampoNuevo').hide()"
+										jsf:action="#{formulariosCreacionMB.adicionarCampo}"
 										class="btn btn-sm btn-primary">
 										<i class="fa fa-floppy-o"></i> #{msg.boton_adicionar}
 									</button>
 									<button jsf:id="btnActualizarCampo" jsf:rendered="#{formulariosCreacionMB.modificacion}"
 										jsf:action="#{formulariosCreacionMB.actualizarCampo}"
-										jsf:oncomplete="PF('dlgCampoNuevo').hide()"
 										class="btn btn-sm btn-primary">
 										<i class="fa fa-floppy-o"></i> #{msg.boton_guardar}
 									</button>
