@@ -1,0 +1,148 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<body jsf:id="bodyMain">
+
+	<ui:composition template="layout.xhtml">
+		<ui:define name="content">
+			<!-- ======Breadcrumb====== -->
+			<ol class="breadcrumb r-0">
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">Tipos de Tramites</a></li>
+				<li class="active">Administrar Tipos de Tramite</li>
+			</ol>
+			<!-- ======FIN Breadcrumb====== -->
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
+			</p:dialog>
+
+			<form jsf:id="form">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">Administración Tipos Trámite</div>
+							<div class="card-block">
+
+								<div class="row">
+									<div class="col-md-9"></div>
+									<div class="col-md-3">
+										<p:commandButton action="#{tipoTramiteMB.preModal}"
+											update=":formD" oncomplete="PF('carDialog').show()"
+											value="Crear Tipo Tramite">
+											<f:setPropertyActionListener value="#{true}"
+												target="#{tipoTramiteMB.creacion}" />
+										</p:commandButton>
+									</div>
+								</div>
+
+								<h:panelGrid columns="1" layout="grid">
+									<p:growl id="msgs" showDetail="true" />
+									<p:dataTable id="basicDT" var="tipoTramite"
+										value="#{tipoTramiteMB.tiposTramite}">
+										<p:column headerText="Nombre" sortBy="#{tipoTramite.nombre}"
+											filterBy="#{tipoTramite.nombre}" filterStyle="height:20px;">
+											<h:outputText value="#{tipoTramite.nombre}" />
+										</p:column>
+										<p:column headerText="Descripción" filterStyle="height:20px;">
+											<h:outputText value="#{tipoTramite.descripcion}" />
+										</p:column>
+										<p:column headerText="Valor" sortBy="#{tipoTramite.valor}"
+											filterBy="#{tipoTramite.valor}" filterStyle="height:20px;">
+											<h:outputText value="#{tipoTramite.valor}" />
+										</p:column>
+										<p:column style="width:5%;text-align: center">
+											<p:commandButton action="#{tipoTramiteMB.preModal}"
+												update=":formD :form" oncomplete="PF('carDialog').show()"
+												icon="ui-icon-search" title="View">
+												<f:setPropertyActionListener value="#{tipoTramite}"
+													target="#{tipoTramiteMB.tipoTramiteSelecc}" />
+												<f:setPropertyActionListener value="#{false}"
+													target="#{tipoTramiteMB.creacion}" />
+											</p:commandButton>
+
+										</p:column>
+									</p:dataTable>
+
+								</h:panelGrid>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+
+			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
+				hideEffect="fade" resizable="true" header="Información Tipo Trámite">
+				<p:scrollPanel id="carDetail" mode="native">
+
+					<form jsf:id="formD">
+
+						<div class="row" style="width: 100%">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-block">
+
+										<div class="row">
+											<div class="form-group col-sm-6">
+												<label>Nombre</label> <input type="text" required="true"
+													placeholder="Nombre"
+													jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.nombre}"
+													class="form-control" style="width: 200px"></input>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="form-group col-sm-6" style="width: 100%">
+												<label>Descripción</label>
+												<textarea cols="60" rows="5" required="true"
+													placeholder="Descripción"
+													jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.descripcion}"
+													class="form-control" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-sm-6">
+												<label>Valor</label> <input type="number" required="true"
+													placeholder="Valor"
+													jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.valor}"
+													class="form-control" style="width: 200px"></input>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="card-footer">
+									<button jsf:id="registroBtn"
+										jsf:action="#{tipoTramiteMB.persistirTipoTramite}"
+										jsf:update="basicDT" class="btn btn-sm btn-primary">
+										<i class="fa fa-floppy-o"></i> Guardar
+									</button>
+									<button
+										onclick="PF('carDialog').hide();$('#formD').trigger('reset');"
+										class="btn btn-sm btn-danger">
+										<i class="fa fa-ban"></i> Cancelar
+									</button>
+								</div>
+
+							</div>
+						</div>
+					</form>
+				</p:scrollPanel>
+			</p:dialog>
+
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+
+</html>

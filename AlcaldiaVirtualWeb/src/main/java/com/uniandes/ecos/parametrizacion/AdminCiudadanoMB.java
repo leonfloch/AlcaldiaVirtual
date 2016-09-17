@@ -3,7 +3,6 @@
  */
 package com.uniandes.ecos.parametrizacion;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,13 +11,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import com.uniandes.ecos.comun.BaseMBean;
-import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.Persona;
-import com.uniandes.ecos.entities.Rol;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
-import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
-import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
 
 /**

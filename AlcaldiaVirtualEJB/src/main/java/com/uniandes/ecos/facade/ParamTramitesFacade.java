@@ -7,8 +7,10 @@ import javax.ejb.Stateless;
 
 import com.uniandes.ecos.entities.Formulario;
 import com.uniandes.ecos.entities.TipoCampo;
+import com.uniandes.ecos.entities.TipoTramite;
 import com.uniandes.ecos.interfaz.facade.IParamTramitesFacade;
 import com.uniandes.ecos.interfaz.services.parametrizacion.IFormulariosParamService;
+import com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -27,6 +29,13 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
      */
     @EJB
     private IFormulariosParamService iFormulariosParamService;
+    
+    /**
+     * Inyección de dependencia con componente de parametrización de
+     * tramites.
+     */
+    @EJB
+    private ITramitesParamService iTramitesParamService;
 
 
     /*
@@ -78,5 +87,26 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
     public List<TipoCampo> obtenerTiposCampoForm() throws NegocioException {
         return iFormulariosParamService.obtenerTiposCampoForm();
     }
+
+    /*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * crearTipoTramite()
+     */
+	@Override
+	public void crearTipoTramite(TipoTramite tipoTramite) throws NegocioException {
+		iTramitesParamService.crearTipoTramite(tipoTramite);
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * obtenerListaTramites()
+     */
+	@Override
+	public List<TipoTramite> obtenerListaTramites(String nombre) throws NegocioException {
+		return iTramitesParamService.obtenerListaTramites(nombre);
+	}
 
 }

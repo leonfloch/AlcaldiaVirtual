@@ -15,7 +15,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="TIPOS_TRAMITE")
-@NamedQuery(name="TipoTramite.findAll", query="SELECT t FROM TipoTramite t")
+@NamedQueries({
+	@NamedQuery(name="TipoTramite.findAll", query="SELECT t FROM TipoTramite t"),
+	@NamedQuery(name="TipoTramite.findByNombreLike", query="SELECT t FROM TipoTramite t WHERE UPPER(t.nombre) LIKE :nombre")
+})
 public class TipoTramite implements Serializable {
 	private static final long serialVersionUID = 1L;
 
