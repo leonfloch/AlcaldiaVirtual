@@ -8,8 +8,11 @@ package com.uniandes.ecos.util;
  * @date 18/07/2016
  */
 public class Constantes {
+	
+	public static final long MUNICIPIO_ID_DEMO = 002;
 
     public static final String SESION_USUARIO = "usuario";
+    public static final String SESION_MUNICIPIO_CIUDADANO = "sesionMunicipio";
 
     //manejo de excepciones
     public static final String ADVERTENCIA = "W";

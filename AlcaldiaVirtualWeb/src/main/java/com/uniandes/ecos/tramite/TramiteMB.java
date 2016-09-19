@@ -11,8 +11,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import com.uniandes.ecos.comun.BaseMBean;
+import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoTramite;
 import com.uniandes.ecos.entities.TramiteXMunicipio;
+import com.uniandes.ecos.entities.UsuarioSesion;
+import com.uniandes.ecos.util.Constantes;
 
 /**
  * mbean encargado de realizar el proceso de tramites para los 
@@ -35,18 +38,25 @@ public class TramiteMB extends BaseMBean {
 	private List<TipoTramite> tiposTramites;
 	
 	/**
+	 * Municipio de la alcaldia donde se redirecciono al ciudadano
+	 */
+	private Municipio alcaldiaMunicipio;
+	
+	/**
 	 * Constructor
 	 */
 	public TramiteMB() {
 		tiposTramites = new ArrayList<TipoTramite>();
+		alcaldiaMunicipio = (Municipio)obtenerVariableSesion(Constantes.SESION_MUNICIPIO_CIUDADANO);
 	}
 	
 	/**
 	 * 
 	 */
 	@PostConstruct
-	public void init() {
+	public void init() {		
 		this.cargarTiposTramites();
+		
 	}
 	
 	/**
@@ -63,9 +73,10 @@ public class TramiteMB extends BaseMBean {
 	 * Se cargan los tipos de tramites para el municipio en sesion
 	 */
 	private void cargarTiposTramites() {
-//		for (TramiteXMunicipio tramiteXMunicipio : this.getSesion().getMunicipio().getTramitesXMunicipios()) {
-//			tiposTramites.add(tramiteXMunicipio.getTiposTramite());
-//		}
+
+		for (TramiteXMunicipio tramiteXMunicipio : alcaldiaMunicipio.getTramitesXMunicipios()) {
+			tiposTramites.add(tramiteXMunicipio.getTiposTramite());
+		}
 	}
 
 
@@ -82,6 +93,20 @@ public class TramiteMB extends BaseMBean {
 	 */
 	public void setTiposTramites(List<TipoTramite> tiposTramites) {
 		this.tiposTramites = tiposTramites;
+	}
+
+	/**
+	 * @return the alcaldiaMunicipio
+	 */
+	public Municipio getAlcaldiaMunicipio() {
+		return alcaldiaMunicipio;
+	}
+
+	/**
+	 * @param alcaldiaMunicipio the alcaldiaMunicipio to set
+	 */
+	public void setAlcaldiaMunicipio(Municipio alcaldiaMunicipio) {
+		this.alcaldiaMunicipio = alcaldiaMunicipio;
 	}
 
 }
