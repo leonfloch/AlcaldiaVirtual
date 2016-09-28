@@ -1,0 +1,82 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<body jsf:id="bodyMain">
+
+	<ui:composition template="layout.xhtml">
+		<ui:define name="content">
+			<!-- ======Breadcrumb====== -->
+			<ol class="breadcrumb r-0">
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Library</a></li>
+				<li class="active">Data</li>
+			</ol>
+			<!-- ======FIN Breadcrumb====== -->
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
+			</p:dialog>
+
+			<form jsf:id="form">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">Tipos de Tramite</div>
+							<div class="card-block">
+							
+								<h:panelGrid columns="1" layout="grid">
+									<p:growl id="msgs" showDetail="true" />
+									<p:dataTable id="basicDT" var="tipo" value="#{tramiteMB.tiposTramites}" >										
+										
+										<p:column headerText="Nombre" sortBy="#{tipo.nombre}" 
+											filterBy="#{tipo.descripcion}" filterStyle="height:20px;">
+											<h:outputText value="#{tipo.nombre}" />
+										</p:column>
+										<p:column headerText="Descripcion" sortBy="#{tipo.descripcion}" 
+											filterBy="#{tipo.descripcion}" filterStyle="height:20px;">
+											<h:outputText value="#{tipo.descripcion}" />
+										</p:column>
+																														
+										<p:column style="width:5%;text-align: center">
+											<p:commandButton action="#{tramiteMB.iniciarTramite}" value="Realizar Tramite">
+												<f:setPropertyActionListener value="#{tipo}"
+													target="#{tramiteMB.tipoTramite}" />
+																								
+											</p:commandButton>
+
+										</p:column>
+									</p:dataTable>
+
+								</h:panelGrid>
+							
+							
+							
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</form>
+
+
+
+
+
+
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+
+</html>

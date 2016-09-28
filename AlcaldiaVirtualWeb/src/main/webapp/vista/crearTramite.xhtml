@@ -28,32 +28,50 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="card">
-							<div class="card-header">Tipos de Tramite</div>
+							<div class="card-header">Crear Tramite</div>
 							<div class="card-block">
 							
-								<h:panelGrid columns="1" layout="grid">
+								
 									<p:growl id="msgs" showDetail="true" />
-									<p:dataTable id="basicDT" var="tipo" value="#{tramiteMB.tiposTramites}" >										
-										
-										<p:column headerText="Nombre" sortBy="#{tipo.nombre}" 
-											filterBy="#{tipo.descripcion}" filterStyle="height:20px;">
-											<h:outputText value="#{tipo.nombre}" />
-										</p:column>
-										<p:column headerText="Descripcion" sortBy="#{tipo.descripcion}" 
-											filterBy="#{tipo.descripcion}" filterStyle="height:20px;">
-											<h:outputText value="#{tipo.descripcion}" />
-										</p:column>
-																														
-										<p:column style="width:5%;text-align: center">
-											<p:commandButton action="#{tramiteMB.realizarTramite}" value="Realizar Tramite">
-																								
-											</p:commandButton>
+									
+									<div class="row">
+									<div class="col-md-12">
+									
+									
+									<p:wizard flowListener="#{userWizard.onFlowProcess}">
+								        <p:tab id="descripcion" title="Descripcion">
+								            
+												<div class="card">
+													<div class="card-header">Información Tramite</div>
+													<div class="card-block">
+													
+													<h:outputLabel value="#{tramiteMB.tipoTramite.nombre}"></h:outputLabel>
+								            
+								            		</div>
+								            	</div>
+								        </p:tab>
+								 
+								        <p:tab id="documentos" title="Documentos">
+								            <p:panel header="Documentos Requeridos">
+								                <p:messages />
+								                <h:panelGrid columns="2" columnClasses="label, value">
+								                    
+								                </h:panelGrid>
+								            </p:panel>
+								        </p:tab>
+								        <p:tab id="confirm" title="Confirmacion">
+								            <p:panel header="Confirmacion">
+								                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+								                
+								                </h:panelGrid>
+								            </p:panel>
+								        </p:tab>
+               
+									</p:wizard>
 
-										</p:column>
-									</p:dataTable>
-
-								</h:panelGrid>
-							
+									</div>
+									
+									</div>
 							
 							
 							</div>

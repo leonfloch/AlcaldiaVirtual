@@ -10,9 +10,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.primefaces.event.FlowEvent;
+
 import com.uniandes.ecos.comun.BaseMBean;
+import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoTramite;
+import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.entities.TramiteXMunicipio;
 import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.util.Constantes;
@@ -43,18 +47,31 @@ public class TramiteMB extends BaseMBean {
 	private Municipio alcaldiaMunicipio;
 	
 	/**
+	 * indica si se salta el wizard
+	 */
+	private boolean skip;
+	
+	/**
+	 * tipo tramite seleccionado por el ciudadano
+	 */
+	private TipoTramite tipoTramite;
+	
+	
+
+	/**
 	 * Constructor
 	 */
 	public TramiteMB() {
+		skip = false;
 		tiposTramites = new ArrayList<TipoTramite>();
-		alcaldiaMunicipio = (Municipio)obtenerVariableSesion(Constantes.SESION_MUNICIPIO_CIUDADANO);
 	}
 	
 	/**
 	 * 
 	 */
 	@PostConstruct
-	public void init() {		
+	public void init() {
+		alcaldiaMunicipio = (Municipio)obtenerVariableSesion(Constantes.SESION_MUNICIPIO_CIUDADANO);
 		this.cargarTiposTramites();
 		
 	}
@@ -64,9 +81,8 @@ public class TramiteMB extends BaseMBean {
 	 * seleccionado
 	 * @return
 	 */
-	public String realizarTramite() {
-		//TODO realizar implementacion
-		return null;
+	public String iniciarTramite() {		
+		return RutasApp.CREAR_TRAMITE;
 	}
 	
 	/**
@@ -78,6 +94,21 @@ public class TramiteMB extends BaseMBean {
 			tiposTramites.add(tramiteXMunicipio.getTiposTramite());
 		}
 	}
+	
+	/**
+	 * manejador del wizard
+	 * @param event
+	 * @return
+	 */
+	public String onFlowProcess(FlowEvent event) {
+        if(skip) {
+            skip = false;
+            return "confirm";
+        }
+        else {
+            return event.getNewStep();
+        }
+    }
 
 
 	/**
@@ -107,6 +138,33 @@ public class TramiteMB extends BaseMBean {
 	 */
 	public void setAlcaldiaMunicipio(Municipio alcaldiaMunicipio) {
 		this.alcaldiaMunicipio = alcaldiaMunicipio;
+	}
+	
+	
+	
+	
+	public boolean isSkip() {
+		return skip;
+	}
+
+	public void setSkip(boolean skip) {
+		this.skip = skip;
+	}
+
+
+
+	/**
+	 * @return the tipoTramite
+	 */
+	public TipoTramite getTipoTramite() {
+		return tipoTramite;
+	}
+
+	/**
+	 * @param tipoTramite the tipoTramite to set
+	 */
+	public void setTipoTramite(TipoTramite tipoTramite) {
+		this.tipoTramite = tipoTramite;
 	}
 
 }

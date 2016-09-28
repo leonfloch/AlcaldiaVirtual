@@ -12,6 +12,7 @@ import javax.faces.bean.SessionScoped;
 
 
 import com.uniandes.ecos.entities.Funcionalidad;
+import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.UsuarioSesion;
 import com.uniandes.ecos.util.Constantes;
@@ -35,6 +36,11 @@ public class MenuMB extends BaseMBean {
 	 */
 	private UsuarioSesion usuario;
 	
+	/**
+	 * Indica el municipio de la sesion
+	 */
+	private Municipio municipio;
+	
 	
 	
 	
@@ -45,6 +51,19 @@ public class MenuMB extends BaseMBean {
 	@PostConstruct
 	public void init() {
 		usuario = (UsuarioSesion)obtenerVariableSesion(Constantes.SESION_USUARIO);
+		cargarMunicipio();
+	}
+	
+	/**
+	 * Carga el municipio pada el menu
+	 */
+	private void cargarMunicipio() {
+		if (usuario.getMunicipio() != null) {
+			municipio = usuario.getMunicipio(); 
+		} else {
+			municipio = (Municipio)obtenerVariableSesion(Constantes.SESION_MUNICIPIO_CIUDADANO);
+		}
+			
 	}
 	
 	/**
@@ -103,6 +122,20 @@ public class MenuMB extends BaseMBean {
 	 */
 	public void setUsuario(UsuarioSesion usuario) {
 		this.usuario = usuario;
+	}
+
+	/**
+	 * @return the municipio
+	 */
+	public Municipio getMunicipio() {
+		return municipio;
+	}
+
+	/**
+	 * @param municipio the municipio to set
+	 */
+	public void setMunicipio(Municipio municipio) {
+		this.municipio = municipio;
 	}
 
 	

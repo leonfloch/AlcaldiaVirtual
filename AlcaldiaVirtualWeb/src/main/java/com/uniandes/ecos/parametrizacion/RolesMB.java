@@ -28,7 +28,7 @@ import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
- * Calse encargada del manejo de la parametrizacion de roles
+ * Clase encargada del manejo de la parametrizacion de roles
  * @author leonardovalbuenacalderon
  *
  */
