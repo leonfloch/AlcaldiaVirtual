@@ -4,10 +4,13 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 import com.uniandes.ecos.entities.Formulario;
+import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoCampo;
 import com.uniandes.ecos.entities.TipoTramite;
+import com.uniandes.ecos.entities.TramiteXMunicipio;
 import com.uniandes.ecos.interfaz.facade.IParamTramitesFacade;
 import com.uniandes.ecos.interfaz.services.parametrizacion.IFormulariosParamService;
 import com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService;
@@ -98,6 +101,15 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 		iTramitesParamService.crearTipoTramite(tipoTramite);
 		
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * actualizarTipoTramite()
+     */
+	@Override
+	public void actualizarTipoTramite(TipoTramite tipoTramite) throws NegocioException{
+		iTramitesParamService.actualizarTipoTramite(tipoTramite);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -105,8 +117,58 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 	 * obtenerListaTramites()
      */
 	@Override
-	public List<TipoTramite> obtenerListaTramites(String nombre) throws NegocioException {
-		return iTramitesParamService.obtenerListaTramites(nombre);
+	public List<TipoTramite> obtenerListaTiposTramites(String nombre) throws NegocioException {
+		return iTramitesParamService.obtenerListaTiposTramites(nombre);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * obtenerListaMunicipios()
+     */
+	@Override
+	public List<Municipio> obtenerListaMunicipios() throws NegocioException{
+		return iTramitesParamService.obtenerListaMunicipios();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * obtenerListaMunicipiosXTipoTramite()
+     */
+	@Override
+	public List<Municipio> obtenerListaMunicipiosXTipoTramite(long tipoTramiteId) throws NegocioException{
+		return iTramitesParamService.obtenerListaMunicipiosXTipoTramite(tipoTramiteId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * crearTramiteXMunicipio()
+     */
+	@Override
+	public void crearTramiteXMunicipio(TramiteXMunicipio tramiteXMunicipio) throws NegocioException {
+		iTramitesParamService.crearTramiteXMunicipio(tramiteXMunicipio);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * actualizarTramiteXMunicipio()
+     */
+	@Override
+	public void actualizarTramiteXMunicipio(TramiteXMunicipio tramiteXMunicipio) throws NegocioException{
+		iTramitesParamService.actualizarTramiteXMunicipio(tramiteXMunicipio);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * desactivarTramiteXMunicipio()
+	 */
+	@Override
+	public void desactivarTramiteXMunicipio(TramiteXMunicipio tramiteXMunicipio) throws NegocioException {
+		iTramitesParamService.desactivarTramiteXMunicipio(tramiteXMunicipio);
+	}
 }

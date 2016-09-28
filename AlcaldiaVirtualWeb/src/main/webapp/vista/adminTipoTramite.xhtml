@@ -81,60 +81,59 @@
 
 			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
 				hideEffect="fade" resizable="true" header="Información Tipo Trámite">
-				<p:scrollPanel id="carDetail" mode="native">
+				<p:scrollPanel id="carDetail" mode="native" style="height:380px">
 
 					<form jsf:id="formD">
-
-						<div class="row" style="width: 100%">
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-block">
-
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label>Nombre</label> <input type="text" required="true"
-													placeholder="Nombre"
-													jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.nombre}"
-													class="form-control" style="width: 200px"></input>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="form-group col-sm-6" style="width: 100%">
-												<label>Descripción</label>
-												<textarea cols="60" rows="5" required="true"
-													placeholder="Descripción"
-													jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.descripcion}"
-													class="form-control" />
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label>Valor</label> <input type="number" required="true"
-													placeholder="Valor"
-													jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.valor}"
-													class="form-control" style="width: 200px"></input>
-											</div>
-										</div>
-
-									</div>
-								</div>
-
-								<div class="card-footer">
-									<button jsf:id="registroBtn"
-										jsf:action="#{tipoTramiteMB.persistirTipoTramite}"
-										jsf:update="basicDT" class="btn btn-sm btn-primary">
-										<i class="fa fa-floppy-o"></i> Guardar
-									</button>
-									<button
-										onclick="PF('carDialog').hide();$('#formD').trigger('reset');"
-										class="btn btn-sm btn-danger">
-										<i class="fa fa-ban"></i> Cancelar
-									</button>
-								</div>
-
-							</div>
-						</div>
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<input type="text" required="true" placeholder="Nombre"
+										jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.nombre}"
+										class="form-control" style="width: 250px"></input>
+								</p:column>
+								<p:column rowspan="3">
+									<label>Municipios</label>
+									<p:pickList id="listaMunicipios"
+										value="#{tipoTramiteMB.municipios}" var="municipio"
+										itemValue="#{municipio}"
+										itemLabel="#{municipio.nombre}" converter="municipioConverter">
+										<f:facet name="sourceCaption">Disponibles</f:facet>
+										<f:facet name="targetCaption">Seleccionados</f:facet>
+									</p:pickList>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<input type="number" required="true" placeholder="Valor"
+										jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.valor}"
+										class="form-control" style="width: 250px"></input>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<textarea cols="60" rows="5" required="true"
+										placeholder="Descripción"
+										jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.descripcion}"
+										class="form-control" />
+								</p:column>
+							</p:row>
+							<f:facet name="footer">
+								<p:row>
+									<p:column colspan="2">
+										<button jsf:id="registroBtn"
+											jsf:action="#{tipoTramiteMB.persistirTipoTramite}"
+											jsf:update="basicDT" class="btn btn-sm btn-primary">
+											<i class="fa fa-floppy-o"></i> Guardar
+										</button>
+										<button
+											onclick="PF('carDialog').hide();$('#formD').trigger('reset');"
+											class="btn btn-sm btn-danger">
+											<i class="fa fa-ban"></i> Cancelar
+										</button>
+									</p:column>
+								</p:row>
+							</f:facet>
+						</p:panelGrid>
 					</form>
 				</p:scrollPanel>
 			</p:dialog>

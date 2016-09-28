@@ -43,7 +43,7 @@ public class TipoTramite implements Serializable {
 	private List<Tramite> tramites;
 
 	//bi-directional many-to-one association to TramiteXMunicipio
-	@OneToMany(mappedBy="tiposTramite")
+	@OneToMany(mappedBy="tiposTramite", cascade = CascadeType.MERGE)
 	private List<TramiteXMunicipio> tramitesXMunicipios;
 
 	public TipoTramite() {
