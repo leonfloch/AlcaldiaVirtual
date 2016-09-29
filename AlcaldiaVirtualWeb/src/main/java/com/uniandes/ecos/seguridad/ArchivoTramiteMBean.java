@@ -40,10 +40,14 @@ public class ArchivoTramiteMBean extends BaseMBean {
 	private DocumentoTramiteDto documentoSeleccionado;
 	private StreamedContent archivo;
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void uploadFileListener(FileUploadEvent event) {
 		ServletContext context = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
 		
-		try {
+		try {			
 			listaDocumentos = tramitesFacade.cargarArchivoTramite(tramiteId, event.getFile().getFileName(), context.getRealPath("/"), event.getFile().getInputstream());
 			adicionarMensajeDefinido('I', "archivoCargadoExito");
 		} catch (NegocioException | IOException e) {
@@ -53,6 +57,10 @@ public class ArchivoTramiteMBean extends BaseMBean {
 
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public StreamedContent getArchivo(){
 		System.out.println("Archivo seleccionado: "+documentoSeleccionado.getRuta());
 		InputStream inputStream;

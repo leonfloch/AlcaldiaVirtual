@@ -38,26 +38,72 @@
 									<div class="col-md-12">
 									
 									
-									<p:wizard flowListener="#{userWizard.onFlowProcess}">
+									<p:wizard flowListener="#{tramiteMB.onFlowProcess}">
 								        <p:tab id="descripcion" title="Descripcion">
 								            
 												<div class="card">
 													<div class="card-header">Información Tramite</div>
 													<div class="card-block">
 													
-													<h:outputLabel value="#{tramiteMB.tipoTramite.nombre}"></h:outputLabel>
+													<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input">Nombre:</label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.tipoTramite.nombre}" styleClass="outputLabel"/>
+														</div>
+													</div>
+												
+													<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input">Descripción:</label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.tipoTramite.descripcion}" styleClass="outputLabel"/>
+														</div>
+													</div>
+													
+													<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input">Costo:</label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.tipoTramite.valor}" styleClass="outputLabel">
+																<f:convertNumber pattern="###,###" currencySymbol="$" type="currency"/>
+															</h:outputText>
+														</div>
+													</div>
 								            
 								            		</div>
 								            	</div>
 								        </p:tab>
 								 
 								        <p:tab id="documentos" title="Documentos">
-								            <p:panel header="Documentos Requeridos">
-								                <p:messages />
-								                <h:panelGrid columns="2" columnClasses="label, value">
-								                    
-								                </h:panelGrid>
-								            </p:panel>
+								            <div class="card">
+												<div class="card-header">Subir Documentos</div>
+												<div class="card-block">
+												
+													<p:dataTable id="docDT" var="doc" value="#{tramiteMB.tipoTramite.docsXTipoTramites}">
+							
+														<p:column headerText="Nombre"
+															filterStyle="height:20px;">
+															<h:outputText value="#{doc.documentosRequerido.nombreDocumento}" />
+														</p:column>
+														<p:column headerText="Subir Documento"
+															filterStyle="height:80px;">
+															
+															<p:fileUpload fileUploadListener="#{tramiteMB.subirDocumento}" 
+																	mode="advanced" dragDropSupport="false"
+														           update="messages" sizeLimit="10000000" 
+														           fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/" />
+														 
+														    <p:growl id="messages" showDetail="true" />
+															
+														</p:column>
+														<p:column headerText="Estado Carga"
+															filterStyle="height:20px;">
+															<h:outputText value="#{doc.documentosRequerido.estadoUpload}" />
+														</p:column>
+													</p:dataTable>
+												
+												
+												</div>
+											</div>
+													
 								        </p:tab>
 								        <p:tab id="confirm" title="Confirmacion">
 								            <p:panel header="Confirmacion">

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Clase de persistencia para la tabla "DOCUMENTOS_REQUERIDOS". 
  * 
- * @author Juan Albarracín
+ * @author Juan Albarracï¿½n
  * @version 1.0
  * @date 18/07/2016
  */
@@ -33,6 +33,10 @@ public class DocumentoRequerido implements Serializable {
 	private String nombreDocumento;
 
 	private String ruta;
+	
+	@Transient
+	private boolean estadoUpload;
+	
 
 	//bi-directional many-to-one association to DocsXTipoTramite
 	@OneToMany(mappedBy="documentosRequerido")
@@ -114,6 +118,14 @@ public class DocumentoRequerido implements Serializable {
 
 	public void setFormulario(Formulario formulario) {
 		this.formulario = formulario;
+	}
+	
+	public boolean isEstadoUpload() {
+		return estadoUpload;
+	}
+
+	public void setEstadoUpload(boolean estadoUpload) {
+		this.estadoUpload = estadoUpload;
 	}
 
 }
