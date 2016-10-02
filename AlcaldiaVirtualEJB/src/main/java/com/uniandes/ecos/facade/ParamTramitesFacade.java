@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.Query;
 
+import com.uniandes.ecos.entities.DocsXTipoTramite;
+import com.uniandes.ecos.entities.DocumentoRequerido;
 import com.uniandes.ecos.entities.Formulario;
 import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoCampo;
@@ -160,15 +161,59 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 	public void actualizarTramiteXMunicipio(TramiteXMunicipio tramiteXMunicipio) throws NegocioException{
 		iTramitesParamService.actualizarTramiteXMunicipio(tramiteXMunicipio);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
-	 * desactivarTramiteXMunicipio()
+	 * obtenerTramiteXMunicipioXTipoTramiteId()
 	 */
 	@Override
-	public void desactivarTramiteXMunicipio(TramiteXMunicipio tramiteXMunicipio) throws NegocioException {
-		iTramitesParamService.desactivarTramiteXMunicipio(tramiteXMunicipio);
+	public List<TramiteXMunicipio> obtenerTramiteXMunicipioXTipoTramiteId(long tipoTramiteId) throws NegocioException {
+		return iTramitesParamService.obtenerTramiteXMunicipioXTipoTramiteId(tipoTramiteId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * obtenerListaDocumentos()
+	 */
+	@Override
+	public List<DocumentoRequerido> obtenerListaDocumentos() throws NegocioException {
+		return iTramitesParamService.obtenerListaDocumentos();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * obtenerListaDocumentosXTipoTramite()
+	 */
+	@Override
+	public List<DocumentoRequerido> obtenerListaDocumentosXTipoTramite(long tipoTramiteId) throws NegocioException {
+		return iTramitesParamService.obtenerListaDocumentosXTipoTramite(tipoTramiteId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * actualizarDocumentoXTramite()
+	 */
+	@Override
+	public void actualizarDocumentoXTramite(DocsXTipoTramite docsXTipoTramite) throws NegocioException {
+		iTramitesParamService.actualizarDocumentoXTramite(docsXTipoTramite);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * obtenerDocumentosXTramiteXTipoTramiteId()
+	 */
+	@Override
+	public List<DocsXTipoTramite> obtenerDocumentosXTramiteXTipoTramiteId(long tipoTramiteId) throws NegocioException {
+		return iTramitesParamService.obtenerDocumentosXTramiteXTipoTramiteId(tipoTramiteId);
 	}
 }

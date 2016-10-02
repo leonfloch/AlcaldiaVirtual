@@ -8,9 +8,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.primefaces.event.FlowEvent;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DualListModel;
 
 import com.uniandes.ecos.comun.BaseMBean;
+import com.uniandes.ecos.entities.DocsXTipoTramite;
+import com.uniandes.ecos.entities.DocumentoRequerido;
 import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoTramite;
 import com.uniandes.ecos.entities.TramiteXMunicipio;
@@ -48,10 +52,29 @@ public class TipoTramiteMB extends BaseMBean {
 	 */
 	private List<Municipio> municipiosSeleccionados;
 	/**
+	 * Lista Documentos disponibles
+	 */
+	private List<DocumentoRequerido> documentosDisponibles;
+	/**
+	 * Lista documentos seleccionados
+	 */
+	private List<DocumentoRequerido> documentosSeleccionados;
+	/**
+	 * Lista de tramites por municipios
+	 */
+	private List<TramiteXMunicipio> tramitesXMunicipios;
+	/**
+	 * Lista de tramites por municipios
+	 */
+	private List<DocsXTipoTramite> documentosXTramites;
+	/**
 	 * Lista de municipios
 	 */
 	private DualListModel<Municipio> municipios;
-
+	/**
+	 * Lista de municipios
+	 */
+	private DualListModel<DocumentoRequerido> documentos;
 	/**
 	 * Tipo de tramite seleccionado para edicion
 	 */
@@ -72,11 +95,10 @@ public class TipoTramiteMB extends BaseMBean {
 
 	@PostConstruct
 	public void init() {
-		this.consultarTiposTramite();
-		
+
 		try {
-			municipiosDisponibles = iParamTramitesFacade.obtenerListaMunicipios();
-			municipios = new DualListModel<>(municipiosDisponibles, new ArrayList<Municipio>());
+			this.consultarTiposTramite();
+			this.reiniciarDualList();
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
@@ -86,94 +108,174 @@ public class TipoTramiteMB extends BaseMBean {
 	 * Se ejecuta antes de abril el modal de edicion de tipos tramite
 	 */
 	public void preModal() {
+		System.out.println("Iniciando creacion / edicion");
+		try {
+			if (creacion) {
+				System.out.println("Creacion");
+				this.initTiposTramite();
+				this.reiniciarDualList();
+			} else {
+				System.out.println("Edicion");
+				tramitesXMunicipios = iParamTramitesFacade
+						.obtenerTramiteXMunicipioXTipoTramiteId(tipoTramiteSelecc.getTipoTramiteId());
+				documentosXTramites = iParamTramitesFacade
+						.obtenerDocumentosXTramiteXTipoTramiteId(tipoTramiteSelecc.getTipoTramiteId());
+				municipiosSeleccionados = iParamTramitesFacade
+						.obtenerListaMunicipiosXTipoTramite(tipoTramiteSelecc.getTipoTramiteId());
+				documentosSeleccionados = iParamTramitesFacade
+						.obtenerListaDocumentosXTipoTramite(tipoTramiteSelecc.getTipoTramiteId());
 				
-		if (creacion) {
-			this.initTiposTramite();
-		}else{
-			try {
-				municipiosSeleccionados = iParamTramitesFacade.obtenerListaMunicipiosXTipoTramite(tipoTramiteSelecc.getTipoTramiteId());
 				List<Municipio> municipiosEliminar = new ArrayList<>();
-				
-				for(Municipio md : municipiosDisponibles){
-					for(Municipio ms : municipiosSeleccionados){
-						if(md.getMunicipioId() == ms.getMunicipioId()){
+				List<DocumentoRequerido> documentosEliminar = new ArrayList<>();
+
+				for (Municipio md : municipiosDisponibles) {
+					for (Municipio ms : municipiosSeleccionados) {
+						if (md.getMunicipioId() == ms.getMunicipioId()) {
 							municipiosEliminar.add(md);
 							break;
 						}
 					}
 				}
 				
-				municipiosDisponibles.removeAll(municipiosEliminar);
-				
-				municipios.setTarget(municipiosSeleccionados);
-			} catch (NegocioException e) {
-				this.adicionarMensaje(e.getTipo(), e.getMensaje());
-			}
-		}
-	}
+				for (DocumentoRequerido dd : documentosDisponibles) {
+					for (DocumentoRequerido ds : documentosSeleccionados) {
+						if (dd.getDocRequeridoId() == ds.getDocRequeridoId()) {
+							documentosEliminar.add(dd);
+							break;
+						}
+					}
+				}
 
-	public void consultarTiposTramite() {
-		try {
-			tiposTramite = iParamTramitesFacade.obtenerListaTiposTramites(tipoTramiteSelecc.getNombre());
+				municipiosDisponibles.removeAll(municipiosEliminar);
+				documentosDisponibles.removeAll(documentosEliminar);
+
+				municipios.setTarget(municipiosSeleccionados);
+				documentos.setTarget(documentosSeleccionados);
+
+			}
 		} catch (NegocioException e) {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
+	}
+
+	public void consultarTiposTramite() throws NegocioException {
+		tiposTramite = iParamTramitesFacade.obtenerListaTiposTramites(null);
 	}
 
 	public void persistirTipoTramite() {
 		try {
-			UsuarioSesion usuario = (UsuarioSesion)this.obtenerVariableSesion(Constantes.SESION_USUARIO);
+			UsuarioSesion usuario = (UsuarioSesion) this.obtenerVariableSesion(Constantes.SESION_USUARIO);
 			UsuariosFuncionario usuarioFuncionario = new UsuariosFuncionario();
 			usuarioFuncionario.setUsuario(usuario.getUsuario());
+
+			procesarMunicipios(usuarioFuncionario);
+			procesarDocumentos();
 			
-			List<Municipio> municipiosDisponibles = municipios.getSource();
-			List<Municipio> municipiosSeleccionados = municipios.getTarget();
-			List<TramiteXMunicipio> municipiosXTramite = new ArrayList<>();
-			
-			for(Municipio m : municipiosSeleccionados){
-				boolean existe = false;
-				TramiteXMunicipio txm = new TramiteXMunicipio();
-				txm.setMunicipio(m);
-				txm.setTiposTramite(tipoTramiteSelecc);
-				txm.setEstado("A");
-				txm.setUsuariosFuncionario(usuarioFuncionario);
-				
-				for(Municipio ms : this.municipiosSeleccionados){
-					if(ms.getMunicipioId() == m.getMunicipioId()){
-						existe = true;
-						break;
-					}
-				}
-				
-				if(!existe)
-					municipiosXTramite.add(txm);
-			}
-			
-			for(Municipio m1 : this.municipiosSeleccionados){
-				boolean desactivar = false;
-				for(Municipio m2 : municipiosDisponibles){
-					if(m1.getMunicipioId() == m2.getMunicipioId()){
-						desactivar = true;
-						break;
-					}
-				}
-				
-				if(desactivar){
-					TramiteXMunicipio txm = new TramiteXMunicipio();
-					txm.setMunicipio(m1);
-					txm.setTiposTramite(tipoTramiteSelecc);
-					iParamTramitesFacade.desactivarTramiteXMunicipio(txm);
-				}
-			}
-			
-			tipoTramiteSelecc.setTramitesXMunicipios(municipiosXTramite);
 			iParamTramitesFacade.actualizarTipoTramite(tipoTramiteSelecc);
-			
 			consultarTiposTramite();
-		} catch (NegocioException e) {
+
+			this.adicionarMensaje(Constantes.INFO, "Tipo Tramite Guardado");
+		} catch (
+
+		NegocioException e) {
 			// TODO Auto-generated catch block
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
+	}
+	
+	private void procesarMunicipios(UsuariosFuncionario usuarioFuncionario) throws NegocioException{
+		List<Municipio> municipiosDisponibles = municipios.getSource();
+		List<Municipio> municipiosSeleccionados = municipios.getTarget();
+		List<TramiteXMunicipio> municipiosXTramite = new ArrayList<>();
+
+		for (Municipio ms : municipiosSeleccionados) {
+
+			if (!cambiarEstadoTramiteMunicipio(Constantes.ACTIVO, ms.getMunicipioId())) {
+				TramiteXMunicipio txm = new TramiteXMunicipio();
+				txm.setMunicipio(ms);
+				txm.setTiposTramite(tipoTramiteSelecc);
+				txm.setEstado("A");
+				txm.setUsuariosFuncionario(usuarioFuncionario);
+				municipiosXTramite.add(txm);
+			}
+		}
+
+		for (Municipio md : municipiosDisponibles) {
+			cambiarEstadoTramiteMunicipio(Constantes.INACTIVO, md.getMunicipioId());
+		}
+
+		tipoTramiteSelecc.setTramitesXMunicipios(municipiosXTramite);
+		
+	}
+	
+	private void procesarDocumentos() throws NegocioException{
+		List<DocumentoRequerido> documentosDisponibles = documentos.getSource();
+		List<DocumentoRequerido> documentosSeleccionados = documentos.getTarget();
+		List<DocsXTipoTramite> documentosXTramite = new ArrayList<>();
+
+		for (DocumentoRequerido ds : documentosSeleccionados) {
+
+			if (!cambiarEstadoTramiteDocumento(Constantes.ACTIVO, ds.getDocRequeridoId())) {
+				DocsXTipoTramite dxtt = new DocsXTipoTramite();
+				dxtt.setDocumentosRequerido(ds);
+				dxtt.setEstado("A");
+				dxtt.setTiposTramite(tipoTramiteSelecc);
+				documentosXTramite.add(dxtt);
+			}
+		}
+
+		for (DocumentoRequerido dd : documentosDisponibles) {
+			cambiarEstadoTramiteDocumento(Constantes.INACTIVO, dd.getDocRequeridoId());
+		}
+
+		tipoTramiteSelecc.setDocsXTipoTramites(documentosXTramite);
+	}
+
+	public void limpiarAtributos() {
+		initTiposTramite();
+		init();
+	}
+
+	private boolean cambiarEstadoTramiteMunicipio(String estado, long idMunicipio) throws NegocioException {
+		boolean existe = false;
+		for (TramiteXMunicipio txm : tramitesXMunicipios) {
+			if (idMunicipio == txm.getMunicipio().getMunicipioId()) {
+				txm.setEstado(estado);
+				iParamTramitesFacade.actualizarTramiteXMunicipio(txm);
+				existe = true;
+				break;
+			}
+		}
+		return existe;
+	}
+	
+	private boolean cambiarEstadoTramiteDocumento(String estado, long idDocumento) throws NegocioException {
+		boolean existe = false;
+		for (DocsXTipoTramite dxtt : documentosXTramites) {
+			if (idDocumento == dxtt.getDocumentosRequerido().getDocRequeridoId()) {
+				dxtt.setEstado(estado);
+				iParamTramitesFacade.actualizarDocumentoXTramite(dxtt);
+				existe = true;
+				break;
+			}
+		}
+		return existe;
+	}
+
+	private void reiniciarDualList() throws NegocioException {
+		municipiosDisponibles = iParamTramitesFacade.obtenerListaMunicipios();
+		documentosDisponibles = iParamTramitesFacade.obtenerListaDocumentos();
+		municipios = new DualListModel<>(municipiosDisponibles, new ArrayList<Municipio>());
+		documentos = new DualListModel<>(documentosDisponibles, new ArrayList<DocumentoRequerido>());
+	}
+
+	public void onTabChange(TabChangeEvent event) {
+		System.out.println("Cambiando Tab");
+
+	}
+
+	public String onFlowProcess(FlowEvent event) {
+		return event.getNewStep();
 	}
 
 	/**
@@ -181,6 +283,8 @@ public class TipoTramiteMB extends BaseMBean {
 	 */
 	private void initTiposTramite() {
 		tipoTramiteSelecc = new TipoTramite();
+		tramitesXMunicipios = new ArrayList<>();
+		documentosXTramites = new ArrayList<>();
 
 	}
 
@@ -242,6 +346,21 @@ public class TipoTramiteMB extends BaseMBean {
 	 */
 	public void setCreacion(boolean creacion) {
 		this.creacion = creacion;
+	}
+
+	/**
+	 * @return the documentos
+	 */
+	public DualListModel<DocumentoRequerido> getDocumentos() {
+		return documentos;
+	}
+
+	/**
+	 * @param documentos
+	 *            the documentos to set
+	 */
+	public void setDocumentos(DualListModel<DocumentoRequerido> documentos) {
+		this.documentos = documentos;
 	}
 
 }

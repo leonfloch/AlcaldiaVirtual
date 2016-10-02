@@ -3,7 +3,6 @@ package com.uniandes.ecos.comun;
 
 
 import java.io.Serializable;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -41,15 +40,15 @@ public class BaseMBean implements Serializable {
 	 */
 	public void adicionarMensaje(char tipoMensaje, String mensaje){
 		switch (tipoMensaje) {
-		case 'E':
+		case Constantes.ERROR:
 			FacesContext.getCurrentInstance().addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", mensaje));
 			break;
-		case 'W':
+		case Constantes.ADVERTENCIA:
 			FacesContext.getCurrentInstance().addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", mensaje));
 			break;
-		case 'I':
+		case Constantes.INFO:
 			FacesContext.getCurrentInstance().addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", mensaje));
 			break;

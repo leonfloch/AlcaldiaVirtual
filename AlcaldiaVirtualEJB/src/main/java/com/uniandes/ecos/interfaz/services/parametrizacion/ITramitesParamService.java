@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.uniandes.ecos.entities.DocsXTipoTramite;
+import com.uniandes.ecos.entities.DocumentoRequerido;
 import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoTramite;
 import com.uniandes.ecos.entities.TramiteXMunicipio;
@@ -73,12 +75,43 @@ public interface ITramitesParamService {
 	 * @throws NegocioException
 	 */
 	void actualizarTramiteXMunicipio(TramiteXMunicipio tramiteXMunicipio) throws NegocioException;
-	
+
 	/**
-	 * Cambia el estado del Tramite X Municipio a inactivo.
-	 * 
-	 * @param tramiteXMunicipio
+	 * Retorna una lista de tramites por municipio asociado a un tipo de tramite
+	 * @param tipoTramiteId
+	 * @return
 	 * @throws NegocioException
 	 */
-	void desactivarTramiteXMunicipio(TramiteXMunicipio tramiteXMunicipio) throws NegocioException;
+	List<TramiteXMunicipio> obtenerTramiteXMunicipioXTipoTramiteId(long tipoTramiteId) throws NegocioException;
+	
+	/**
+	 * Retorna una lista de documentos 
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<DocumentoRequerido> obtenerListaDocumentos() throws NegocioException;
+	
+	/**
+	 * Retorna una lista de documentos asociado a un tipo de tramite
+	 * @param tipoTramiteId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<DocumentoRequerido> obtenerListaDocumentosXTipoTramite(long tipoTramiteId) throws NegocioException;
+	
+	/**
+	 * Actualiza en BD la entidad enviada como parámetro.
+	 * 
+	 * @param docsXTipoTramite
+	 * @throws NegocioException
+	 */
+	void actualizarDocumentoXTramite(DocsXTipoTramite docsXTipoTramite) throws NegocioException;
+	
+	/**
+	 * Retorna una lista de documentos por tramite asociado a un tipo de tramite
+	 * @param tipoTramiteId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<DocsXTipoTramite> obtenerDocumentosXTramiteXTipoTramiteId(long tipoTramiteId) throws NegocioException;
 }
