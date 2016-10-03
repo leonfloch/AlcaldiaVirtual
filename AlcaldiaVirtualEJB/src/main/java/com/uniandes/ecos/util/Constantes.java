@@ -13,6 +13,8 @@ public class Constantes {
 
     public static final String SESION_USUARIO = "usuario";
     public static final String SESION_MUNICIPIO_CIUDADANO = "sesionMunicipio";
+    public static final String SESION_TRAMITE = "tramite";
+    public static final String SESION_TRAMITE_ID = "tramiteId";
 
     //manejo de excepciones
     public static final char ADVERTENCIA = 'W';

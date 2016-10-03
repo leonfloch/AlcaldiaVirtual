@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService;
 import com.uniandes.ecos.util.NegocioException;
@@ -53,5 +54,15 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
             throws NegocioException {
         return this.tramitesService.cargarArchivoTramite(tramiteId, nombreArchivo, rutaContexto, data);
     }
+
+    /*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+     * crearTramite(com.uniandes.ecos.entities.Tramite)
+     */
+	@Override
+	public void crearTramite(Tramite tramite) throws NegocioException {
+		tramitesService.crearTramite(tramite);		
+	}
 
 }

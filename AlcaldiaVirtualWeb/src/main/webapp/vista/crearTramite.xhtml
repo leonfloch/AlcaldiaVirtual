@@ -13,9 +13,9 @@
 		<ui:define name="content">
 			<!-- ======Breadcrumb====== -->
 			<ol class="breadcrumb r-0">
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Library</a></li>
-				<li class="active">Data</li>
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">Tramites</a></li>
+				<li class="active">Crear Tramite</li>
 			</ol>
 			<!-- ======FIN Breadcrumb====== -->
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
@@ -105,13 +105,105 @@
 											</div>
 													
 								        </p:tab>
-								        <p:tab id="confirm" title="Confirmacion">
-								            <p:panel header="Confirmacion">
-								                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
-								                
-								                </h:panelGrid>
-								            </p:panel>
-								        </p:tab>
+								        <p:tab id="confirm" title="Confirmación">
+								        
+								        	<div class="card">
+													<div class="card-header">Información Tramite</div>
+													<div class="card-block">
+													
+													<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input">Nombre:</label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.tipoTramite.nombre}" styleClass="outputLabel"/>
+														</div>
+													</div>
+												
+													<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input">Descripción:</label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.tipoTramite.descripcion}" styleClass="outputLabel"/>
+														</div>
+													</div>
+													
+													<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input">Costo:</label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.tipoTramite.valor}" styleClass="outputLabel">
+																<f:convertNumber pattern="###,###" currencySymbol="$" type="currency"/>
+															</h:outputText>
+														</div>
+													</div>
+								            
+								            		</div>
+								            	</div>
+
+												<div class="card">
+													<div class="card-header">Datos Ciudadano</div>
+													<div class="card-block">
+													
+														<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input"><p>Nombre:</p></label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.sesion.persona.nombres} #{tramiteMB.sesion.persona.apellidos}" styleClass="outputLabel"/>
+														</div>	
+														</div>	
+														<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input"><p>Email:</p></label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.sesion.persona.email}" styleClass="outputLabel"/>
+														</div>	
+														</div>	
+														<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input"><p>Telefono:</p></label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.sesion.persona.telefono}" styleClass="outputLabel"/>
+														</div>	
+														</div>														
+														<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input"><p>Dirección:</p></label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.sesion.persona.direccion}" styleClass="outputLabel"/>
+														</div>	
+														</div>											
+													
+														
+														
+													
+													</div>
+												</div>
+												
+												<div class="card">
+													<div class="card-header">Documentos</div>
+													<div class="card-block">
+
+														<p:dataTable id="docDTResum" var="doc"
+															value="#{tramiteMB.tipoTramite.docsXTipoTramites}">
+
+															<p:column headerText="Nombre" filterStyle="height:20px;">
+																<h:outputText
+																	value="#{doc.documentosRequerido.nombreDocumento}" />
+															</p:column>
+															<p:column headerText="Archivo Adjunto"
+																filterStyle="height:80px;">
+																
+															</p:column>
+															
+														</p:dataTable>
+
+													</div>
+												</div>
+												
+												<div class="card-footer">
+													<button jsf:id="registroBtn"
+														jsf:action="#{tramiteMB.tramitar}"
+														class="btn btn-sm btn-primary">
+														<i class="fa fa-floppy-o"></i> Tramitar
+													</button>
+												</div>
+
+
+
+											</p:tab>
                
 									</p:wizard>
 

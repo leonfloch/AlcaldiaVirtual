@@ -1,0 +1,65 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<HEAD>
+
+
+</HEAD>
+
+<body jsf:id="bodyMain">
+
+	<ui:composition template="layout.xhtml">
+		<ui:define name="content">
+			<!-- ======Breadcrumb====== -->
+			<ol class="breadcrumb r-0">
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">Tramites</a></li>
+				<li class="active">Confirmación</li>
+			</ol>
+			<!-- ======FIN Breadcrumb====== -->
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
+			</p:dialog>
+
+
+			<div class="container-fluid">
+				<div class="animated fadeIn">
+					<div class="row row-equal"></div>
+
+					<div class="card">
+						<div class="card-header">Confirmación Tramite</div>
+						<div class="card-block">
+							<div class="form-group row">
+								<label class="col-md-3 form-control-label" for="text-input"><p>Número
+										del Tramite:</p></label>
+								<div class="col-md-9">
+									<h:outputText value="#{confirmacionTramiteMB.numeroTramite}"
+										styleClass="outputLabel" />
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+						<button jsf:id="registroBtn" jsf:action="#{confirmacionTramiteMB.aceptar}"
+							class="btn btn-sm btn-primary">
+							<i class="fa fa-floppy-o"></i> Aceptar
+						</button>
+					</div>
+					</div>
+					
+
+				</div>
+			</div>
+
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+
+</html>

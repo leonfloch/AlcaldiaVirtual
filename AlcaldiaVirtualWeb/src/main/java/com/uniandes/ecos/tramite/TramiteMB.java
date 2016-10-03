@@ -3,12 +3,16 @@
  */
 package com.uniandes.ecos.tramite;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+
 import javax.inject.Inject;
 
 import org.primefaces.event.FileUploadEvent;
@@ -20,11 +24,11 @@ import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoTramite;
 import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.entities.TramiteXMunicipio;
-import com.uniandes.ecos.entities.UsuarioSesion;
-import com.uniandes.ecos.facade.ProcesadorTramitesFacade;
+import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.seguridad.ArchivoTramiteMBean;
 import com.uniandes.ecos.util.Constantes;
+import com.uniandes.ecos.util.NegocioException;
 
 /**
  * mbean encargado de realizar el proceso de tramites para los 
@@ -32,7 +36,7 @@ import com.uniandes.ecos.util.Constantes;
  * @author Leonardo Valbuena 
  *
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean
 public class TramiteMB extends BaseMBean {
 
@@ -52,6 +56,12 @@ public class TramiteMB extends BaseMBean {
 	 */
 	@Inject
 	private IProcesadorTramitesFacade procesadorTramitesFacade;
+	
+	/**
+	 * Represental la fachada de parametrizacion
+	 */
+	@Inject
+	private IParametrizacionFacade parametrizacionFacade;
 	
 	/**
 	 * Lista de tipos de tramites que puede realizar el ciudadano
@@ -76,7 +86,7 @@ public class TramiteMB extends BaseMBean {
 	/**
 	 * Representa el tramite en proceso
 	 */
-	private Tramite tramite;
+	private Tramite tramite;		
 	
 	
 
@@ -96,6 +106,11 @@ public class TramiteMB extends BaseMBean {
 		alcaldiaMunicipio = (Municipio)obtenerVariableSesion(Constantes.SESION_MUNICIPIO_CIUDADANO);
 		this.cargarTiposTramites();
 		
+		this.tramite = (Tramite)this.obtenerVariableSesion(Constantes.SESION_TRAMITE);
+		if (tramite != null) {
+			tipoTramite = tramite.getTiposTramite();
+			this.removerVariableSesion(Constantes.SESION_TRAMITE);
+		}
 	}
 	
 	/**
@@ -105,7 +120,9 @@ public class TramiteMB extends BaseMBean {
 	 */
 	public String iniciarTramite() {
 		tramite = new Tramite();
+		tramite.setTiposTramite(tipoTramite);
 		tramite.setTramiteId(generaIdTramite());
+		this.adicionarVariableSesion(Constantes.SESION_TRAMITE, tramite);
 		return RutasApp.CREAR_TRAMITE;
 	}
 	
@@ -114,8 +131,9 @@ public class TramiteMB extends BaseMBean {
 	 * @return
 	 */
 	private long generaIdTramite() {
-		//TODO generar tramite teniendo encuenta la fecha y la hora
-		return 0;
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		String[] diaHora = timeStamp.split("_");
+		return Long.parseLong(diaHora[0] + diaHora[1]);		
 	}
 	
 	/**
@@ -134,6 +152,31 @@ public class TramiteMB extends BaseMBean {
 	public void subirDocumento(FileUploadEvent event) {
 		archivoTramiteMBean.setTramiteId(tramite.getTramiteId());
 		archivoTramiteMBean.uploadFileListener(event);
+	}
+	
+	/**
+	 * Tramita el tiempo tramite seleccionado
+	 */
+	public String tramitar() {		
+		String redirect = null;
+		try {
+			tramite.setEstado(Constantes.ACTIVO);
+			tramite.setFechaSolicitud(new Date());
+			tramite.setMunicipio(alcaldiaMunicipio);			
+			tramite.setNombre(tipoTramite.getNombre());
+			tramite.setUsuariosCiudadano(parametrizacionFacade.obtenerCiudadano(
+					this.getSesion().getPersona().getNumIdentificacion()));
+			//TODO pendiente adjuntar los documentos
+			//tramite.setDocumentosTramites(documentosTramites);			
+			
+			procesadorTramitesFacade.crearTramite(tramite);		
+			this.adicionarVariableSesion(Constantes.SESION_TRAMITE_ID, tramite.getTramiteId());
+			redirect = RutasApp.CONFIRMACION_TRAMITE;
+		} catch (NegocioException e) {
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());
+		}
+		return redirect;
+		
 	}
 	
 	/**
