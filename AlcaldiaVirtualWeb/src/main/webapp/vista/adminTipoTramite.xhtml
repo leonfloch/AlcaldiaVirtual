@@ -22,122 +22,149 @@
 				draggable="false" closable="false" resizable="false">
 				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
 			</p:dialog>
+			<form jsf:id="tiposTramitesForm">
+			<p:growl id="msgs" showDetail="true" for="tiposTramiteAccordion"/>
+				<p:accordionPanel multiple="false" widgetVar="tiposTramiteAccordion">
+					<p:ajax event="tabChange" listener="#{tipoTramiteMB.onTabChange}"
+						update="tiposTramitesForm"
+						oncomplete="PF('tiposTramitesWizard').loadStep(PF('tiposTramitesWizard').cfg.steps [0], true);" />
+					<p:tab title="Listado de Tipos Trámite" id="listaTiposTramitesTab"
+						titleStyle="card-header" titleStyleClass="card-header">
 
-			<form jsf:id="form">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-block">
 
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="card-header">Administración Tipos Trámite</div>
-							<div class="card-block">
+										<h:panelGrid columns="1" layout="grid">
+											<p:dataTable id="tiposTramiteDT" var="tipoTramite"
+												value="#{tipoTramiteMB.tiposTramite}">
+												<f:facet name="header">
+													<div style="width: 85%; display: inline-block;">
+														Tipos Trámite</div>
+													<div style="width: 15%; display: inline;">
+														<p:commandButton action="#{tipoTramiteMB.preModal}"
+															value="Crear Nuevo" process="@this"
+															oncomplete="PF('tiposTramiteAccordion').select(1)"
+															icon="fa fa-plus" title="View">
+															<f:setPropertyActionListener value="#{true}"
+																target="#{tipoTramiteMB.creacion}" />
+														</p:commandButton>
+													</div>
+												</f:facet>
+												<p:column headerText="Nombre" sortBy="#{tipoTramite.nombre}"
+													filterMatchMode="contains" filterBy="#{tipoTramite.nombre}"
+													filterStyle="height:20px;">
+													<h:outputText value="#{tipoTramite.nombre}" />
+												</p:column>
+												<p:column headerText="Descripción"
+													filterStyle="height:20px;">
+													<h:outputText value="#{tipoTramite.descripcion}" />
+												</p:column>
+												<p:column headerText="Valor" sortBy="#{tipoTramite.valor}"
+													filterBy="#{tipoTramite.valor}" filterStyle="height:20px;">
+													<h:outputText value="#{tipoTramite.valor}" />
+												</p:column>
+												<p:column style="width:5%;text-align: center">
+													<p:commandButton action="#{tipoTramiteMB.preModal}"
+														process="@this"
+														oncomplete="PF('tiposTramiteAccordion').select(1)"
+														icon="ui-icon-search" title="View">
+														<f:setPropertyActionListener value="#{tipoTramite}"
+															target="#{tipoTramiteMB.tipoTramiteSelecc}" />
+														<f:setPropertyActionListener value="#{false}"
+															target="#{tipoTramiteMB.creacion}" />
+													</p:commandButton>
 
-								<div class="row">
-									<div class="col-md-9"></div>
-									<div class="col-md-3">
-										<p:commandButton action="#{tipoTramiteMB.preModal}"
-											update=":formD" oncomplete="PF('carDialog').show()"
-											value="Crear Tipo Tramite">
-											<f:setPropertyActionListener value="#{true}"
-												target="#{tipoTramiteMB.creacion}" />
-										</p:commandButton>
+												</p:column>
+											</p:dataTable>
+
+										</h:panelGrid>
 									</div>
 								</div>
-
-								<h:panelGrid columns="1" layout="grid">
-									<p:growl id="msgs" showDetail="true" />
-									<p:dataTable id="basicDT" var="tipoTramite"
-										value="#{tipoTramiteMB.tiposTramite}">
-										<p:column headerText="Nombre" sortBy="#{tipoTramite.nombre}"
-											filterBy="#{tipoTramite.nombre}" filterStyle="height:20px;">
-											<h:outputText value="#{tipoTramite.nombre}" />
-										</p:column>
-										<p:column headerText="Descripción" filterStyle="height:20px;">
-											<h:outputText value="#{tipoTramite.descripcion}" />
-										</p:column>
-										<p:column headerText="Valor" sortBy="#{tipoTramite.valor}"
-											filterBy="#{tipoTramite.valor}" filterStyle="height:20px;">
-											<h:outputText value="#{tipoTramite.valor}" />
-										</p:column>
-										<p:column style="width:5%;text-align: center">
-											<p:commandButton action="#{tipoTramiteMB.preModal}"
-												update=":formD :form" oncomplete="PF('carDialog').show()"
-												icon="ui-icon-search" title="View">
-												<f:setPropertyActionListener value="#{tipoTramite}"
-													target="#{tipoTramiteMB.tipoTramiteSelecc}" />
-												<f:setPropertyActionListener value="#{false}"
-													target="#{tipoTramiteMB.creacion}" />
-											</p:commandButton>
-
-										</p:column>
-									</p:dataTable>
-
-								</h:panelGrid>
 							</div>
 						</div>
-					</div>
-				</div>
-			</form>
 
+					</p:tab>
+					<p:tab title="Creación / Edición Tipo Trámite"
+						id="crearTiposTramitesTab">
+						<p:outputPanel id="crearTipoTramitePanel">
+							<p:wizard flowListener="#{tipoTramiteMB.onFlowProcess}"
+								nextLabel="Siguiente" backLabel="Atrás"
+								widgetVar="tiposTramitesWizard">
+								<p:tab id="infoBasica" title="Información Básica">
+									<p:panel header="Información Básica">
+										<p:messages />
+										<h:panelGrid columns="2" style="white-space: pre">
+											<h:outputText value="Nombre * " />
+											<input type="text" required="true" placeholder="Nombre"
+												jsf:label="Nombre" jsf:requiredMessage="Nombre es requerido"
+												jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.nombre}"
+												class="form-control" style="width: 250px" />
 
-			<p:dialog widgetVar="carDialog" modal="true" showEffect="fade"
-				hideEffect="fade" resizable="true" header="Información Tipo Trámite">
-				<p:scrollPanel id="carDetail" mode="native" style="height:380px">
+											<h:outputText value="Valor * " />
+											<input type="number" required="true" placeholder="Valor"
+												jsf:label="Valor" jsf:requiredMessage="Valor es requerido"
+												jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.valor}"
+												class="form-control" style="width: 250px" />
 
-					<form jsf:id="formD">
-						<p:panelGrid>
-							<p:row>
-								<p:column>
-									<input type="text" required="true" placeholder="Nombre"
-										jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.nombre}"
-										class="form-control" style="width: 250px"></input>
-								</p:column>
-								<p:column rowspan="3">
-									<label>Municipios</label>
-									<p:pickList id="listaMunicipios"
-										value="#{tipoTramiteMB.municipios}" var="municipio"
-										itemValue="#{municipio}"
-										itemLabel="#{municipio.nombre}" converter="municipioConverter">
-										<f:facet name="sourceCaption">Disponibles</f:facet>
-										<f:facet name="targetCaption">Seleccionados</f:facet>
-									</p:pickList>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<input type="number" required="true" placeholder="Valor"
-										jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.valor}"
-										class="form-control" style="width: 250px"></input>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<textarea cols="60" rows="5" required="true"
-										placeholder="Descripción"
-										jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.descripcion}"
-										class="form-control" />
-								</p:column>
-							</p:row>
-							<f:facet name="footer">
-								<p:row>
-									<p:column colspan="2">
+											<h:outputText value="Descripción * " />
+											<textarea cols="60" rows="5" required="true"
+												placeholder="Descripción" jsf:label="Descripción"
+												jsf:requiredMessage="Descripción es requerido"
+												jsf:value="#{tipoTramiteMB.tipoTramiteSelecc.descripcion}"
+												class="form-control" />
+										</h:panelGrid>
+									</p:panel>
+								</p:tab>
+								<p:tab id="municipios" title="Municipios">
+									<p:panel header="Municipios">
+										<p:pickList id="listaMunicipios"
+											value="#{tipoTramiteMB.municipios}" var="municipio"
+											itemValue="#{municipio}" itemLabel="#{municipio.nombre}"
+											converter="entityConverter">
+											<f:facet name="sourceCaption">Disponibles</f:facet>
+											<f:facet name="targetCaption">Seleccionados</f:facet>
+										</p:pickList>
+									</p:panel>
+								</p:tab>
+								<p:tab id="documentos" title="Documentos">
+									<p:panel header="Documentos">
+										<p:pickList id="listaDocumentos"
+											value="#{tipoTramiteMB.documentos}" var="documento"
+											itemValue="#{documento}"
+											itemLabel="#{documento.nombreDocumento}"
+											converter="entityConverter">
+											<f:facet name="sourceCaption">Disponibles</f:facet>
+											<f:facet name="targetCaption">Seleccionados</f:facet>
+										</p:pickList>
+									</p:panel>
+								</p:tab>
+								<p:tab id="confirmacion" title="Confirmación">
+									<p:panel header="Confirmación">
 										<button jsf:id="registroBtn"
 											jsf:action="#{tipoTramiteMB.persistirTipoTramite}"
-											jsf:update="basicDT" class="btn btn-sm btn-primary">
+											onclick="PF('tiposTramiteAccordion').select(0);"
+											class="btn btn-sm btn-primary">
 											<i class="fa fa-floppy-o"></i> Guardar
+											<f:setPropertyActionListener value="#{true}"
+												target="#{tipoTramiteMB.creacion}" />
 										</button>
-										<button
-											onclick="PF('carDialog').hide();$('#formD').trigger('reset');"
+										<button jsf:action="#{tipoTramiteMB.limpiarAtributos}"
+											jsf:process="@this"
+											onclick="PF('tiposTramiteAccordion').select(0);"
 											class="btn btn-sm btn-danger">
 											<i class="fa fa-ban"></i> Cancelar
+											<f:setPropertyActionListener value="#{true}"
+												target="#{tipoTramiteMB.creacion}" />
 										</button>
-									</p:column>
-								</p:row>
-							</f:facet>
-						</p:panelGrid>
-					</form>
-				</p:scrollPanel>
-			</p:dialog>
-
+									</p:panel>
+								</p:tab>
+							</p:wizard>
+						</p:outputPanel>
+					</p:tab>
+				</p:accordionPanel>
+			</form>
 		</ui:define>
 
 	</ui:composition>

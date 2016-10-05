@@ -7,3 +7,14 @@
 /* .ui-button .ui-button-text { */
 /* 	color: inherit; */
 /* } */
+.ui-accordion .ui-accordion-header.ui-state-active {
+	background-color: #a3aaad !important;
+	color: white !important;
+	text-shadow: 0px 0px !important;
+}
+
+.ui-accordion .ui-accordion-header {
+	background-color: #20a8d8 !important;
+	color: white !important;
+	text-shadow: 0px 0px !important;
+}

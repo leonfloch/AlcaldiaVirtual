@@ -10,6 +10,7 @@ import javax.ejb.Local;
 
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -39,5 +40,12 @@ public interface IProcesadorTramitesService {
 	 */
 	List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, 
 			String rutaContexto, InputStream data) throws NegocioException;
+	
+	/**
+	 * Crea el nuevo tramite enviado por parametro
+	 * @param tramite tramite que desea crear el ciudadano
+	 * @throws NegocioException
+	 */
+	void crearTramite(Tramite tramite) throws NegocioException;
 
 }

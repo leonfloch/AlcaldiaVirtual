@@ -13,11 +13,13 @@ public class Constantes {
 
     public static final String SESION_USUARIO = "usuario";
     public static final String SESION_MUNICIPIO_CIUDADANO = "sesionMunicipio";
+    public static final String SESION_TRAMITE = "tramite";
+    public static final String SESION_TRAMITE_ID = "tramiteId";
 
     //manejo de excepciones
-    public static final String ADVERTENCIA = "W";
+    public static final char ADVERTENCIA = 'W';
     public static final char ERROR = 'E';
-    public static final String INFO = "I";
+    public static final char INFO = 'I';
 
     //queries de consultas
     public static final String TODOS = "T";

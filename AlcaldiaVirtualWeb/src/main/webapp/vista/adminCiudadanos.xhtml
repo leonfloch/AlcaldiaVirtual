@@ -73,7 +73,7 @@
 											<h:outputText value="#{user.estado}" />
 										</p:column>
 										<p:column style="width:5%;text-align: center">
-											<p:commandButton action="#{adminCiudadanoMB.preModal}"
+											<p:commandButton action="#{adminCiudadanoMB.preModal}" process="@this"
 												update=":formD :form" oncomplete="PF('carDialog').show()"
 												icon="ui-icon-search" title="View">
 												<f:setPropertyActionListener value="#{user}"
