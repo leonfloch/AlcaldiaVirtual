@@ -45,10 +45,9 @@ public class ArchivoTramiteMBean extends BaseMBean {
 	 * @param event
 	 */
 	public void uploadFileListener(FileUploadEvent event) {
-		ServletContext context = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
 		
 		try {			
-			listaDocumentos = tramitesFacade.cargarArchivoTramite(tramiteId, event.getFile().getFileName(), context.getRealPath("/"), event.getFile().getInputstream());
+			listaDocumentos = tramitesFacade.cargarArchivoTramite(tramiteId, event.getFile().getFileName(), event.getFile().getInputstream());
 			adicionarMensajeDefinido('I', "archivoCargadoExito");
 		} catch (NegocioException | IOException e) {
 			adicionarMensajeDefinido('E', "errorServidor");

@@ -46,13 +46,13 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
     /*
 	 * (non-Javadoc)
 	 * @see com.uniandes.ecos.facadeInterface.IProcesadorTramitesFacade
-	 * #cargarArchivoTramite(java.lang.Long, java.lang.String, java.lang.String, java.io.InputStream)
+	 * #cargarArchivoTramite(java.lang.Long, java.lang.String, java.io.InputStream)
      */
     @Override
     public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId,
-            String nombreArchivo, String rutaContexto, InputStream data)
+            String nombreArchivo, InputStream data)
             throws NegocioException {
-        return this.tramitesService.cargarArchivoTramite(tramiteId, nombreArchivo, rutaContexto, data);
+        return this.tramitesService.cargarArchivoTramite(tramiteId, nombreArchivo, data);
     }
 
     /*
