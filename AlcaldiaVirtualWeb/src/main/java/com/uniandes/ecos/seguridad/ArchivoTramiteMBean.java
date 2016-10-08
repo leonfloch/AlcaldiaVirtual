@@ -4,15 +4,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -26,7 +26,7 @@ import com.uniandes.ecos.util.NegocioException;
 @ViewScoped
 @ManagedBean
 public class ArchivoTramiteMBean extends BaseMBean {
-	
+
 	@Inject
 	private IProcesadorTramitesFacade tramitesFacade;
 	/**
@@ -34,7 +34,7 @@ public class ArchivoTramiteMBean extends BaseMBean {
 	 */
 	private static final long serialVersionUID = -3232964861506847360L;
 	private static Logger log = Logger.getLogger(ArchivoTramiteMBean.class.getName());
-	
+
 	private long tramiteId;
 	private List<DocumentoTramiteDto> listaDocumentos;
 	private DocumentoTramiteDto documentoSeleccionado;
@@ -45,9 +45,13 @@ public class ArchivoTramiteMBean extends BaseMBean {
 	 * @param event
 	 */
 	public void uploadFileListener(FileUploadEvent event) {
-		
-		try {			
-			listaDocumentos = tramitesFacade.cargarArchivoTramite(tramiteId, event.getFile().getFileName(), event.getFile().getInputstream());
+
+		try {
+			String originalFileName = event.getFile().getFileName();
+			String fileName = new SimpleDateFormat("ddMMYYYYHHmmss").format(new Date())
+					+ originalFileName.substring(originalFileName.lastIndexOf("."));
+			listaDocumentos = tramitesFacade.cargarArchivoTramite(tramiteId, fileName,
+					event.getFile().getInputstream());
 			adicionarMensajeDefinido('I', "archivoCargadoExito");
 		} catch (NegocioException | IOException e) {
 			adicionarMensajeDefinido('E', "errorServidor");
@@ -55,13 +59,13 @@ public class ArchivoTramiteMBean extends BaseMBean {
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public StreamedContent getArchivo(){
-		System.out.println("Archivo seleccionado: "+documentoSeleccionado.getRuta());
+	public StreamedContent getArchivo() {
+
 		InputStream inputStream;
 		try {
 			inputStream = new FileInputStream(documentoSeleccionado.getArchivo());
@@ -96,7 +100,5 @@ public class ArchivoTramiteMBean extends BaseMBean {
 	public void setDocumentoSeleccionado(DocumentoTramiteDto documentoSeleccionado) {
 		this.documentoSeleccionado = documentoSeleccionado;
 	}
-	
-	
 
 }
