@@ -44,11 +44,12 @@ public class Constantes {
     public static final String USUARIO_SESION = "usuario";
 
     //carpeta documentos tramite
-    public static final String CARPETA_DOCUMENTOS_TRAMITE = "archivosTramites\\";
+    public static final String PROPIEDAD_CARPETA_DOCUMENTOS_TRAMITE = "rutaArchivosTramites";
 
     //codigos errores
     public static final int CODIGO_ERROR_CARGUE_ARCHIVO = 512;
     public static final int CODIGO_ERROR_ENVIO_CORREO = 513;
+    public static final int CODIGO_ERROR_CARGUE_ARCHIVO_PROPIEDADES = 514;
 
     //Varios
     public static final String SI = "S";

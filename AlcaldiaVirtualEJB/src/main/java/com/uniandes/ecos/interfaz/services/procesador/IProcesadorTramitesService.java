@@ -33,13 +33,12 @@ public interface IProcesadorTramitesService {
 	 * Se encarga de cargar un archivo
 	 * @param tramiteId
 	 * @param nombreArchivo
-	 * @param rutaContexto
 	 * @param data
 	 * @return
 	 * @throws NegocioException
 	 */
 	List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, 
-			String rutaContexto, InputStream data) throws NegocioException;
+			InputStream data) throws NegocioException;
 	
 	/**
 	 * Crea el nuevo tramite enviado por parametro

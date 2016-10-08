@@ -31,75 +31,78 @@ import com.uniandes.ecos.util.NegocioException;
 @Stateless
 public class ProcesadorTramitesService implements IProcesadorTramitesService {
 
-    //-------------------------------------------------------------------------
-    // INYECCIÓN DE SERVICIOS
-    //-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// INYECCIÓN DE SERVICIOS
+	// -------------------------------------------------------------------------
 	/**
 	 * Inyecciï¿½n del contexto de persistencia de la aplicaciï¿½n.
 	 */
 	@PersistenceContext
 	private EntityManager em;
-	
-    /**
-     * Administracion de documentos
-     */
-    @EJB
-    private IDocumentosService documentosService;
 
-    /**
-     * envio de correos
-     */
-    @EJB
-    private ICorreosService correosService;
-    
-    /**
+	/**
+	 * Administracion de documentos
+	 */
+	@EJB
+	private IDocumentosService documentosService;
+
+	/**
+	 * envio de correos
+	 */
+	@EJB
+	private ICorreosService correosService;
+
+	/**
 	 * Instanciación del objeto dao para el manejo de persistencia.
 	 */
 	private BaseDao<Tramite, Long> tramiteDao;
 
-    //-------------------------------------------------------------------------
-    // METODOS
-    //-------------------------------------------------------------------------
-    
-    @PostConstruct
-    public void init() {
-    	this.tramiteDao = new BaseDao<Tramite, Long>(Tramite.class, this.em);
-    }
-    
+	// -------------------------------------------------------------------------
+	// METODOS
+	// -------------------------------------------------------------------------
 
-    /*
+	@PostConstruct
+	public void init() {
+		this.tramiteDao = new BaseDao<Tramite, Long>(Tramite.class, this.em);
+	}
+
+	/*
 	 * (non-Javadoc)
-	 * @see com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService#
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#
 	 * enviarCorreo(com.uniandes.ecos.dtos.CorreoElectronicoDto)
-     */
-    @Override
-    public void enviarCorreo(CorreoElectronicoDto correoElectronicoDto)
-            throws NegocioException {
-        this.correosService.enviarCorreo(correoElectronicoDto);
+	 */
+	@Override
+	public void enviarCorreo(CorreoElectronicoDto correoElectronicoDto) throws NegocioException {
+		this.correosService.enviarCorreo(correoElectronicoDto);
 
-    }
+	}
 
-    /*
+	/*
 	 * (non-Javadoc)
-	 * @see com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService
-	 * #cargarArchivoTramite(java.lang.Long, java.lang.String, java.lang.String, java.io.InputStream)
-     */
-    @Override
-    public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId,
-            String nombreArchivo, String rutaContexto, InputStream data)
-            throws NegocioException {
-        return this.documentosService.cargarArchivoTramite(tramiteId, nombreArchivo,
-                rutaContexto, data);
-    }
+	 * 
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService
+	 * #cargarArchivoTramite(java.lang.Long, java.lang.String,
+	 * java.io.InputStream)
+	 */
+	@Override
+	public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, InputStream data)
+			throws NegocioException {
+		return this.documentosService.cargarArchivoTramite(tramiteId, nombreArchivo, data);
+	}
 
-    /*
-     * (non-Javadoc)
-     * @see com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService#
-     * crearTramite(com.uniandes.ecos.entities.Tramite)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#
+	 * crearTramite(com.uniandes.ecos.entities.Tramite)
+	 */
 	@Override
 	public void crearTramite(Tramite tramite) throws NegocioException {
-		tramiteDao.persist(tramite);		
+		tramiteDao.persist(tramite);
 	}
 
 }

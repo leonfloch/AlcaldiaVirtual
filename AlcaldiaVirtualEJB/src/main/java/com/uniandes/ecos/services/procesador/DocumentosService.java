@@ -4,9 +4,11 @@
 package com.uniandes.ecos.services.procesador;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,39 +30,63 @@ import com.uniandes.ecos.util.NegocioException;
 @Stateless
 public class DocumentosService implements IDocumentosService {
 
-    private static Logger log = Logger.getLogger(DocumentosService.class.getName());
+	private static final String PROPERTIES_FILE = "/resources/application.properties";
+	private static Logger log = Logger.getLogger(DocumentosService.class.getName());
+	private Properties propiedades;
+	private InputStream inputStream;
 
-    /*
+
+	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.uniandes.ecos.interfaz.services.procesador.IDocumentosService#
-	 * cargarArchivoTramite(java.lang.Long, java.lang.String, java.lang.String, java.io.InputStream)
-     */
-    @Override
-    public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, String rutaContexto, InputStream data)
-            throws NegocioException {
-//		String rutaCompleta = rutaContexto + Constantes.CARPETA_DOCUMENTOS_TRAMITE + tramiteId.toString() + "\\";
-        String rutaCompleta = rutaContexto + tramiteId.toString() + "\\";
-        try {
-            FileUploader.guardarArchivoEnServidor(nombreArchivo, rutaCompleta, data);
-        } catch (Exception e) {
-            log.log(Level.WARNING, e.getMessage());
-            throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO,
-                    "Se ha presentado un error al cargar el archivo");
-        }
+	 * cargarArchivoTramite(java.lang.Long, java.lang.String, java.lang.String,
+	 * java.io.InputStream)
+	 */
+	@Override
+	public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, InputStream data)
+			throws NegocioException {
 
-        List<DocumentoTramiteDto> listaDocumentos = new ArrayList<>();
-        long cont = 0;
-        for (File f : FileUploader.obtenerListaArchivos(rutaCompleta)) {
-            DocumentoTramiteDto temp = new DocumentoTramiteDto();
-            temp.setConsecutivo(++cont);
-            temp.setNombre(f.getName());
-            temp.setRuta(f.getAbsolutePath());
-            temp.setTramiteId(tramiteId);
-            temp.setArchivo(f);
+		cargarArchivoPropiedades();
+		String rutaCompleta = propiedades.getProperty(Constantes.PROPIEDAD_CARPETA_DOCUMENTOS_TRAMITE)
+				+ tramiteId.toString() + "\\";
+		try {
+			FileUploader.guardarArchivoEnServidor(nombreArchivo, rutaCompleta, data);
+		} catch (Exception e) {
+			log.log(Level.WARNING, e.getMessage());
+			throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO,
+					"Se ha presentado un error al cargar el archivo");
+		}
 
-            listaDocumentos.add(temp);
-        }
-        return listaDocumentos;
-    }
+		List<DocumentoTramiteDto> listaDocumentos = new ArrayList<>();
+		long cont = 0;
+		for (File f : FileUploader.obtenerListaArchivos(rutaCompleta)) {
+			DocumentoTramiteDto temp = new DocumentoTramiteDto();
+			temp.setConsecutivo(++cont);
+			temp.setNombre(f.getName());
+			temp.setRuta(f.getAbsolutePath());
+			temp.setTramiteId(tramiteId);
+			temp.setArchivo(f);
+
+			listaDocumentos.add(temp);
+		}
+		return listaDocumentos;
+	}
+
+	private void cargarArchivoPropiedades() throws NegocioException {
+		propiedades = new Properties();
+		inputStream = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE);
+		
+		try {
+			if (inputStream != null) {
+				propiedades.load(inputStream);
+			} else {
+				throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO_PROPIEDADES, "No se ha podido cargar el archivo de propiedades");
+			}
+		} catch (IOException e) {
+			throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO_PROPIEDADES, e.getMessage());
+		}
+
+	}
 
 }
