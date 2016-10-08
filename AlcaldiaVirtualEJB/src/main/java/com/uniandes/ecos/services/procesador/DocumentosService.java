@@ -56,6 +56,7 @@ public class DocumentosService implements IDocumentosService {
 		try {
 			FileUploader.guardarArchivoEnServidor(nombreArchivo, rutaCompleta, data);
 		} catch (Exception e) {
+			e.printStackTrace();
 			log.log(Level.WARNING, e.getMessage());
 			throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO,
 					"Se ha presentado un error al cargar el archivo");

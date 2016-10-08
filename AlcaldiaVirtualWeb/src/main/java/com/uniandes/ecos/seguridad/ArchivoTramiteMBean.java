@@ -17,7 +17,6 @@ import javax.servlet.ServletContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
