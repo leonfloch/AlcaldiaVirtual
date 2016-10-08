@@ -49,7 +49,7 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 	 * #cargarArchivoTramite(java.lang.Long, java.lang.String, java.io.InputStream)
      */
     @Override
-    public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId,
+    public DocumentoTramiteDto cargarArchivoTramite(Long tramiteId,
             String nombreArchivo, InputStream data)
             throws NegocioException {
         return this.tramitesService.cargarArchivoTramite(tramiteId, nombreArchivo, data);

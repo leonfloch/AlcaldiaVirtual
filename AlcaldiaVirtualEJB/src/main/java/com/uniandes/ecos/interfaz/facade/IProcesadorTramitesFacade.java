@@ -37,7 +37,7 @@ public interface IProcesadorTramitesFacade {
 	 * @return
 	 * @throws NegocioException
 	 */
-	List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, 
+	DocumentoTramiteDto cargarArchivoTramite(Long tramiteId, String nombreArchivo, 
 			InputStream data) throws NegocioException;
 	
 	/**

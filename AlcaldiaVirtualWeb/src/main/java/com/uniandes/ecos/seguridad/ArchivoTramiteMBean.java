@@ -43,17 +43,11 @@ public class ArchivoTramiteMBean extends BaseMBean {
 	/**
 	 * 
 	 * @param event
+	 * @throws IOException 
 	 */
-	public void uploadFileListener(FileUploadEvent event) {
-		
-		try {			
-			listaDocumentos = tramitesFacade.cargarArchivoTramite(tramiteId, event.getFile().getFileName(), event.getFile().getInputstream());
-			adicionarMensajeDefinido('I', "archivoCargadoExito");
-		} catch (NegocioException | IOException e) {
-			adicionarMensajeDefinido('E', "errorServidor");
-			log.log(Level.SEVERE, e.getMessage());
-		}
-
+	public DocumentoTramiteDto uploadFileListener(FileUploadEvent event) throws NegocioException, IOException {
+		return tramitesFacade.cargarArchivoTramite(
+				tramiteId, event.getFile().getFileName(), event.getFile().getInputstream());
 	}
 	
 	/**

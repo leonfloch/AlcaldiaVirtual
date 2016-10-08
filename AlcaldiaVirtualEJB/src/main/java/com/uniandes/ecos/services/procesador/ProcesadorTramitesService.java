@@ -88,7 +88,7 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	 * java.io.InputStream)
 	 */
 	@Override
-	public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, InputStream data)
+	public DocumentoTramiteDto cargarArchivoTramite(Long tramiteId, String nombreArchivo, InputStream data)
 			throws NegocioException {
 		return this.documentosService.cargarArchivoTramite(tramiteId, nombreArchivo, data);
 	}

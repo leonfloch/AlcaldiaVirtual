@@ -31,7 +31,15 @@ public interface IDocumentosService {
 	 * @return
 	 * @throws NegocioException
 	 */
-	List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, InputStream data)
+	 DocumentoTramiteDto cargarArchivoTramite(Long tramiteId, String nombreArchivo, InputStream data)
 			throws NegocioException;
+	 
+	 /**
+	  * Retorna todos los documentos de un tramite
+	  * @param idTramite
+	  * @return
+	  * @throws NegocioException
+	  */
+	 List<DocumentoTramiteDto> obtenerArchivosTramite(Long idTramite) throws NegocioException;
 
 }

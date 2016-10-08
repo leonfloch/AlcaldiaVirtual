@@ -1,6 +1,7 @@
 package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -33,6 +34,11 @@ public class DocsXTipoTramite implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="TIPO_TRAMITE_ID")
 	private TipoTramite tiposTramite;
+	
+	@Transient
+	private boolean estadoUpload;
+
+	
 
 	public DocsXTipoTramite() {
 	}
@@ -67,6 +73,14 @@ public class DocsXTipoTramite implements Serializable {
 
 	public void setTiposTramite(TipoTramite tiposTramite) {
 		this.tiposTramite = tiposTramite;
+	}
+	
+	public boolean isEstadoUpload() {
+		return estadoUpload;
+	}
+
+	public void setEstadoUpload(boolean estadoUpload) {
+		this.estadoUpload = estadoUpload;
 	}
 
 }

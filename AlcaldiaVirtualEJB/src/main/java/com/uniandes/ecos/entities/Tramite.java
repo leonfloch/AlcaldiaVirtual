@@ -1,7 +1,10 @@
 package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class Tramite implements Serializable {
 	private List<CambioEstadoTramite> cambiosEstadoTramites;
 
 	//bi-directional many-to-one association to DocumentoTramite
-	@OneToMany(mappedBy="tramite")
+	@OneToMany(mappedBy="tramite", cascade = CascadeType.PERSIST)
 	private List<DocumentoTramite> documentosTramites;
 
 	//bi-directional many-to-one association to Pago
@@ -138,6 +141,9 @@ public class Tramite implements Serializable {
 	}
 
 	public List<DocumentoTramite> getDocumentosTramites() {
+		if (documentosTramites == null) {
+			documentosTramites = new ArrayList<DocumentoTramite>();
+		}
 		return this.documentosTramites;
 	}
 

@@ -12,6 +12,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
@@ -34,7 +35,9 @@ public class DocumentosService implements IDocumentosService {
 	private static Logger log = Logger.getLogger(DocumentosService.class.getName());
 	private Properties propiedades;
 	private InputStream inputStream;
-
+	
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -44,7 +47,7 @@ public class DocumentosService implements IDocumentosService {
 	 * java.io.InputStream)
 	 */
 	@Override
-	public List<DocumentoTramiteDto> cargarArchivoTramite(Long tramiteId, String nombreArchivo, InputStream data)
+	public DocumentoTramiteDto cargarArchivoTramite(Long tramiteId, String nombreArchivo, InputStream data)
 			throws NegocioException {
 
 		cargarArchivoPropiedades();
@@ -57,22 +60,21 @@ public class DocumentosService implements IDocumentosService {
 			throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO,
 					"Se ha presentado un error al cargar el archivo");
 		}
-
-		List<DocumentoTramiteDto> listaDocumentos = new ArrayList<>();
-		long cont = 0;
-		for (File f : FileUploader.obtenerListaArchivos(rutaCompleta)) {
-			DocumentoTramiteDto temp = new DocumentoTramiteDto();
-			temp.setConsecutivo(++cont);
-			temp.setNombre(f.getName());
-			temp.setRuta(f.getAbsolutePath());
-			temp.setTramiteId(tramiteId);
-			temp.setArchivo(f);
-
-			listaDocumentos.add(temp);
-		}
-		return listaDocumentos;
+		
+		File file = FileUploader.obtenerArchivo(rutaCompleta);
+		DocumentoTramiteDto temp = new DocumentoTramiteDto();
+		temp.setConsecutivo(0);
+		temp.setNombre(file.getName());
+		temp.setRuta(file.getAbsolutePath());
+		temp.setTramiteId(tramiteId);
+		temp.setArchivo(file);
+		return temp;
 	}
 
+	/**
+	 * 
+	 * @throws NegocioException
+	 */
 	private void cargarArchivoPropiedades() throws NegocioException {
 		propiedades = new Properties();
 		inputStream = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE);
@@ -87,6 +89,32 @@ public class DocumentosService implements IDocumentosService {
 			throw new NegocioException('E', Constantes.CODIGO_ERROR_CARGUE_ARCHIVO_PROPIEDADES, e.getMessage());
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.procesador.IDocumentosService#obtenerArchivosTramite(java.lang.Long)
+	 */
+	@Override
+	public List<DocumentoTramiteDto> obtenerArchivosTramite(Long idTramite)
+			throws NegocioException {
+		
+		cargarArchivoPropiedades();
+		String rutaCompleta = propiedades.getProperty(Constantes.PROPIEDAD_CARPETA_DOCUMENTOS_TRAMITE)
+				+ idTramite.toString() + "\\";
+		
+		List<DocumentoTramiteDto> listaDocumentos = new ArrayList<>();
+		long cont = 0;
+		for (File f : FileUploader.obtenerListaArchivos(rutaCompleta)) {
+			DocumentoTramiteDto temp = new DocumentoTramiteDto();
+			temp.setConsecutivo(++cont);
+			temp.setNombre(f.getName());
+			temp.setRuta(f.getAbsolutePath());
+			temp.setTramiteId(idTramite);
+			temp.setArchivo(f);
+			listaDocumentos.add(temp);
+		}
+		return listaDocumentos;
 	}
 
 }

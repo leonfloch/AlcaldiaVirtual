@@ -34,8 +34,10 @@ public class DocumentoRequerido implements Serializable {
 
 	private String ruta;
 	
+	
+	
 	@Transient
-	private boolean estadoUpload;
+	private String observaciones;
 	
 
 	//bi-directional many-to-one association to DocsXTipoTramite
@@ -120,12 +122,14 @@ public class DocumentoRequerido implements Serializable {
 		this.formulario = formulario;
 	}
 	
-	public boolean isEstadoUpload() {
-		return estadoUpload;
+	
+
+	public String getObservaciones() {
+		return observaciones;
 	}
 
-	public void setEstadoUpload(boolean estadoUpload) {
-		this.estadoUpload = estadoUpload;
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 
 }

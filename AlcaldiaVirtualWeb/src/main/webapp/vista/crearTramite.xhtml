@@ -38,7 +38,8 @@
 									<div class="col-md-12">
 									
 									
-									<p:wizard flowListener="#{tramiteMB.onFlowProcess}">
+									<p:wizard flowListener="#{tramiteMB.onFlowProcess}"
+										nextLabel="Siguiente" backLabel="Atrás">
 								        <p:tab id="descripcion" title="Descripcion">
 								            
 												<div class="card">
@@ -83,20 +84,27 @@
 															filterStyle="height:20px;">
 															<h:outputText value="#{doc.documentosRequerido.nombreDocumento}" />
 														</p:column>
+														
+														<p:column headerText="Observaciones"
+															filterStyle="height:20px;">
+															<h:inputTextarea value="doc.documentosRequerido.observaciones"></h:inputTextarea>
+														</p:column>
 														<p:column headerText="Subir Documento"
 															filterStyle="height:80px;">
 															
 															<p:fileUpload fileUploadListener="#{tramiteMB.subirDocumento}" 
 																	mode="advanced" dragDropSupport="false"
-														           update="messages" sizeLimit="10000000" 
-														           fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/" />
+														           update="@form" sizeLimit="10000000" 
+														           fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/">
+														       <f:attribute name="docTipo" value="#{doc.documentosRequerido}" />
+														    </p:fileUpload>
 														 
 														    <p:growl id="messages" showDetail="true" />
 															
 														</p:column>
 														<p:column headerText="Estado Carga"
 															filterStyle="height:20px;">
-															<h:outputText value="#{doc.documentosRequerido.estadoUpload}" />
+															<p:graphicImage id="estadoSub" rendered="doc.estadoUpload" value="../assets/img/ok.png" />
 														</p:column>
 													</p:dataTable>
 												
@@ -177,15 +185,19 @@
 													<div class="card-block">
 
 														<p:dataTable id="docDTResum" var="doc"
-															value="#{tramiteMB.tipoTramite.docsXTipoTramites}">
+															value="#{tramiteMB.tramite.documentosTramites}">
 
 															<p:column headerText="Nombre" filterStyle="height:20px;">
 																<h:outputText
-																	value="#{doc.documentosRequerido.nombreDocumento}" />
+																	value="#{doc.nombre}" />
 															</p:column>
 															<p:column headerText="Archivo Adjunto"
 																filterStyle="height:80px;">
-																
+																<p:graphicImage value="#{doc.ruta}"></p:graphicImage>
+															</p:column>
+															<p:column headerText="Observaciones" filterStyle="height:20px;">
+																<h:outputText
+																	value="#{doc.observacion}" />
 															</p:column>
 															
 														</p:dataTable>
@@ -193,11 +205,33 @@
 													</div>
 												</div>
 												
+												<div class="card">
+													<div class="card-header">Observaciones</div>
+													<div class="card-block">
+													
+													<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input"><p>Observaciones:</p></label>
+														<div class="col-md-9">
+															<p:inputTextarea value="#{tramiteMB.tramite.observaciones}"></p:inputTextarea>
+														</div>	
+													</div>	
+													
+													
+												</div>
+												</div>
+												
+												
 												<div class="card-footer">
 													<button jsf:id="registroBtn"
 														jsf:action="#{tramiteMB.tramitar}"
 														class="btn btn-sm btn-primary">
 														<i class="fa fa-floppy-o"></i> Tramitar
+													</button>
+													<button jsf:action="#{tramiteMB.cancelar}"
+														jsf:process="@this"
+														class="btn btn-sm btn-danger">
+														<i class="fa fa-ban"></i> Cancelar
+													
 													</button>
 												</div>
 

@@ -1,6 +1,7 @@
 package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -18,6 +19,8 @@ public class DocumentoTramite implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="id_consecutico_seq", sequenceName="SEQ_DOC_TRAMITE", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="id_consecutico_seq")
 	private long consecutivo;
 
 	private String nombre;

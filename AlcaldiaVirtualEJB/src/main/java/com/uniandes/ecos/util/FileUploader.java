@@ -15,6 +15,14 @@ import java.util.List;
  */
 public class FileUploader {
 
+	/**
+	 * Guarda documentos en el servidor
+	 * @param fileName
+	 * @param pathFile
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
     public static String guardarArchivoEnServidor(String fileName, String pathFile, InputStream input)
             throws Exception {
         OutputStream out = null;
@@ -57,10 +65,26 @@ public class FileUploader {
         return pathFileName;
     }
 
+    /**
+     * retorna todos los archivos de la carpeta seleccionada
+     * @param folderPath
+     * @return
+     */
     public static List<File> obtenerListaArchivos(String folderPath) {
         System.out.println("Folder: " + folderPath);
         File folder = new File(folderPath);
         System.out.println("No Archivos: " + folder.listFiles().length);
         return Arrays.asList(folder.listFiles());
+    }
+    
+    /**
+     * Retorna el archivo
+     * @param path ruta del archivo
+     * @return
+     */
+    public static File obtenerArchivo(String path) {
+        System.out.println("Ruta: " + path);
+        File archivo = new File(path);
+        return archivo;
     }
 }

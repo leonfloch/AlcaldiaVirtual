@@ -3,16 +3,18 @@
  */
 package com.uniandes.ecos.tramite;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
 import javax.inject.Inject;
 
 import org.primefaces.event.FileUploadEvent;
@@ -20,6 +22,10 @@ import org.primefaces.event.FlowEvent;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.comun.RutasApp;
+import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.DocsXTipoTramite;
+import com.uniandes.ecos.entities.DocumentoRequerido;
+import com.uniandes.ecos.entities.DocumentoTramite;
 import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoTramite;
 import com.uniandes.ecos.entities.Tramite;
@@ -27,6 +33,7 @@ import com.uniandes.ecos.entities.TramiteXMunicipio;
 import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.seguridad.ArchivoTramiteMBean;
+import com.uniandes.ecos.services.procesador.DocumentosService;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
 
@@ -44,6 +51,11 @@ public class TramiteMB extends BaseMBean {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Menjo del log
+	 */
+	private static Logger log = Logger.getLogger(TramiteMB.class.getName());
 	
 	/**
 	 * 
@@ -150,8 +162,39 @@ public class TramiteMB extends BaseMBean {
 	 * Se encarga de subir documentos del tramite al sistema
 	 */
 	public void subirDocumento(FileUploadEvent event) {
-		archivoTramiteMBean.setTramiteId(tramite.getTramiteId());
-		archivoTramiteMBean.uploadFileListener(event);
+		
+		try {
+			DocumentoRequerido docRequerido = (DocumentoRequerido) event.getComponent().getAttributes().get("docTipo");						
+			
+			archivoTramiteMBean.setTramiteId(tramite.getTramiteId());
+			DocumentoTramiteDto docDto = archivoTramiteMBean.uploadFileListener(event);
+			
+			
+			DocumentoTramite documento = new DocumentoTramite();
+			documento.setNombre(docRequerido.getNombreDocumento());
+			documento.setObservacion(docRequerido.getObservaciones());
+			documento.setRuta(docDto.getRuta() + "\\" + event.getFile().getFileName());
+			documento.setOrigen(Constantes.ENTREGADO);
+			documento.setTramite(tramite);
+			tramite.getDocumentosTramites().add(documento);
+			
+			//TODO revisar ya que no actualiza la imagen de ok
+			int cont = 0;
+			for (DocsXTipoTramite docxTipo : tipoTramite.getDocsXTipoTramites()) {
+				cont++;
+				if (docxTipo.getDocumentosRequerido().getNombreDocumento().equals(docRequerido.getNombreDocumento())) {
+					docxTipo.setEstadoUpload(true);
+					tipoTramite.getDocsXTipoTramites().set(cont, docxTipo);
+					break;
+				}
+			}
+			
+			adicionarMensajeDefinido('I', "archivoCargadoExito");
+		} catch (NegocioException | IOException e) {
+			adicionarMensajeDefinido('E', "errorServidor");
+			log.log(Level.SEVERE, e.getMessage());
+		}
+		
 	}
 	
 	/**
@@ -166,8 +209,7 @@ public class TramiteMB extends BaseMBean {
 			tramite.setNombre(tipoTramite.getNombre());
 			tramite.setUsuariosCiudadano(parametrizacionFacade.obtenerCiudadano(
 					this.getSesion().getPersona().getNumIdentificacion()));
-			//TODO pendiente adjuntar los documentos
-			//tramite.setDocumentosTramites(documentosTramites);			
+						
 			
 			procesadorTramitesFacade.crearTramite(tramite);		
 			this.adicionarVariableSesion(Constantes.SESION_TRAMITE_ID, tramite.getTramiteId());
@@ -177,6 +219,14 @@ public class TramiteMB extends BaseMBean {
 		}
 		return redirect;
 		
+	}
+	
+	/**
+	 * Cancela el tramite
+	 * @return
+	 */
+	public String cancelar() {
+		return RutasApp.CONSULTA_TIPO_TRAMITE;
 	}
 	
 	/**
