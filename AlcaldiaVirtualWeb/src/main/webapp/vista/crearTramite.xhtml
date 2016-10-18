@@ -78,16 +78,19 @@
 												<div class="card-header">Subir Documentos</div>
 												<div class="card-block">
 												
-													<p:dataTable id="docDT" var="doc" value="#{tramiteMB.tipoTramite.docsXTipoTramites}">
+													<p:dataTable id="docDT" var="doc" value="#{tramiteMB.docRequeridos}">
 							
 														<p:column headerText="Nombre"
 															filterStyle="height:20px;">
-															<h:outputText value="#{doc.documentosRequerido.nombreDocumento}" />
+															<h:outputText value="#{doc.nombreDocumento}" />
 														</p:column>
 														
 														<p:column headerText="Observaciones"
 															filterStyle="height:20px;">
-															<h:inputTextarea value="doc.documentosRequerido.observaciones"></h:inputTextarea>
+															<p:inputTextarea value="#{doc.observaciones}">
+																<p:ajax event="keyup" listener="#{tramiteMB.agregarObservacion}" />
+															</p:inputTextarea>
+															
 														</p:column>
 														<p:column headerText="Subir Documento"
 															filterStyle="height:80px;">
@@ -96,7 +99,8 @@
 																	mode="advanced" dragDropSupport="false"
 														           update="@form" sizeLimit="10000000" 
 														           fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/">
-														       <f:attribute name="docTipo" value="#{doc.documentosRequerido}" />
+														       <f:attribute name="docTipo" value="#{doc}" />
+														       
 														    </p:fileUpload>
 														 
 														    <p:growl id="messages" showDetail="true" />
@@ -104,7 +108,7 @@
 														</p:column>
 														<p:column headerText="Estado Carga"
 															filterStyle="height:20px;">
-															<p:graphicImage id="estadoSub" rendered="doc.estadoUpload" value="../assets/img/ok.png" />
+															<p:graphicImage id="estadoSub" rendered="#{doc.estadoUpload}" value="../assets/img/ok.png" />
 														</p:column>
 													</p:dataTable>
 												
@@ -113,6 +117,10 @@
 											</div>
 													
 								        </p:tab>
+								        
+								        
+								        
+								        <!--  PANTALLA DE CONFIRMACION -->
 								        <p:tab id="confirm" title="Confirmación">
 								        
 								        	<div class="card">
@@ -235,9 +243,8 @@
 													</button>
 												</div>
 
-
-
 											</p:tab>
+											<!--  FIN PANTALLA DE CONFIRMACION -->
                
 									</p:wizard>
 

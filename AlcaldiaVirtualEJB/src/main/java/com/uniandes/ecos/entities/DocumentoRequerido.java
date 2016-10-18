@@ -1,7 +1,9 @@
 package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -34,7 +36,8 @@ public class DocumentoRequerido implements Serializable {
 
 	private String ruta;
 	
-	
+	@Transient
+	private boolean estadoUpload;
 	
 	@Transient
 	private String observaciones;
@@ -130,6 +133,20 @@ public class DocumentoRequerido implements Serializable {
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+
+	/**
+	 * @return the estadoUpload
+	 */
+	public boolean isEstadoUpload() {
+		return estadoUpload;
+	}
+
+	/**
+	 * @param estadoUpload the estadoUpload to set
+	 */
+	public void setEstadoUpload(boolean estadoUpload) {
+		this.estadoUpload = estadoUpload;
 	}
 
 }

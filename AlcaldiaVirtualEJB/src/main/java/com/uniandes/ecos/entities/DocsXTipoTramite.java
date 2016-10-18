@@ -35,8 +35,7 @@ public class DocsXTipoTramite implements Serializable {
 	@JoinColumn(name="TIPO_TRAMITE_ID")
 	private TipoTramite tiposTramite;
 	
-	@Transient
-	private boolean estadoUpload;
+	
 
 	
 
@@ -75,12 +74,6 @@ public class DocsXTipoTramite implements Serializable {
 		this.tiposTramite = tiposTramite;
 	}
 	
-	public boolean isEstadoUpload() {
-		return estadoUpload;
-	}
-
-	public void setEstadoUpload(boolean estadoUpload) {
-		this.estadoUpload = estadoUpload;
-	}
+	
 
 }

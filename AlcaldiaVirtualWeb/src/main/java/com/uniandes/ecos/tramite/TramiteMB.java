@@ -96,6 +96,11 @@ public class TramiteMB extends BaseMBean {
 	private TipoTramite tipoTramite;
 	
 	/**
+	 * Documentos requeridos para el tramite en curso
+	 */
+	private List<DocumentoRequerido> docRequeridos;
+	
+	/**
 	 * Representa el tramite en proceso
 	 */
 	private Tramite tramite;		
@@ -107,7 +112,9 @@ public class TramiteMB extends BaseMBean {
 	 */
 	public TramiteMB() {
 		skip = false;
+		tipoTramite = new TipoTramite();
 		tiposTramites = new ArrayList<TipoTramite>();
+		docRequeridos = new ArrayList<DocumentoRequerido>();
 	}
 	
 	/**
@@ -121,6 +128,10 @@ public class TramiteMB extends BaseMBean {
 		this.tramite = (Tramite)this.obtenerVariableSesion(Constantes.SESION_TRAMITE);
 		if (tramite != null) {
 			tipoTramite = tramite.getTiposTramite();
+			
+			for (DocsXTipoTramite docXtipo : tipoTramite.getDocsXTipoTramites()) {
+				docRequeridos.add(docXtipo.getDocumentosRequerido());
+			}
 			this.removerVariableSesion(Constantes.SESION_TRAMITE);
 		}
 	}
@@ -159,12 +170,22 @@ public class TramiteMB extends BaseMBean {
 	}
 	
 	/**
+	 * 
+	 */
+	public void agregarObservacion() {
+		
+		
+	}
+	
+	/**
 	 * Se encarga de subir documentos del tramite al sistema
 	 */
 	public void subirDocumento(FileUploadEvent event) {
 		
 		try {
-			DocumentoRequerido docRequerido = (DocumentoRequerido) event.getComponent().getAttributes().get("docTipo");						
+			DocumentoRequerido docRequerido = (DocumentoRequerido) event.getComponent().getAttributes().get("docTipo");
+			
+			
 			
 			archivoTramiteMBean.setTramiteId(tramite.getTramiteId());
 			DocumentoTramiteDto docDto = archivoTramiteMBean.uploadFileListener(event);
@@ -178,15 +199,17 @@ public class TramiteMB extends BaseMBean {
 			documento.setTramite(tramite);
 			tramite.getDocumentosTramites().add(documento);
 			
+			docRequerido.setEstadoUpload(true);
+			
 			//TODO revisar ya que no actualiza la imagen de ok
 			int cont = 0;
-			for (DocsXTipoTramite docxTipo : tipoTramite.getDocsXTipoTramites()) {
-				cont++;
-				if (docxTipo.getDocumentosRequerido().getNombreDocumento().equals(docRequerido.getNombreDocumento())) {
-					docxTipo.setEstadoUpload(true);
-					tipoTramite.getDocsXTipoTramites().set(cont, docxTipo);
+			for (DocumentoRequerido docReq : docRequeridos) {
+				
+				if (docReq.getNombreDocumento().equals(docRequerido.getNombreDocumento())) {
+					docRequeridos.set(cont, docReq);
 					break;
 				}
+				cont++;
 			}
 			
 			adicionarMensajeDefinido('I', "archivoCargadoExito");
@@ -203,6 +226,7 @@ public class TramiteMB extends BaseMBean {
 	public String tramitar() {		
 		String redirect = null;
 		try {
+			this.validarTramite();
 			tramite.setEstado(Constantes.ACTIVO);
 			tramite.setFechaSolicitud(new Date());
 			tramite.setMunicipio(alcaldiaMunicipio);			
@@ -218,6 +242,17 @@ public class TramiteMB extends BaseMBean {
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());
 		}
 		return redirect;
+	}
+	
+	/**
+	 * se encarga de validar el tramite antes de ser enviado
+	 * @throws NegocioException
+	 */
+	private void validarTramite() throws NegocioException {
+		
+		if (docRequeridos.size() != tramite.getDocumentosTramites().size()) {
+			throw new NegocioException(Constantes.ERROR, 0, "Todos los documentos son obligatorios");
+		}
 		
 	}
 	
@@ -313,6 +348,20 @@ public class TramiteMB extends BaseMBean {
 	 */
 	public void setTramite(Tramite tramite) {
 		this.tramite = tramite;
+	}
+
+	/**
+	 * @return the docRequeridos
+	 */
+	public List<DocumentoRequerido> getDocRequeridos() {
+		return docRequeridos;
+	}
+
+	/**
+	 * @param docRequeridos the docRequeridos to set
+	 */
+	public void setDocRequeridos(List<DocumentoRequerido> docRequeridos) {
+		this.docRequeridos = docRequeridos;
 	}
 
 }
