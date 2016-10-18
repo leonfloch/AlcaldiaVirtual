@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Clase utilitaria para cargar archivos al servidor
  *
- * @author Daniel
+ * @author Daniel Arévalo
  *
  */
 public class FileUploader {
@@ -42,7 +42,6 @@ public class FileUploader {
 
             if (!folder.exists()) {
                 folder.mkdirs();
-                System.out.println("Folder creado");
             }
 
             out = new FileOutputStream(pathFileName);
@@ -71,9 +70,7 @@ public class FileUploader {
      * @return
      */
     public static List<File> obtenerListaArchivos(String folderPath) {
-        System.out.println("Folder: " + folderPath);
         File folder = new File(folderPath);
-        System.out.println("No Archivos: " + folder.listFiles().length);
         return Arrays.asList(folder.listFiles());
     }
     
@@ -83,8 +80,12 @@ public class FileUploader {
      * @return
      */
     public static File obtenerArchivo(String path) {
-        System.out.println("Ruta: " + path);
         File archivo = new File(path);
         return archivo;
+    }
+    
+    public static boolean existeArchivo(String pathFile){
+    	File folder = new File(pathFile);
+    	return folder.exists();
     }
 }

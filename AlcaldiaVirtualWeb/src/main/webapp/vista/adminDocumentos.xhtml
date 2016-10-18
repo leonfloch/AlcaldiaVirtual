@@ -1,0 +1,175 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<body jsf:id="bodyMain">
+
+	<ui:composition template="layout.xhtml">
+		<ui:define name="content">
+			<!-- ======Breadcrumb====== -->
+			<ol class="breadcrumb r-0">
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">Tipos de Tramites</a></li>
+				<li class="active">Administrar Documentos</li>
+			</ol>
+			<!-- ======FIN Breadcrumb====== -->
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
+			</p:dialog>
+			<form jsf:id="documentosForm" enctype="multipart/form-data">
+				<p:growl id="msgs" showDetail="true" />
+				<p:accordionPanel multiple="false" widgetVar="documentosAccordion">
+					<!-- 					<p:ajax event="tabChange" update="documentosForm" -->
+					<!-- 						oncomplete="PF('documentosWizard').loadStep(PF('documentosWizard').cfg.steps [0], true);" /> -->
+					<p:tab title="Listado de Documentos" id="listaDocumentosTab"
+						titleStyle="card-header" titleStyleClass="card-header">
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-block">
+
+										<h:panelGrid columns="1" layout="grid">
+											<p:dataTable id="documentosDT" var="documento"
+												value="#{adminDocumentoMB.documentosRequeridos}">
+												<f:facet name="header">
+													<div style="width: 85%; display: inline-block;">
+														Documentos</div>
+													<div style="width: 15%; display: inline;">
+														<p:commandButton action="#{adminDocumentoMB.preModal}"
+															value="Crear Nuevo" process="@this" update="@form"
+															oncomplete="PF('documentosAccordion').select(1)"
+															icon="fa fa-plus" title="Nuevo Documento">
+															<f:setPropertyActionListener value="#{true}"
+																target="#{adminDocumentoMB.creacion}" />
+														</p:commandButton>
+													</div>
+												</f:facet>
+												<p:column headerText="Nombre"
+													sortBy="#{documento.nombreDocumento}"
+													filterMatchMode="contains"
+													filterBy="#{documento.nombreDocumento}"
+													filterStyle="height:20px;">
+													<h:outputText value="#{documento.nombreDocumento}" />
+												</p:column>
+												<p:column headerText="Ruta Archivo"
+													filterStyle="height:20px;">
+													<h:outputText value="#{documento.ruta}" />
+												</p:column>
+												<p:column headerText="Nombre Archivo"
+													sortBy="#{documento.nombreArchivo}"
+													filterBy="#{documento.nombreArchivo}"
+													filterStyle="height:20px;">
+													<h:outputText value="#{documento.nombreArchivo}" />
+												</p:column>
+												<p:column headerText="Descripción"
+													filterStyle="height:20px;">
+													<h:outputText value="#{documento.descripcion}" />
+												</p:column>
+												<p:column headerText="Formulario"
+													sortBy="#{documento.formulario.nombre}"
+													filterBy="#{documento.formulario.nombre}"
+													filterStyle="height:20px;">
+													<h:outputText value="#{documento.formulario.nombre}" />
+												</p:column>
+												<p:column style="width:5%;text-align: center">
+													<p:commandButton action="#{adminDocumentoMB.preModal}"
+														process="@this" update="@form"
+														oncomplete="PF('documentosAccordion').select(1)"
+														icon="ui-icon-wrench" title="View">
+														<f:setPropertyActionListener value="#{documento}"
+															target="#{adminDocumentoMB.documentoSelecc}" />
+														<f:setPropertyActionListener value="#{false}"
+															target="#{adminDocumentoMB.creacion}" />
+													</p:commandButton>
+
+												</p:column>
+											</p:dataTable>
+
+										</h:panelGrid>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</p:tab>
+					<p:tab title="Creación / Edición Documentos"
+						id="adminDocumentosTab">
+						<p:outputPanel id="adminDocumentosPanel">
+							<p:panel header="Información Documento">
+								<p:messages showDetail="true" autoUpdate="true" />
+								<h:panelGrid columns="2" style="white-space: pre">
+									<h:outputText value="Nombre * " />
+									<input type="text" required="true" placeholder="Nombre"
+										jsf:label="Nombre" jsf:requiredMessage="Nombre es requerido"
+										jsf:value="#{adminDocumentoMB.documentoSelecc.nombreDocumento}"
+										maxlength="500" class="form-control" style="width: 250px" />
+
+									<h:outputText value="Archivo: " />
+									<input jsf:id="nombreArchivoInput" type="text"
+										placeholder="Nombre Archivo"
+										jsf:value="#{adminDocumentoMB.documentoSelecc.nombreArchivo}"
+										jsf:disabled="true" class="form-control" maxlength="50" />
+
+									<h:outputText value=" " />
+									<p:fileUpload mode="advanced" dragDropSupport="false"
+										id="docReqFU"
+										update="docReqFU, nombreArchivoInput, :documentosForm:msgs"
+										sizeLimit="10000000" allowTypes="/(\.|\/)(pdf|doc|docx)$/"
+										process="nombreArchivoInput" widgetVar="docReqWV"
+										disabled="#{adminDocumentoMB.documentoSelecc.nombreArchivo != null}"
+										fileUploadListener="#{adminDocumentoMB.cargarDocumentoRequerido}"
+										uploadLabel="Subir" cancelLabel="Cancelar" label="Seleccionar" />
+
+									<h:outputText value="Descripción * " />
+									<textarea cols="60" rows="5" required="true"
+										placeholder="Descripción" jsf:label="Descripción"
+										jsf:requiredMessage="Descripción es requerido"
+										jsf:value="#{adminDocumentoMB.documentoSelecc.descripcion}"
+										class="form-control" maxlength="2000" />
+
+									<h:outputText value="Formulario " />
+									<p:selectOneMenu
+										value="#{adminDocumentoMB.documentoSelecc.formulario}">
+										<f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+										<f:selectItems value="#{adminDocumentoMB.formularios}" />
+									</p:selectOneMenu>
+								</h:panelGrid>
+								<f:facet name="footer">
+									<h:panelGrid id="submitButtons" columns="2">
+										<button jsf:id="registroBtn" class="btn btn-sm btn-primary"
+											jsf:action="#{adminDocumentoMB.persistirDocumento}"
+											jsf:process="@form" jsf:update=":documentosForm:msgs"
+											onclick="PF('documentosAccordion').select(0);">
+											<i class="fa fa-floppy-o"></i> Guardar
+											<f:setPropertyActionListener value="#{true}"
+												target="#{adminDocumentoMB.creacion}" />
+										</button>
+										<p:commandButton value="Cancelar" styleClass="cancelButton"
+											action="#{adminDocumentoMB.limpiarAtributos}"
+											oncomplete="PF('documentosAccordion').select(0);"
+											process="@this" update=":documentosForm:msgs"
+											icon="fa fa-ban">
+											<f:setPropertyActionListener value="#{true}"
+												target="#{adminDocumentoMB.creacion}" />
+										</p:commandButton>
+									</h:panelGrid>
+								</f:facet>
+							</p:panel>
+						</p:outputPanel>
+					</p:tab>
+				</p:accordionPanel>
+			</form>
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+
+</html>

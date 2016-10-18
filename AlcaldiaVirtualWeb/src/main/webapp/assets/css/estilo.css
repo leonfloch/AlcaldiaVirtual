@@ -1,7 +1,7 @@
 /* .ui-button-text-only .ui-button-text { */
 /* 	color: inherit; */
 /* 	background: inherit; */
-	
+
 /* } */
 
 /* .ui-button .ui-button-text { */
@@ -17,4 +17,23 @@
 	background-color: #20a8d8 !important;
 	color: white !important;
 	text-shadow: 0px 0px !important;
+}
+
+.ui-growl {
+	top: 50px !important;
+}
+
+.cancelButton.ui-state-default {
+	padding: .15em 0em .15em 0em !important;
+	color: #fff !important;
+	background-color: #ff5454 !important;
+	border-color: #ff5454 !important;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0) !important;
+	background-image: none !important;
+}
+
+.cancelButton.ui-state-hover {
+	color: #fff !important;
+	background-color: #ff2121 !important;
+	border-color: #ff1717 !important;
 }

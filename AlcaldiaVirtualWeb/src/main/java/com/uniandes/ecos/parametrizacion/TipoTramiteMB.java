@@ -81,7 +81,7 @@ public class TipoTramiteMB extends BaseMBean {
 	private TipoTramite tipoTramiteSelecc;
 
 	/**
-	 * indica si se cra un nuevo funcionario
+	 * indica si se crea un nuevo tipo tramite
 	 */
 	private boolean creacion;
 
@@ -108,14 +108,11 @@ public class TipoTramiteMB extends BaseMBean {
 	 * Se ejecuta antes de abril el modal de edicion de tipos tramite
 	 */
 	public void preModal() {
-		System.out.println("Iniciando creacion / edicion");
 		try {
 			if (creacion) {
-				System.out.println("Creacion");
 				this.initTiposTramite();
 				this.reiniciarDualList();
 			} else {
-				System.out.println("Edicion");
 				tramitesXMunicipios = iParamTramitesFacade
 						.obtenerTramiteXMunicipioXTipoTramiteId(tipoTramiteSelecc.getTipoTramiteId());
 				documentosXTramites = iParamTramitesFacade
@@ -270,8 +267,7 @@ public class TipoTramiteMB extends BaseMBean {
 	}
 
 	public void onTabChange(TabChangeEvent event) {
-		System.out.println("Cambiando Tab");
-
+		
 	}
 
 	public String onFlowProcess(FlowEvent event) {

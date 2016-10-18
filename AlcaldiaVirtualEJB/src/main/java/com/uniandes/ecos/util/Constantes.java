@@ -45,11 +45,13 @@ public class Constantes {
 
     //carpeta documentos tramite
     public static final String PROPIEDAD_CARPETA_DOCUMENTOS_TRAMITE = "rutaArchivosTramites";
+    public static final String PROPIEDAD_CARPETA_DOCUMENTOS_REQUERIDOS = "rutaDocumentosRequeridos";
 
     //codigos errores
     public static final int CODIGO_ERROR_CARGUE_ARCHIVO = 512;
     public static final int CODIGO_ERROR_ENVIO_CORREO = 513;
     public static final int CODIGO_ERROR_CARGUE_ARCHIVO_PROPIEDADES = 514;
+    public static final int CODIGO_ADVERTENCIA_ARCHIVO_EXISTENTE = 515;
 
     //Varios
     public static final String SI = "S";

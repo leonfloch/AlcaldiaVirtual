@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.DocumentoRequerido;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -41,5 +42,14 @@ public interface IDocumentosService {
 	  * @throws NegocioException
 	  */
 	 List<DocumentoTramiteDto> obtenerArchivosTramite(Long idTramite) throws NegocioException;
+	 
+	 /**
+	  * Se encarga de subir un archivo a la carpeta de documentos requeridos
+	  * @param nombreArchivo
+	  * @param data
+	  * @throws NegocioException
+	  * @return DocumentoRequerido
+	  */
+	 DocumentoRequerido cargarDocumentoRequerido(String nombreArchivo, InputStream data) throws NegocioException; 
 
 }

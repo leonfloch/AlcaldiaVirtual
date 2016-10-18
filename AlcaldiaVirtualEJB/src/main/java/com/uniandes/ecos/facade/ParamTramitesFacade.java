@@ -1,5 +1,6 @@
 package com.uniandes.ecos.facade;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -15,6 +16,7 @@ import com.uniandes.ecos.entities.TramiteXMunicipio;
 import com.uniandes.ecos.interfaz.facade.IParamTramitesFacade;
 import com.uniandes.ecos.interfaz.services.parametrizacion.IFormulariosParamService;
 import com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService;
+import com.uniandes.ecos.interfaz.services.procesador.IDocumentosService;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -40,6 +42,12 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
      */
     @EJB
     private ITramitesParamService iTramitesParamService;
+    
+    /**
+     * Inyección de dependencia con componente de cargue de archivos
+     */
+    @EJB
+    private IDocumentosService iDocumentosService;
 
 
     /*
@@ -165,7 +173,7 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
 	 * obtenerTramiteXMunicipioXTipoTramiteId()
 	 */
 	@Override
@@ -176,7 +184,7 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
 	 * obtenerListaDocumentos()
 	 */
 	@Override
@@ -187,7 +195,7 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
 	 * obtenerListaDocumentosXTipoTramite()
 	 */
 	@Override
@@ -198,7 +206,7 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
 	 * actualizarDocumentoXTramite()
 	 */
 	@Override
@@ -209,11 +217,56 @@ public class ParamTramitesFacade implements IParamTramitesFacade {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
 	 * obtenerDocumentosXTramiteXTipoTramiteId()
 	 */
 	@Override
 	public List<DocsXTipoTramite> obtenerDocumentosXTramiteXTipoTramiteId(long tipoTramiteId) throws NegocioException {
 		return iTramitesParamService.obtenerDocumentosXTramiteXTipoTramiteId(tipoTramiteId);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * obtenerDocumentosRequeridos()
+	 */
+	@Override
+	public List<DocumentoRequerido> obtenerDocumentosRequeridos() throws NegocioException {
+		return iTramitesParamService.obtenerDocumentosRequeridos();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * cargarDocumentoRequerido()
+	 */
+	@Override
+	public DocumentoRequerido cargarDocumentoRequerido(String nombreArchivo, InputStream data) throws NegocioException{
+		return iDocumentosService.cargarDocumentoRequerido(nombreArchivo, data);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * crearDocumentoRequerido()
+	 */
+	@Override
+	public void crearDocumentoRequerido(DocumentoRequerido documentoRequerido) throws NegocioException {
+		iTramitesParamService.crearDocumentoRequerido(documentoRequerido);
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.facade.IParamTramitesFacade#
+	 * actualizarDocumentoRequerido()
+	 */
+	@Override
+	public void actualizarDocumentoRequerido(DocumentoRequerido documentoRequerido) throws NegocioException {
+		iTramitesParamService.actualizarDocumentoRequerido(documentoRequerido);
 	}
 }

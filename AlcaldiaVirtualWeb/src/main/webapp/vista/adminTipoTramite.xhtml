@@ -23,7 +23,7 @@
 				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
 			</p:dialog>
 			<form jsf:id="tiposTramitesForm">
-			<p:growl id="msgs" showDetail="true" for="tiposTramiteAccordion"/>
+			<p:growl id="msgs" showDetail="true"/>
 				<p:accordionPanel multiple="false" widgetVar="tiposTramiteAccordion">
 					<p:ajax event="tabChange" listener="#{tipoTramiteMB.onTabChange}"
 						update="tiposTramitesForm"
@@ -69,7 +69,7 @@
 													<p:commandButton action="#{tipoTramiteMB.preModal}"
 														process="@this"
 														oncomplete="PF('tiposTramiteAccordion').select(1)"
-														icon="ui-icon-search" title="View">
+														icon="ui-icon-wrench" title="View">
 														<f:setPropertyActionListener value="#{tipoTramite}"
 															target="#{tipoTramiteMB.tipoTramiteSelecc}" />
 														<f:setPropertyActionListener value="#{false}"
@@ -94,7 +94,7 @@
 								widgetVar="tiposTramitesWizard">
 								<p:tab id="infoBasica" title="Información Básica">
 									<p:panel header="Información Básica">
-										<p:messages />
+										<p:messages showDetail="true" autoUpdate="true"/>
 										<h:panelGrid columns="2" style="white-space: pre">
 											<h:outputText value="Nombre * " />
 											<input type="text" required="true" placeholder="Nombre"
@@ -144,6 +144,7 @@
 									<p:panel header="Confirmación">
 										<button jsf:id="registroBtn"
 											jsf:action="#{tipoTramiteMB.persistirTipoTramite}"
+											jsf:update=":tiposTramitesForm:msgs"
 											onclick="PF('tiposTramiteAccordion').select(0);"
 											class="btn btn-sm btn-primary">
 											<i class="fa fa-floppy-o"></i> Guardar

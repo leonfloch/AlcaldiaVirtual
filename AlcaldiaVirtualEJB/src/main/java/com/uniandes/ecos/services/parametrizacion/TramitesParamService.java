@@ -46,11 +46,16 @@ public class TramitesParamService implements ITramitesParamService {
 	 * Instanciación del objeto dao para el manejo de persistencia.
 	 */
 	private BaseDao<TramiteXMunicipio, Long> tramiteXMunicipioDao;
-	
+
 	/**
 	 * Instanciación del objeto dao para el manejo de persistencia.
 	 */
 	private BaseDao<DocsXTipoTramite, Long> documentosXTramiteDao;
+
+	/**
+	 * Instanciación del objeto dao para el manejo de persistencia.
+	 */
+	private BaseDao<DocumentoRequerido, Long> documentosRequeridosDao;
 
 	/**
 	 * Inicialización de objetos del bean.
@@ -60,6 +65,7 @@ public class TramitesParamService implements ITramitesParamService {
 		this.tipoTramiteDao = new BaseDao<TipoTramite, Long>(TipoTramite.class, this.em);
 		this.tramiteXMunicipioDao = new BaseDao<TramiteXMunicipio, Long>(TramiteXMunicipio.class, this.em);
 		this.documentosXTramiteDao = new BaseDao<DocsXTipoTramite, Long>(DocsXTipoTramite.class, this.em);
+		this.documentosRequeridosDao = new BaseDao<DocumentoRequerido, Long>(DocumentoRequerido.class, this.em);
 	}
 
 	/*
@@ -117,7 +123,8 @@ public class TramitesParamService implements ITramitesParamService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * obtenerListaMunicipios()
 	 */
 	@SuppressWarnings("unchecked")
@@ -129,7 +136,8 @@ public class TramitesParamService implements ITramitesParamService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * obtenerListaMunicipiosXTipoTramite()
 	 */
 	@SuppressWarnings("unchecked")
@@ -145,7 +153,8 @@ public class TramitesParamService implements ITramitesParamService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * crearTramiteXMunicipio()
 	 */
 	@Override
@@ -156,18 +165,20 @@ public class TramitesParamService implements ITramitesParamService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * actualizarTramiteXMunicipio()
 	 */
 	@Override
 	public void actualizarTramiteXMunicipio(TramiteXMunicipio tramiteXMunicipio) throws NegocioException {
 		this.tramiteXMunicipioDao.merge(tramiteXMunicipio);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * desactivarTramiteXMunicipio()
 	 */
 	@Override
@@ -176,14 +187,15 @@ public class TramitesParamService implements ITramitesParamService {
 		String sql = "Select txm From TramiteXMunicipio txm Where txm.tiposTramite.tipoTramiteId = :tipoTramiteId";
 		Query query = this.em.createQuery(sql);
 		query.setParameter("tipoTramiteId", tipoTramiteId);
-		
+
 		return query.getResultList();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * obtenerListaDocumentos()
 	 */
 	@SuppressWarnings("unchecked")
@@ -191,11 +203,12 @@ public class TramitesParamService implements ITramitesParamService {
 	public List<DocumentoRequerido> obtenerListaDocumentos() throws NegocioException {
 		return this.em.createNamedQuery("DocumentoRequerido.findAll").getResultList();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * obtenerListaDocumentosXTipoTramite()
 	 */
 	@SuppressWarnings("unchecked")
@@ -207,22 +220,24 @@ public class TramitesParamService implements ITramitesParamService {
 		query.setParameter("estado", "A");
 		return query.getResultList();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * actualizarDocumentoXTramite()
 	 */
 	@Override
 	public void actualizarDocumentoXTramite(DocsXTipoTramite docsXTipoTramite) throws NegocioException {
 		this.documentosXTramiteDao.merge(docsXTipoTramite);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.Municipio#
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
 	 * obtenerDocumentosXTramiteXTipoTramiteId()
 	 */
 	@Override
@@ -231,7 +246,42 @@ public class TramitesParamService implements ITramitesParamService {
 		String sql = "Select dxtt From DocsXTipoTramite dxtt Where dxtt.tiposTramite.tipoTramiteId = :tipoTramiteId";
 		Query query = this.em.createQuery(sql);
 		query.setParameter("tipoTramiteId", tipoTramiteId);
-		
+
 		return query.getResultList();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService
+	 * obtenerDocumentosRequeridos()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DocumentoRequerido> obtenerDocumentosRequeridos() throws NegocioException {
+		return this.em.createNamedQuery("DocumentoRequerido.findAll").getResultList();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.
+	 * ITramitesParamService# crearDocumentoRequerido()
+	 */
+	@Override
+	public void crearDocumentoRequerido(DocumentoRequerido documentoRequerido) throws NegocioException {
+		this.documentosRequeridosDao.persist(documentoRequerido);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.
+	 * ITramitesParamService# actualizarDocumentoRequerido()
+	 */
+	@Override
+	public void actualizarDocumentoRequerido(DocumentoRequerido documentoRequerido) throws NegocioException {
+		this.documentosRequeridosDao.merge(documentoRequerido);
 	}
 }
