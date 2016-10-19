@@ -1,0 +1,71 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<body jsf:id="bodyMain">
+
+	<ui:composition template="layout.xhtml">
+		<ui:define name="content">
+			<!-- ======Breadcrumb====== -->
+			<ol class="breadcrumb r-0">
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">Tramites</a></li>
+				<li class="active">Crear Tramite</li>
+			</ol>
+			<!-- ======FIN Breadcrumb====== -->
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
+			</p:dialog>
+
+			<form jsf:id="form">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">Crear Tramite</div>
+							<div class="card-block">
+							
+								
+									<p:growl id="msgs" showDetail="true" />
+									
+									<div class="row">
+									<div class="col-md-12">
+
+										<p:dashboard id="board"
+											binding="#{procesaTramiteMB.dashboard}">
+
+										</p:dashboard>
+
+									</div>
+									
+									</div>
+							
+							
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</form>
+
+
+
+
+
+
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+
+</html>
