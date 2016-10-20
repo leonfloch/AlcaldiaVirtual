@@ -18,7 +18,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="TRAMITES")
-@NamedQuery(name="Tramite.findAll", query="SELECT t FROM Tramite t")
+@NamedQueries({
+	@NamedQuery(name="Tramite.findAll", query="SELECT f FROM Tramite f"),
+	@NamedQuery(name="Tramite.findByMunicipio", query="SELECT f FROM Tramite f WHERE f.municipio.municipioId = :municipioId")
+})
 public class Tramite implements Serializable {
 	private static final long serialVersionUID = 1L;
 

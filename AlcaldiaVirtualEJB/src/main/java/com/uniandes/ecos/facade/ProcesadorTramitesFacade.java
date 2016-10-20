@@ -65,4 +65,14 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 		tramitesService.crearTramite(tramite);		
 	}
 
+	/*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+     * obtenerTramites(long)
+     */
+	@Override
+	public List<Tramite> obtenerTramites(long municipioId) throws NegocioException {
+		return this.tramitesService.obtenerTramites(municipioId);
+	}
+
 }

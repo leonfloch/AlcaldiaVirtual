@@ -4,13 +4,16 @@
 package com.uniandes.ecos.services.procesador;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.uniandes.ecos.dao.BaseDao;
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
@@ -20,6 +23,7 @@ import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.interfaz.services.procesador.ICorreosService;
 import com.uniandes.ecos.interfaz.services.procesador.IDocumentosService;
 import com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService;
+import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -103,6 +107,31 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	@Override
 	public void crearTramite(Tramite tramite) throws NegocioException {
 		tramiteDao.persist(tramite);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#
+	 * obtenerTramites(long)
+	 */
+	@Override
+	public List<Tramite> obtenerTramites(long municipioId) throws NegocioException {
+		List<Tramite> lstTramites = new ArrayList<>();
+
+        Query query = this.em.createNamedQuery("Tramite.findByMunicipio");
+        query.setParameter("municipioId", municipioId);
+
+        //Se ejecuta la consulta
+        try {
+        	lstTramites = query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            throw new NegocioException(Constantes.INFO, 0, "No existen trámites a procesar en el momento.");
+        }
+        
+		return lstTramites;
 	}
 
 }

@@ -47,5 +47,13 @@ public interface IProcesadorTramitesFacade {
 	 */
 	void crearTramite(Tramite tramite) throws NegocioException;
 	
+	/**
+	 * Obtiene la lista de trámites a ser procesados.
+	 * 
+	 * @param municipioId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<Tramite> obtenerTramites(long municipioId) throws NegocioException;
 	
 }
