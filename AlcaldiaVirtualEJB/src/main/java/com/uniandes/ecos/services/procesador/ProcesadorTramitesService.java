@@ -134,4 +134,29 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 		return lstTramites;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#
+	 * obtenerTramite(long)
+	 */
+	@Override
+	public Tramite obtenerTramite(long tramiteId) throws NegocioException {
+		return tramiteDao.findById(tramiteId);
+	}
+
+	/*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+     * cambiarEstadoTramite(long, java.lang.String)
+     */
+	@Override
+	public void cambiarEstadoTramite(long tramiteId, String estado) throws NegocioException {
+		Tramite tramite = tramiteDao.findById(tramiteId);
+		tramite.setEstado(estado);
+		tramiteDao.merge(tramite);
+		this.em.flush();
+	}
+
 }

@@ -63,5 +63,11 @@ public class Constantes {
     //indica si un documento es enviado o es repuesta del tramite
     public static final String ENTREGADO = "E";
     public static final String RESPUESTA = "R";
+    
+    //Estados del trámite
+    public static final String ESTADO_CREADO = "A";
+    public static final String ESTADO_PROCESO = "P";
+    public static final String ESTADO_FINALIZADO = "F";
+    public static final String ESTADO_RECHAZADO = "R";
 
 }

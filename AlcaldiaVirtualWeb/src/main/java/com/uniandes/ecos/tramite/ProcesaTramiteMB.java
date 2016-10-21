@@ -14,15 +14,18 @@ import javax.management.StringValueExp;
 
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
+import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 
+import com.sun.msv.verifier.jarv.Const;
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.interfaz.facade.IParamTramitesFacade;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
+import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -85,33 +88,34 @@ public class ProcesaTramiteMB extends BaseMBean{
 		dashboard.setId("dashboard");
 
 		DashboardModel model = new DefaultDashboardModel();
-		DashboardColumn column1 = new DefaultDashboardColumn();
-		DashboardColumn column2 = new DefaultDashboardColumn();
-		DashboardColumn column3 = new DefaultDashboardColumn();
-		DashboardColumn column4 = new DefaultDashboardColumn();
-		model.addColumn(column1);
-		model.addColumn(column2);
-		model.addColumn(column3);
-		model.addColumn(column4);
+		DashboardColumn columnCreados = new DefaultDashboardColumn();
+		DashboardColumn columnProceso = new DefaultDashboardColumn();
+		DashboardColumn columnFinalizados = new DefaultDashboardColumn();
+		DashboardColumn columnRechazados = new DefaultDashboardColumn();
+		model.addColumn(columnCreados);
+		model.addColumn(columnProceso);
+		model.addColumn(columnFinalizados);
+		model.addColumn(columnRechazados);
 		dashboard.setModel(model);
 		
-		int cont = 0;
 		for (Tramite tramite : this.lstTramitesAProcesar) {
 			Panel panel = (Panel) application.createComponent(fc, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
-			panel.setId("tra"+tramite.getTramiteId());
+			panel.setId("t-"+tramite.getTramiteId());
 			panel.setHeader("Trámite número:" + tramite.getTramiteId());
 			panel.setClosable(false);
 			panel.setToggleable(false);
 
 			dashboard.getChildren().add(panel);
-			if (cont == 0) {
-				column1.addWidget(panel.getId());
-			}else if (cont == 1){
-				column2.addWidget(panel.getId());
-			}else{
-				column3.addWidget(panel.getId());
+			if (Constantes.ESTADO_CREADO.equals(tramite.getEstado())) {
+				columnCreados.addWidget(panel.getId());
+			}else if (Constantes.ESTADO_PROCESO.equals(tramite.getEstado())){
+				columnProceso.addWidget(panel.getId());
+			}else if (Constantes.ESTADO_FINALIZADO.equals(tramite.getEstado())){
+				columnFinalizados.addWidget(panel.getId());
+			}else if (Constantes.ESTADO_RECHAZADO.equals(tramite.getEstado())){
+				columnRechazados.addWidget(panel.getId());
 			}
-			cont++;
+			
 			HtmlOutputText text = new HtmlOutputText();
 			text.setId("t"+tramite.getTramiteId());
 			text.setValue(tramite.getTiposTramite().getNombre());
@@ -119,6 +123,47 @@ public class ProcesaTramiteMB extends BaseMBean{
 			panel.getChildren().add(text);
 		}
 
+	}
+	
+	/**
+	 * Manejador de eventos del dashboard. 
+	 * @param event
+	 */
+	public void cambiarEstado(DashboardReorderEvent event) {
+		//Se obtiene el id del trámite
+		String widgetId = event.getWidgetId();
+		String[] parts = widgetId.split("-");
+		String part1 = parts[0]; 
+		String tramiteId = parts[1];
+		
+		//Se obtiene el estado al que se desea cambiar
+		String estado = null;
+		switch (event.getColumnIndex()) {
+		case 0:
+			estado = Constantes.ESTADO_CREADO;
+			break;
+		case 1:
+			estado = Constantes.ESTADO_PROCESO;
+			break;
+		case 2:
+			estado = Constantes.ESTADO_FINALIZADO;
+			break;
+		case 3:
+			estado = Constantes.ESTADO_RECHAZADO;
+			break;
+		default:
+			break;
+		}
+		
+		//Se cambia el estado del trámite
+		try {
+			this.procesadorTramitesFacade.cambiarEstadoTramite(Long.valueOf(tramiteId), estado);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());	
+		}
 	}
 
 	/**

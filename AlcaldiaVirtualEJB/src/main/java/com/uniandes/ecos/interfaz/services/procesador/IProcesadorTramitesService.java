@@ -55,4 +55,22 @@ public interface IProcesadorTramitesService {
 	 * @throws NegocioException
 	 */
 	List<Tramite> obtenerTramites(long municipioId) throws NegocioException;
+	
+	/**
+	 * Obtiene un trámite específico.
+	 * 
+	 * @param tramiteId
+	 * @return
+	 * @throws NegocioException
+	 */
+	Tramite obtenerTramite(long tramiteId) throws NegocioException;
+	
+	/**
+	 * Cambia el estado de un trámite específico. 
+	 * 
+	 * @param tramiteId
+	 * @param estado
+	 * @throws NegocioException
+	 */
+	void cambiarEstadoTramite(long tramiteId, String estado) throws NegocioException;
 }

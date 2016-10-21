@@ -40,23 +40,24 @@
 							
 								
 									<p:growl id="msgs" showDetail="true" />
-									
 									<div class="row">
-									<div class="col-md-12">
-										<h:panelGrid  id="boardGrid" columns="1" cellpadding="10">
-											<h:panelGrid  id="boardHeader" columns="4" cellpadding="10">
-												<h:outputLabel for="estado1" value="Creado" style="width: 230px; text-align: center;"/>
-												<h:outputLabel for="estado2" value="En Proceso" style="width: 230px; text-align: center;"/>
-												<h:outputLabel for="estado3" value="Finalizado" style="width: 230px; text-align: center;"/>
-												<h:outputLabel for="estado4" value="Rechazado" style="width: 230px; text-align: center;"/>
-											</h:panelGrid>
-											<p:dashboard id="board"
-											binding="#{procesaTramiteMB.dashboard}">
-
-											</p:dashboard>
-										</h:panelGrid>
-									</div>
-									
+										<div class="col-md-1"></div>
+										<div class="col-md-10">
+												<h:panelGrid  id="boardGrid" columns="1" cellpadding="10">
+													<h:panelGrid  id="boardHeader" columns="4" cellpadding="10">
+														<h:outputLabel for="estado1" value="Creado" style="width: 230px; text-align: center;"/>
+														<h:outputLabel for="estado2" value="En Proceso" style="width: 230px; text-align: center;"/>
+														<h:outputLabel for="estado3" value="Finalizado" style="width: 230px; text-align: center;"/>
+														<h:outputLabel for="estado4" value="Rechazado" style="width: 230px; text-align: center;"/>
+													</h:panelGrid>
+													<p:dashboard id="board"
+													binding="#{procesaTramiteMB.dashboard}">
+														<p:ajax event="reorder" listener="#{procesaTramiteMB.cambiarEstado}" />
+		
+													</p:dashboard>
+												</h:panelGrid>
+										</div>
+										<div class="col-md-1"></div>
 									</div>
 							
 							
