@@ -24,11 +24,18 @@
 			</p:dialog>
 
 			<form jsf:id="form">
+			
+			<style type="text/css">
+			.ui-dashboard-column {
+			  width: 230px;
+			  
+			}
+			</style>
 
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="card">
-							<div class="card-header">Crear Tramite</div>
+							<div class="card-header">Procesar Tramites</div>
 							<div class="card-block">
 							
 								
@@ -36,12 +43,18 @@
 									
 									<div class="row">
 									<div class="col-md-12">
-
-										<p:dashboard id="board"
+										<h:panelGrid  id="boardGrid" columns="1" cellpadding="10">
+											<h:panelGrid  id="boardHeader" columns="4" cellpadding="10">
+												<h:outputLabel for="estado1" value="Creado" style="width: 230px; text-align: center;"/>
+												<h:outputLabel for="estado2" value="En Proceso" style="width: 230px; text-align: center;"/>
+												<h:outputLabel for="estado3" value="Finalizado" style="width: 230px; text-align: center;"/>
+												<h:outputLabel for="estado4" value="Rechazado" style="width: 230px; text-align: center;"/>
+											</h:panelGrid>
+											<p:dashboard id="board"
 											binding="#{procesaTramiteMB.dashboard}">
 
-										</p:dashboard>
-
+											</p:dashboard>
+										</h:panelGrid>
 									</div>
 									
 									</div>

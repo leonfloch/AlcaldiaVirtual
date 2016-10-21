@@ -87,10 +87,15 @@ public class ProcesaTramiteMB extends BaseMBean{
 		DashboardModel model = new DefaultDashboardModel();
 		DashboardColumn column1 = new DefaultDashboardColumn();
 		DashboardColumn column2 = new DefaultDashboardColumn();
+		DashboardColumn column3 = new DefaultDashboardColumn();
+		DashboardColumn column4 = new DefaultDashboardColumn();
 		model.addColumn(column1);
 		model.addColumn(column2);
+		model.addColumn(column3);
+		model.addColumn(column4);
 		dashboard.setModel(model);
 		
+		int cont = 0;
 		for (Tramite tramite : this.lstTramitesAProcesar) {
 			Panel panel = (Panel) application.createComponent(fc, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
 			panel.setId("tra"+tramite.getTramiteId());
@@ -99,7 +104,14 @@ public class ProcesaTramiteMB extends BaseMBean{
 			panel.setToggleable(false);
 
 			dashboard.getChildren().add(panel);
-			column1.addWidget(panel.getId());
+			if (cont == 0) {
+				column1.addWidget(panel.getId());
+			}else if (cont == 1){
+				column2.addWidget(panel.getId());
+			}else{
+				column3.addWidget(panel.getId());
+			}
+			cont++;
 			HtmlOutputText text = new HtmlOutputText();
 			text.setId("t"+tramite.getTramiteId());
 			text.setValue(tramite.getTiposTramite().getNombre());
