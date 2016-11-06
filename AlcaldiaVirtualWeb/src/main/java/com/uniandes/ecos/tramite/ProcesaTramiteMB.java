@@ -1,6 +1,5 @@
 package com.uniandes.ecos.tramite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,7 +9,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.management.StringValueExp;
 
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
@@ -20,10 +18,8 @@ import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 
-import com.sun.msv.verifier.jarv.Const;
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.Tramite;
-import com.uniandes.ecos.interfaz.facade.IParamTramitesFacade;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
