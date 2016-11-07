@@ -59,6 +59,11 @@ public class AdminDocumentoMB extends BaseMBean {
 	private DocumentoRequerido documentoSelecc;
 
 	/**
+	 * Formulario seleccionado por el usuario
+	 */
+	private Formulario formularioSelecc;
+
+	/**
 	 * Lista de formularios disponibles
 	 */
 	private List<Formulario> formularios;
@@ -84,6 +89,13 @@ public class AdminDocumentoMB extends BaseMBean {
 	public void preModal() {
 		if (creacion) {
 			documentoSelecc = new DocumentoRequerido();
+			formularioSelecc = new Formulario();
+		} else {
+			if (documentoSelecc.getFormulario() != null)
+				for (Formulario form : formularios) {
+					if (form.getFormularioId() == documentoSelecc.getFormulario().getFormularioId())
+						formularioSelecc = form;
+				}
 		}
 	}
 
@@ -92,6 +104,12 @@ public class AdminDocumentoMB extends BaseMBean {
 	 */
 	public void persistirDocumento() {
 		try {
+			if (formularioSelecc != null) {
+				documentoSelecc.setFormulario(formularioSelecc);
+			} else {
+				documentoSelecc.setFormulario(null);
+			}
+
 			iParamTramitesFacade.actualizarDocumentoRequerido(documentoSelecc);
 			documentosRequeridos = iParamTramitesFacade.obtenerDocumentosRequeridos();
 			this.adicionarMensaje(Constantes.INFO, "Documento Requerido guardado");
@@ -189,6 +207,21 @@ public class AdminDocumentoMB extends BaseMBean {
 	 */
 	public void setFormularios(List<Formulario> formularios) {
 		this.formularios = formularios;
+	}
+
+	/**
+	 * @return the formularioSelecc
+	 */
+	public Formulario getFormularioSelecc() {
+		return formularioSelecc;
+	}
+
+	/**
+	 * @param formularioSelecc
+	 *            the formularioSelecc to set
+	 */
+	public void setFormularioSelecc(Formulario formularioSelecc) {
+		this.formularioSelecc = formularioSelecc;
 	}
 
 }

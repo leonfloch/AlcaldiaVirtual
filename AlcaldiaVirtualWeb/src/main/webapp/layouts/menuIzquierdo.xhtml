@@ -24,7 +24,7 @@
 			<a class="nav-link nav-dropdown-toggle" href="#"><i class="#{menu.icono}"></i> #{menu.descripcion}</a>
 			<ul class="nav-dropdown-items">
 				<ui:repeat var="hijo" value="#{menuMB.menuHijos(menu.funcionalidadId)}">
-	               <li class="nav-item">
+	               <li class="nav-item" style="margin-left: 10px">
 	                   <h:link class="nav-link" outcome="#{hijo.nombre}" >
 	                   		<i class="#{hijo.icono}"></i> #{hijo.descripcion}
 	                   </h:link>

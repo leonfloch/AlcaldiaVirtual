@@ -136,9 +136,12 @@
 
 									<h:outputText value="Formulario " />
 									<p:selectOneMenu
-										value="#{adminDocumentoMB.documentoSelecc.formulario}">
+										value="#{adminDocumentoMB.formularioSelecc}"
+										converter="entityConverter">
 										<f:selectItem itemLabel="Seleccione Uno" itemValue="" />
-										<f:selectItems value="#{adminDocumentoMB.formularios}" />
+										<f:selectItems value="#{adminDocumentoMB.formularios}"
+											var="formulario" itemLabel="#{formulario.nombre}"
+											itemValue="#{formulario}" />
 									</p:selectOneMenu>
 								</h:panelGrid>
 								<f:facet name="footer">
