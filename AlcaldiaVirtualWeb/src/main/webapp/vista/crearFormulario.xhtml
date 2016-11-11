@@ -94,7 +94,17 @@
 												</div>
 											</div>
 										</h:panelGroup>
-										
+
+										<div class="row">
+											<div class="col-md-10"></div>
+											<div class="col-md-2">
+												<button class="btn btn-sm btn-primary" 
+												jsf:action="#{formulariosCreacionMB.armarFormulario}">
+												<i class="fa fa-ban"></i> Previsualizar
+												</button>
+											</div>
+										</div>
+																				
 										<div class="card-footer">
 											<button jsf:id="btnGuardarFormulario" jsf:rendered="#{!formulariosCreacionMB.modificacionformulario}"
 												jsf:action="#{formulariosCreacionMB.guardarFormulario}" jsf:oncomplete="PF('dlgCampoNuevo').hide()"
@@ -265,6 +275,7 @@
 				   		</form>
 			   		</p:outputPanel>
 			</p:dialog>
+
 
 		</ui:define>
 	</ui:composition>

@@ -4,18 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlOutputText;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 
+import org.primefaces.component.dashboard.Dashboard;
+import org.primefaces.component.panel.Panel;
+import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.DashboardColumn;
+import org.primefaces.model.DashboardModel;
+import org.primefaces.model.DefaultDashboardColumn;
+import org.primefaces.model.DefaultDashboardModel;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.CampoFormulario;
 import com.uniandes.ecos.entities.Formulario;
 import com.uniandes.ecos.entities.TipoCampo;
+import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.interfaz.facade.IParamTramitesFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.DominioVO;
@@ -39,6 +51,9 @@ public class FormulariosCreacionMB extends BaseMBean {
 	@Inject
 	private IParamTramitesFacade iParamTramitesFacade;
 	
+	/** Inyección con MB de Formulario dinámico. */
+	private FormularioDinamicoMB formularioDinamicoMB;
+	
 	/** Listas en pantalla. */
 	private List<DominioVO> lstTiposEntrada;
 	private List<TipoCampo> lstTiposCampos;
@@ -51,6 +66,9 @@ public class FormulariosCreacionMB extends BaseMBean {
 	private boolean modificacion;
 	private boolean inputText;
 	private boolean modificacionformulario;
+	
+	/** PanelGrid del formulario dinámico */
+	private PanelGrid panelGrid;
 	
 	/**
 	 *  Incializador de variables del bean
@@ -222,6 +240,36 @@ public class FormulariosCreacionMB extends BaseMBean {
 	}
 	
 	/**
+	 * Previsualiza el formulario de acuerdo a los campos agregados. 
+	 */
+	public String armarFormulario(){
+//		FacesContext fc = FacesContext.getCurrentInstance();
+//		Application application = fc.getApplication();
+//
+//		panelGrid = (PanelGrid) application.createComponent(fc, "org.primefaces.component.PanelGrid", "org.prime.component.PanelGridRenderer");
+//		panelGrid.setId("panelGridFormulario");
+//		panelGrid.setColumns(2);
+//		
+//		HtmlOutputText text = new HtmlOutputText();
+//		text.setId("t");
+//		text.setValue("Esta es una prueba");
+//		
+//		HtmlOutputText text1 = new HtmlOutputText();
+//		text1.setId("t1");
+//		text1.setValue("Esta es una prueba");
+//		
+//		HtmlOutputText text2 = new HtmlOutputText();
+//		text2.setId("t2");
+//		text2.setValue("Esta es una prueba");
+//		
+//		panelGrid.getChildren().add(text);
+//		panelGrid.getChildren().add(text1);
+//		panelGrid.getChildren().add(text2);
+		this.adicionarVariableSesion("formulario", this.formulario);
+		return "formularioDinamico.jsf?faces-redirect=true";
+	}
+	
+	/**
 	 * Redirecciona a la página de aministración de formularios.
 	 * @return
 	 */
@@ -335,6 +383,22 @@ public class FormulariosCreacionMB extends BaseMBean {
 	 */
 	public void setModificacionformulario(boolean modificacionformulario) {
 		this.modificacionformulario = modificacionformulario;
+	}
+
+
+	/**
+	 * @return the panelGrid
+	 */
+	public PanelGrid getPanelGrid() {
+		return panelGrid;
+	}
+
+
+	/**
+	 * @param panelGrid the panelGrid to set
+	 */
+	public void setPanelGrid(PanelGrid panelGrid) {
+		this.panelGrid = panelGrid;
 	}
 
 }

@@ -69,5 +69,14 @@ public class Constantes {
     public static final String ESTADO_PROCESO = "P";
     public static final String ESTADO_FINALIZADO = "F";
     public static final String ESTADO_RECHAZADO = "R";
+    
+    //Tipos de Campos
+    public static final String INPUTTEXT = "InputText";
+    public static final String OUTPUTTEXT = "OutputText";
+    public static final String INPUTTEXTAREA = "InputTextArea";
+    public static final String DROPDOWNLIST = "DropDownList";
+    public static final String ONERADIO = "OneRadio";
+    public static final String CHECKBOX = "CheckBox";
+    public static final String CALENDAR = "Calendar";
 
 }
