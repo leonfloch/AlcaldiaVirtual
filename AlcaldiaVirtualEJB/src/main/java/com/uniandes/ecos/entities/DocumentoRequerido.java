@@ -42,6 +42,9 @@ public class DocumentoRequerido implements Serializable {
 	@Transient
 	private String observaciones;
 	
+	@Transient
+	private boolean tieneFormulario;
+	
 
 	//bi-directional many-to-one association to DocsXTipoTramite
 	@OneToMany(mappedBy="documentosRequerido")
@@ -147,6 +150,24 @@ public class DocumentoRequerido implements Serializable {
 	 */
 	public void setEstadoUpload(boolean estadoUpload) {
 		this.estadoUpload = estadoUpload;
+	}
+
+	/**
+	 * @return the tieneFormulario
+	 */
+	public boolean isTieneFormulario() {
+		if (this.formulario != null) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * @param tieneFormulario the tieneFormulario to set
+	 */
+	public void setTieneFormulario(boolean tieneFormulario) {
+		this.tieneFormulario = tieneFormulario;
 	}
 
 }

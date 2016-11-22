@@ -95,14 +95,20 @@
 														<p:column headerText="Subir Documento"
 															filterStyle="height:80px;">
 															
-															<p:fileUpload fileUploadListener="#{tramiteMB.subirDocumento}" 
+															   <p:fileUpload fileUploadListener="#{tramiteMB.subirDocumento}" 
+															   		rendered="#{!doc.tieneFormulario}"
 																	mode="advanced" dragDropSupport="false"
 														           update="@form" sizeLimit="10000000" 
 														           fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/">
-														       <f:attribute name="docTipo" value="#{doc}" />
+														      	   <f:attribute name="docTipo" value="#{doc}" />
 														       
-														    </p:fileUpload>
-														 
+														    	</p:fileUpload>
+																<div align="center">
+																	<p:commandLink value="Diligenciar Formulario" styleClass="btn btn-sm btn-secondary" 
+																			   rendered="#{doc.tieneFormulario}"
+																			   action="#{tramiteMB.armarFormulario(doc.formulario)}"/>
+																</div>
+														    
 														    <p:growl id="messages" showDetail="true" />
 															
 														</p:column>

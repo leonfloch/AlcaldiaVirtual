@@ -26,6 +26,7 @@ import com.uniandes.ecos.dtos.DocumentoTramiteDto;
 import com.uniandes.ecos.entities.DocsXTipoTramite;
 import com.uniandes.ecos.entities.DocumentoRequerido;
 import com.uniandes.ecos.entities.DocumentoTramite;
+import com.uniandes.ecos.entities.Formulario;
 import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.TipoTramite;
 import com.uniandes.ecos.entities.Tramite;
@@ -254,6 +255,14 @@ public class TramiteMB extends BaseMBean {
 			throw new NegocioException(Constantes.ERROR, 0, "Todos los documentos son obligatorios");
 		}
 		
+	}
+	
+	/**
+	 * Previsualiza el formulario de acuerdo a los campos agregados. 
+	 */
+	public String armarFormulario(Formulario formulario){
+		this.adicionarVariableSesion("formulario", formulario);
+		return "formularioDinamico.jsf?faces-redirect=true";
 	}
 	
 	/**
