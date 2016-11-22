@@ -88,6 +88,11 @@ public class FormulariosCreacionMB extends BaseMBean {
 				this.formulario = iParamTramitesFacade.obtenerFormulario(formularioId);
 				this.modificacionformulario = true;
 				this.removerVariableSesion(Constantes.FORMULARIO_MODIFICAR_ID);
+			} 
+			
+			if (this.obtenerVariableSesion("formulario") != null){
+				this.formulario = (Formulario) this.obtenerVariableSesion("formulario");
+				this.removerVariableSesion("formulario");
 			}
 			
 			this.lstTiposCampos = iParamTramitesFacade.obtenerTiposCampoForm();
@@ -243,29 +248,10 @@ public class FormulariosCreacionMB extends BaseMBean {
 	 * Previsualiza el formulario de acuerdo a los campos agregados. 
 	 */
 	public String armarFormulario(){
-//		FacesContext fc = FacesContext.getCurrentInstance();
-//		Application application = fc.getApplication();
-//
-//		panelGrid = (PanelGrid) application.createComponent(fc, "org.primefaces.component.PanelGrid", "org.prime.component.PanelGridRenderer");
-//		panelGrid.setId("panelGridFormulario");
-//		panelGrid.setColumns(2);
-//		
-//		HtmlOutputText text = new HtmlOutputText();
-//		text.setId("t");
-//		text.setValue("Esta es una prueba");
-//		
-//		HtmlOutputText text1 = new HtmlOutputText();
-//		text1.setId("t1");
-//		text1.setValue("Esta es una prueba");
-//		
-//		HtmlOutputText text2 = new HtmlOutputText();
-//		text2.setId("t2");
-//		text2.setValue("Esta es una prueba");
-//		
-//		panelGrid.getChildren().add(text);
-//		panelGrid.getChildren().add(text1);
-//		panelGrid.getChildren().add(text2);
 		this.adicionarVariableSesion("formulario", this.formulario);
+		if (this.modificacionformulario) {
+			this.adicionarVariableSesion(Constantes.FORMULARIO_MODIFICAR_ID, this.formulario.getFormularioId());
+		}
 		return "formularioDinamico.jsf?faces-redirect=true";
 	}
 	

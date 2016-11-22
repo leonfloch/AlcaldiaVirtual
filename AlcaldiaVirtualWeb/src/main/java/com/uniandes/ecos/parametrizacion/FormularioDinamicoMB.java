@@ -10,6 +10,7 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
+import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.component.panelgrid.PanelGrid;
@@ -49,7 +50,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 		panelGrid = (PanelGrid) application.createComponent(fc, "org.primefaces.component.PanelGrid", "org.prime.component.PanelGridRenderer");
 		panelGrid.setId("panelGridFormulario");
 		panelGrid.setColumns(4);
-		panelGrid.setStyle("border: none;");
+		panelGrid.setStyle("border-style: none !important");
 		int cont = 0;
 		
 		for (CampoFormulario campo : formulario.getCamposFormularios()) {
@@ -66,7 +67,15 @@ public class FormularioDinamicoMB extends BaseMBean {
 			case Constantes.CHECKBOX:
 				campoForm = armarCheckBox(campo, cont);
 				break;
+				
+			case Constantes.ONERADIO:
+				campoForm = armarOneRadio(campo, cont);
+				break;
 
+			case Constantes.OUTPUTTEXT:
+				campoForm = armarOutputext(campo, cont);
+				break;
+				
 			default:
 				break;
 			}
@@ -118,6 +127,25 @@ public class FormularioDinamicoMB extends BaseMBean {
 		
 		return inputTextArea;
 	}
+		
+	/**
+	 * Arma un componante html de tipo one radio.
+	 * 
+	 * @param campo
+	 * @param id
+	 * @return
+	 */
+	private UIComponent armarOneRadio(CampoFormulario campo, int id){
+		HtmlSelectOneRadio OneRadio = new HtmlSelectOneRadio();
+		
+		OneRadio.setId("oneR"+id);
+		OneRadio.setLabel(campo.getNombre());
+		OneRadio.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
+		OneRadio.setRequiredMessage(campo.getTextoError());
+		OneRadio.setOnmouseover(campo.getTextoAyuda());
+
+		return OneRadio;
+	}
 	
 	/**
 	 * Arma un componante html de tipo text area.
@@ -138,12 +166,29 @@ public class FormularioDinamicoMB extends BaseMBean {
 		return checkBox;
 	}
 	
+	/**
+	 * Arma un componante html de tipo text area.
+	 * 
+	 * @param campo
+	 * @param id
+	 * @return
+	 */
+	private UIComponent armarOutputext(CampoFormulario campo, int id){
+		HtmlOutputText outputext = new HtmlOutputText();
+		
+		outputext.setId("chk"+id);
+		outputext.setValue(campo.getNombre());
+
+		return outputext;
+	}
+
 	/** 
 	 * Redirecciona a la página en la cual fue inyectado el managed bean. 
 	 * 
 	 * @return
 	 */
 	public String volver(){
+		this.adicionarVariableSesion("formulario", this.formulario);
 		return "crearFormulario.jsf?faces-redirect=true";
 	}
 
