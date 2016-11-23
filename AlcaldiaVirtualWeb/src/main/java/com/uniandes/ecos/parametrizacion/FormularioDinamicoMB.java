@@ -1,7 +1,6 @@
 package com.uniandes.ecos.parametrizacion;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
@@ -27,7 +26,6 @@ import com.uniandes.ecos.util.Constantes;
  * @version 1.0
  * @date 08/11/2016
  */
-@ConversationScoped
 @ManagedBean
 public class FormularioDinamicoMB extends BaseMBean {
 	
