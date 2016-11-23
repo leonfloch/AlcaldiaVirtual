@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
@@ -15,7 +14,6 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.component.panelgrid.PanelGrid;
 
-import com.sun.faces.facelets.tag.jsf.html.HtmlComponentHandler;
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.CampoFormulario;
 import com.uniandes.ecos.entities.Formulario;
