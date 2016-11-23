@@ -17,6 +17,7 @@ import com.uniandes.ecos.comun.RutasApp;
 import com.uniandes.ecos.entities.CampoFormulario;
 import com.uniandes.ecos.entities.Formulario;
 import com.uniandes.ecos.entities.TipoCampo;
+import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.interfaz.facade.IParamTramitesFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.DominioVO;
