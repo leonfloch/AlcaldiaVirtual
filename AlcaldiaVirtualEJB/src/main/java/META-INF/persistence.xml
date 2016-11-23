@@ -28,5 +28,7 @@
 		<class>com.uniandes.ecos.entities.TramiteXMunicipio</class>
 		<class>com.uniandes.ecos.entities.UsuariosCiudadano</class>
 		<class>com.uniandes.ecos.entities.UsuariosFuncionario</class>
+		<class>com.uniandes.ecos.entities.CampoFormularioTramite</class>
+		<class>com.uniandes.ecos.entities.FormularioTramite</class>
 	</persistence-unit>
 </persistence>

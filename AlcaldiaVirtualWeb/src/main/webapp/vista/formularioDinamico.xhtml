@@ -42,12 +42,18 @@
 										</div>
 										<div class="col-md-3"></div>
 									</div>
-									
+							</div>
+							
+							<div class="card-footer">
+									<button jsf:id="btnGuardarCampo" jsf:rendered="#{formularioDinamicoMB.enTramite}"
+										jsf:action="#{formularioDinamicoMB.guardar}"
+										class="btn btn-sm btn-primary">
+										<i class="fa fa-floppy-o"></i> #{msg.boton_guardar}
+									</button>
 									<button class="btn btn-sm btn-danger" 
 												jsf:action="#{formularioDinamicoMB.volver}" jsf:immediate="true">
 												<i class="fa fa-ban"></i> Volver
-											</button>
-							
+									</button>
 							</div>
 
 						</div>

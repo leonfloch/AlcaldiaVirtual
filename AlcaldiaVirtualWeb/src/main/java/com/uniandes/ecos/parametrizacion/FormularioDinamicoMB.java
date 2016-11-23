@@ -19,6 +19,7 @@ import com.sun.faces.facelets.tag.jsf.html.HtmlComponentHandler;
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.CampoFormulario;
 import com.uniandes.ecos.entities.Formulario;
+import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.util.Constantes;
 
 /**
@@ -41,16 +42,27 @@ public class FormularioDinamicoMB extends BaseMBean {
 	/** Formulario dinámico. */
 	private Formulario formulario;
 	
+	/** Trámite del formulario. */
+	private Tramite tramite;
+	
 	/** Instancei del contexto de la aplicación. */
 	private Application application;
 	
 	/** Ruta de invocación del formulario dinámico */
 	private String rutaInvocacion;
 	
+	/** Indica si el formulario se está cargando desde un trámite. */
+	private boolean enTramite;
+	
+	/**
+	 * Inicialización de variables de clase.
+	 */
 	@PostConstruct
 	public void init(){
 		this.formulario = (Formulario) this.obtenerVariableSesion(Constantes.FORMULARIO_DINAMICO);
 		this.rutaInvocacion = (String) this.obtenerVariableSesion(Constantes.RUTA_INVOCACION_FORMULARIO);
+		this.tramite = (Tramite) this.obtenerVariableSesion(Constantes.SESION_TRAMITE);
+		this.enTramite = this.tramite != null ? true : false;
 
 		FacesContext fc = FacesContext.getCurrentInstance();
 		application = fc.getApplication();
@@ -189,6 +201,18 @@ public class FormularioDinamicoMB extends BaseMBean {
 
 		return outputext;
 	}
+	
+	/**
+	 * Guarda los valores introducidos en el 
+	 * @return
+	 */
+	public String guardar(){
+//		for (UIComponent campo : this.panelGrid.getChildren()) {
+//			campo.get
+//		}
+		
+		return this.rutaInvocacion;
+	}
 
 	/** 
 	 * Redirecciona a la página en la cual fue inyectado el managed bean. 
@@ -240,6 +264,20 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 */
 	public void setRutaInvocacion(String rutaInvocacion) {
 		this.rutaInvocacion = rutaInvocacion;
+	}
+
+	/**
+	 * @return the enTramite
+	 */
+	public boolean isEnTramite() {
+		return enTramite;
+	}
+
+	/**
+	 * @param enTramite the enTramite to set
+	 */
+	public void setEnTramite(boolean enTramite) {
+		this.enTramite = enTramite;
 	}
 	
 }

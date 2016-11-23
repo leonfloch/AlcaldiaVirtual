@@ -50,6 +50,10 @@ public class Tramite implements Serializable {
 	//bi-directional many-to-one association to DocumentoTramite
 	@OneToMany(mappedBy="tramite", cascade = CascadeType.PERSIST)
 	private List<DocumentoTramite> documentosTramites;
+	
+	//bi-directional many-to-one association to DocumentoTramite
+	@OneToMany(mappedBy="tramite", cascade = CascadeType.PERSIST)
+	private List<FormularioTramite> formulariosTramites;
 
 	//bi-directional many-to-one association to Pago
 	@OneToMany(mappedBy="tramite")
@@ -152,6 +156,23 @@ public class Tramite implements Serializable {
 
 	public void setDocumentosTramites(List<DocumentoTramite> documentosTramites) {
 		this.documentosTramites = documentosTramites;
+	}
+	
+	/**
+	 * @return the formulariosTramites
+	 */
+	public List<FormularioTramite> getFormulariosTramites() {
+		if (formulariosTramites == null) {
+			formulariosTramites = new ArrayList<FormularioTramite>();
+		}
+		return this.formulariosTramites;
+	}
+
+	/**
+	 * @param formulariosTramites the formulariosTramites to set
+	 */
+	public void setFormulariosTramites(List<FormularioTramite> formulariosTramites) {
+		this.formulariosTramites = formulariosTramites;
 	}
 
 	public DocumentoTramite addDocumentosTramite(DocumentoTramite documentosTramite) {
