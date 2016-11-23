@@ -32,18 +32,26 @@ import com.uniandes.ecos.util.Constantes;
 @ManagedBean
 public class FormularioDinamicoMB extends BaseMBean {
 	
+	/** Serial de la clase */
+	private static final long serialVersionUID = 1L;
+
 	/** PanelGrid del formulario dinámico */
 	private PanelGrid panelGrid;
 	
 	/** Formulario dinámico. */
 	private Formulario formulario;
 	
+	/** Instancei del contexto de la aplicación. */
 	private Application application;
+	
+	/** Ruta de invocación del formulario dinámico */
+	private String rutaInvocacion;
 	
 	@PostConstruct
 	public void init(){
-		this.formulario = (Formulario) this.obtenerVariableSesion("formulario");
-		
+		this.formulario = (Formulario) this.obtenerVariableSesion(Constantes.FORMULARIO_DINAMICO);
+		this.rutaInvocacion = (String) this.obtenerVariableSesion(Constantes.RUTA_INVOCACION_FORMULARIO);
+
 		FacesContext fc = FacesContext.getCurrentInstance();
 		application = fc.getApplication();
 
@@ -52,7 +60,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 		panelGrid.setColumns(4);
 		panelGrid.setStyle("border-style: none !important");
 		int cont = 0;
-		
+
 		for (CampoFormulario campo : formulario.getCamposFormularios()) {
 			UIComponent campoForm = null;
 			switch (campo.getTiposCampo().getNombre()) {
@@ -67,7 +75,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 			case Constantes.CHECKBOX:
 				campoForm = armarCheckBox(campo, cont);
 				break;
-				
+
 			case Constantes.ONERADIO:
 				campoForm = armarOneRadio(campo, cont);
 				break;
@@ -75,18 +83,18 @@ public class FormularioDinamicoMB extends BaseMBean {
 			case Constantes.OUTPUTTEXT:
 				campoForm = armarOutputext(campo, cont);
 				break;
-				
+
 			default:
 				break;
 			}
-			
+
 			HtmlOutputText outputText = new HtmlOutputText();
 			outputText.setValue(campo.getNombre());
 			panelGrid.getChildren().add(outputText);
 			panelGrid.getChildren().add(campoForm);
 			cont++;
 		}
-		
+
 	}
 	
 	/**
@@ -188,8 +196,8 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 * @return
 	 */
 	public String volver(){
-		this.adicionarVariableSesion("formulario", this.formulario);
-		return "crearFormulario.jsf?faces-redirect=true";
+		this.adicionarVariableSesion(Constantes.FORMULARIO_DINAMICO, this.formulario);
+		return this.rutaInvocacion;
 	}
 
 	/**
@@ -218,6 +226,20 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 */
 	public void setFormulario(Formulario formulario) {
 		this.formulario = formulario;
+	}
+
+	/**
+	 * @return the rutaInvocacion
+	 */
+	public String getRutaInvocacion() {
+		return rutaInvocacion;
+	}
+
+	/**
+	 * @param rutaInvocacion the rutaInvocacion to set
+	 */
+	public void setRutaInvocacion(String rutaInvocacion) {
+		this.rutaInvocacion = rutaInvocacion;
 	}
 	
 }

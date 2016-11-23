@@ -90,9 +90,9 @@ public class FormulariosCreacionMB extends BaseMBean {
 				this.removerVariableSesion(Constantes.FORMULARIO_MODIFICAR_ID);
 			} 
 			
-			if (this.obtenerVariableSesion("formulario") != null){
-				this.formulario = (Formulario) this.obtenerVariableSesion("formulario");
-				this.removerVariableSesion("formulario");
+			if (this.obtenerVariableSesion(Constantes.FORMULARIO_DINAMICO) != null){
+				this.formulario = (Formulario) this.obtenerVariableSesion(Constantes.FORMULARIO_DINAMICO);
+				this.removerVariableSesion(Constantes.FORMULARIO_DINAMICO);
 			}
 			
 			this.lstTiposCampos = iParamTramitesFacade.obtenerTiposCampoForm();
@@ -248,11 +248,12 @@ public class FormulariosCreacionMB extends BaseMBean {
 	 * Previsualiza el formulario de acuerdo a los campos agregados. 
 	 */
 	public String armarFormulario(){
-		this.adicionarVariableSesion("formulario", this.formulario);
+		this.adicionarVariableSesion(Constantes.FORMULARIO_DINAMICO, this.formulario);
+		this.adicionarVariableSesion(Constantes.RUTA_INVOCACION_FORMULARIO, RutasApp.FORMULARIOS_CREACION_RUTA);
 		if (this.modificacionformulario) {
 			this.adicionarVariableSesion(Constantes.FORMULARIO_MODIFICAR_ID, this.formulario.getFormularioId());
 		}
-		return "formularioDinamico.jsf?faces-redirect=true";
+		return RutasApp.FORMULARIO_DINAMICO;
 	}
 	
 	/**

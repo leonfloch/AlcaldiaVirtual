@@ -106,7 +106,8 @@ public class TramiteMB extends BaseMBean {
 	 */
 	private Tramite tramite;		
 	
-	
+	/** índicel del tab actual en el wizard. */
+	private String pasoActual;
 
 	/**
 	 * Constructor
@@ -258,11 +259,14 @@ public class TramiteMB extends BaseMBean {
 	}
 	
 	/**
-	 * Previsualiza el formulario de acuerdo a los campos agregados. 
+	 * Previsualiza el formulario dinámico del documento. 
 	 */
 	public String armarFormulario(Formulario formulario){
-		this.adicionarVariableSesion("formulario", formulario);
-		return "formularioDinamico.jsf?faces-redirect=true";
+		this.adicionarVariableSesion(Constantes.FORMULARIO_DINAMICO, formulario);
+		this.adicionarVariableSesion(Constantes.SESION_TRAMITE, this.tramite);
+		this.adicionarVariableSesion(Constantes.RUTA_INVOCACION_FORMULARIO, RutasApp.CREAR_TRAMITE);
+		this.adicionarVariableSesion("pasoActual", this.pasoActual);
+		return RutasApp.FORMULARIO_DINAMICO;
 	}
 	
 	/**
@@ -371,6 +375,20 @@ public class TramiteMB extends BaseMBean {
 	 */
 	public void setDocRequeridos(List<DocumentoRequerido> docRequeridos) {
 		this.docRequeridos = docRequeridos;
+	}
+
+	/**
+	 * @return the pasoActual
+	 */
+	public String getPasoActual() {
+		return pasoActual;
+	}
+
+	/**
+	 * @param pasoActual the pasoActual to set
+	 */
+	public void setPasoActual(String pasoActual) {
+		this.pasoActual = pasoActual;
 	}
 
 }

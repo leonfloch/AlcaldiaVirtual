@@ -59,6 +59,8 @@ public class Constantes {
 
     //Administraci\u00F3n de formularios
     public static final String FORMULARIO_MODIFICAR_ID = "formularioId";
+    public static final String FORMULARIO_DINAMICO = "formulario";
+    public static final String RUTA_INVOCACION_FORMULARIO = "rutaDesde";
     
     //indica si un documento es enviado o es repuesta del tramite
     public static final String ENTREGADO = "E";
