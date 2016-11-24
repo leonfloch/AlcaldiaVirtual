@@ -15,7 +15,7 @@ public class CampoFormularioTramite implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="CAMPOS_FORMULARIO_TRAMITE_CAMPOID_GENERATOR", sequenceName="SEQ_CAMP_FORM_TRAMITE")
+	@SequenceGenerator(name="CAMPOS_FORMULARIO_TRAMITE_CAMPOID_GENERATOR", sequenceName="SEQ_CAMP_FORM_TRAMITE", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CAMPOS_FORMULARIO_TRAMITE_CAMPOID_GENERATOR")
 	@Column(name="CAMPO_ID")
 	private long campoId;

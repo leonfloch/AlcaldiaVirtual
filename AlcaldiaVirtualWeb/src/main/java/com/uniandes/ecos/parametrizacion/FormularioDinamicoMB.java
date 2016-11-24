@@ -1,9 +1,12 @@
 package com.uniandes.ecos.parametrizacion;
 
+import java.util.Iterator;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
@@ -15,8 +18,10 @@ import org.primefaces.component.panelgrid.PanelGrid;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.CampoFormulario;
+import com.uniandes.ecos.entities.CampoFormularioTramite;
 import com.uniandes.ecos.entities.DocumentoRequerido;
 import com.uniandes.ecos.entities.Formulario;
+import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.util.Constantes;
 
@@ -72,29 +77,28 @@ public class FormularioDinamicoMB extends BaseMBean {
 		panelGrid.setId("panelGridFormulario");
 		panelGrid.setColumns(4);
 		panelGrid.setStyle("border-style: none !important");
-		int cont = 0;
 
 		for (CampoFormulario campo : formulario.getCamposFormularios()) {
 			UIComponent campoForm = null;
 			switch (campo.getTiposCampo().getNombre()) {
 			case Constantes.INPUTTEXT:
-				campoForm = armarTextField(campo, cont);
+				campoForm = armarTextField(campo);
 				break;
 
 			case Constantes.INPUTTEXTAREA:
-				campoForm = armarTextArea(campo, cont);
+				campoForm = armarTextArea(campo);
 				break;
 
 			case Constantes.CHECKBOX:
-				campoForm = armarCheckBox(campo, cont);
+				campoForm = armarCheckBox(campo);
 				break;
 
 			case Constantes.ONERADIO:
-				campoForm = armarOneRadio(campo, cont);
+				campoForm = armarOneRadio(campo);
 				break;
 
 			case Constantes.OUTPUTTEXT:
-				campoForm = armarOutputext(campo, cont);
+				campoForm = armarOutputext(campo);
 				break;
 
 			default:
@@ -105,7 +109,6 @@ public class FormularioDinamicoMB extends BaseMBean {
 			outputText.setValue(campo.getNombre());
 			panelGrid.getChildren().add(outputText);
 			panelGrid.getChildren().add(campoForm);
-			cont++;
 		}
 
 	}
@@ -117,10 +120,10 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 * @param id
 	 * @return
 	 */
-	private UIComponent armarTextField(CampoFormulario campo, int id){
+	private UIComponent armarTextField(CampoFormulario campo){
 		HtmlInputText inputText = new HtmlInputText();
 		
-		inputText.setId("txtF"+id);
+		inputText.setId("txtF"+campo.getPosicion());
 		inputText.setMaxlength(campo.getLongitud().intValue());
 		inputText.setLabel(campo.getNombre());
 		inputText.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
@@ -137,10 +140,10 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 * @param id
 	 * @return
 	 */
-	private UIComponent armarTextArea(CampoFormulario campo, int id){
+	private UIComponent armarTextArea(CampoFormulario campo){
 		HtmlInputTextarea inputTextArea = new HtmlInputTextarea();
 		
-		inputTextArea.setId("txtA"+id);
+		inputTextArea.setId("txtA"+campo.getPosicion());
 		inputTextArea.setLabel(campo.getNombre());
 		inputTextArea.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
 		inputTextArea.setRequiredMessage(campo.getTextoError());
@@ -156,10 +159,10 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 * @param id
 	 * @return
 	 */
-	private UIComponent armarOneRadio(CampoFormulario campo, int id){
+	private UIComponent armarOneRadio(CampoFormulario campo){
 		HtmlSelectOneRadio OneRadio = new HtmlSelectOneRadio();
 		
-		OneRadio.setId("oneR"+id);
+		OneRadio.setId("oneR"+campo.getPosicion());
 		OneRadio.setLabel(campo.getNombre());
 		OneRadio.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
 		OneRadio.setRequiredMessage(campo.getTextoError());
@@ -175,10 +178,10 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 * @param id
 	 * @return
 	 */
-	private UIComponent armarCheckBox(CampoFormulario campo, int id){
+	private UIComponent armarCheckBox(CampoFormulario campo){
 		HtmlSelectBooleanCheckbox checkBox = new HtmlSelectBooleanCheckbox();
 		
-		checkBox.setId("chk"+id);
+		checkBox.setId("chk"+campo.getPosicion());
 		checkBox.setLabel(campo.getNombre());
 		checkBox.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
 		checkBox.setRequiredMessage(campo.getTextoError());
@@ -194,13 +197,64 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 * @param id
 	 * @return
 	 */
-	private UIComponent armarOutputext(CampoFormulario campo, int id){
+	private UIComponent armarOutputext(CampoFormulario campo){
 		HtmlOutputText outputext = new HtmlOutputText();
 		
-		outputext.setId("chk"+id);
+		outputext.setId("chk"+campo.getPosicion());
 		outputext.setValue(campo.getNombre());
 
 		return outputext;
+	}
+	
+	/**
+	 * Obtiene los valores digitados formulario dinámico.
+	 */
+	public FormularioTramite obtenerValores(){
+		FormularioTramite formularioTramite = new FormularioTramite();
+		formularioTramite.setNombre(this.formulario.getNombre());
+		formularioTramite.setTramite(this.tramite);
+		
+		for (CampoFormulario campo : this.formulario.getCamposFormularios()) {
+			CampoFormularioTramite campoFormularioTramite = new CampoFormularioTramite();
+			campoFormularioTramite.setNombre(campo.getNombre());
+			campoFormularioTramite.setFormulariosTramite(formularioTramite);
+			UIInput campoDigitado = null;
+			
+			switch (campo.getTiposCampo().getNombre()) {
+			case Constantes.INPUTTEXT:
+				campoDigitado = (UIInput) this.panelGrid.findComponent("txtF"+campo.getPosicion());
+				campoFormularioTramite.setValor((String) campoDigitado.getValue());
+				break;
+
+			case Constantes.INPUTTEXTAREA:
+				campoDigitado = (UIInput) this.panelGrid.findComponent("txtA"+campo.getPosicion());
+				campoFormularioTramite.setValor((String) campoDigitado.getValue());
+				break;
+
+			case Constantes.CHECKBOX:
+				campoDigitado = (UIInput) this.panelGrid.findComponent("chk"+campo.getPosicion());
+				String campoValor = (boolean) campoDigitado.getValue() ? Constantes.SI : Constantes.NO;
+				campoFormularioTramite.setValor(campoValor);
+				break;
+
+			case Constantes.ONERADIO:
+				campoDigitado = (UIInput) this.panelGrid.findComponent("oneR"+campo.getPosicion());
+				campoFormularioTramite.setValor((String) campoDigitado.getValue());
+				break;
+
+			case Constantes.OUTPUTTEXT:
+				campoDigitado = (UIInput) this.panelGrid.findComponent("chk"+campo.getPosicion());
+				campoFormularioTramite.setValor((String) campoDigitado.getValue());
+				break;
+
+			default:
+				break;
+			}
+			
+			formularioTramite.getCamposFormularioTramites().add(campoFormularioTramite);
+		}
+		
+		return formularioTramite;
 	}
 	
 	/**
@@ -208,9 +262,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 * @return
 	 */
 	public String guardar(){
-//		for (UIComponent campo : this.panelGrid.getChildren()) {
-//			campo.get
-//		}
+		this.tramite.getFormulariosTramites().add(obtenerValores());
 		this.docRequerido.setEstadoUpload(true);
 		return this.rutaInvocacion;
 	}

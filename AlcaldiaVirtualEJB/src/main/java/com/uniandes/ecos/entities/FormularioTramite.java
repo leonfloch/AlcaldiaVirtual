@@ -18,7 +18,7 @@ public class FormularioTramite implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="FORMULARIOS_TRAMITE_FORMULARIOID_GENERATOR", sequenceName="SEQ_FORM_TRAMITE")
+	@SequenceGenerator(name="FORMULARIOS_TRAMITE_FORMULARIOID_GENERATOR", sequenceName="SEQ_FORM_TRAMITE", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FORMULARIOS_TRAMITE_FORMULARIOID_GENERATOR")
 	@Column(name="FORMULARIO_ID")
 	private long formularioId;
@@ -31,7 +31,7 @@ public class FormularioTramite implements Serializable {
 	private Tramite tramite;
 
 	//bi-directional many-to-one association to CampoFormularioTramite
-	@OneToMany(mappedBy="formulariosTramite")
+	@OneToMany(mappedBy="formulariosTramite", cascade = CascadeType.PERSIST)
 	private List<CampoFormularioTramite> camposFormularioTramites;
 
 	public FormularioTramite() {
