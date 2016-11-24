@@ -15,6 +15,7 @@ import org.primefaces.component.panelgrid.PanelGrid;
 
 import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.CampoFormulario;
+import com.uniandes.ecos.entities.DocumentoRequerido;
 import com.uniandes.ecos.entities.Formulario;
 import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.util.Constantes;
@@ -41,6 +42,9 @@ public class FormularioDinamicoMB extends BaseMBean {
 	/** Trámite del formulario. */
 	private Tramite tramite;
 	
+	/** Documento Requerido */
+	private DocumentoRequerido docRequerido;
+	
 	/** Instancei del contexto de la aplicación. */
 	private Application application;
 	
@@ -58,6 +62,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 		this.formulario = (Formulario) this.obtenerVariableSesion(Constantes.FORMULARIO_DINAMICO);
 		this.rutaInvocacion = (String) this.obtenerVariableSesion(Constantes.RUTA_INVOCACION_FORMULARIO);
 		this.tramite = (Tramite) this.obtenerVariableSesion(Constantes.SESION_TRAMITE);
+		this.docRequerido = (DocumentoRequerido) this.obtenerVariableSesion(Constantes.SESION_DOC_REQ);
 		this.enTramite = this.tramite != null ? true : false;
 
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -206,7 +211,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 //		for (UIComponent campo : this.panelGrid.getChildren()) {
 //			campo.get
 //		}
-		
+		this.docRequerido.setEstadoUpload(true);
 		return this.rutaInvocacion;
 	}
 

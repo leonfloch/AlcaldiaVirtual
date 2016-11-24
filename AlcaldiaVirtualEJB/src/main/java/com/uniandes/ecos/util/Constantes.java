@@ -15,6 +15,7 @@ public class Constantes {
     public static final String SESION_MUNICIPIO_CIUDADANO = "sesionMunicipio";
     public static final String SESION_TRAMITE = "tramite";
     public static final String SESION_TRAMITE_ID = "tramiteId";
+    public static final String SESION_DOC_REQ = "docRequerido";
 
     //manejo de excepciones
     public static final char ADVERTENCIA = 'W';

@@ -261,11 +261,12 @@ public class TramiteMB extends BaseMBean {
 	/**
 	 * Previsualiza el formulario dinámico del documento. 
 	 */
-	public String armarFormulario(Formulario formulario){
+	public String armarFormulario(DocumentoRequerido documento, Formulario formulario){
 		this.adicionarVariableSesion(Constantes.FORMULARIO_DINAMICO, formulario);
 		this.adicionarVariableSesion(Constantes.SESION_TRAMITE, this.tramite);
 		this.adicionarVariableSesion(Constantes.RUTA_INVOCACION_FORMULARIO, RutasApp.CREAR_TRAMITE);
 		this.adicionarVariableSesion("pasoActual", this.pasoActual);
+		this.adicionarVariableSesion(Constantes.SESION_DOC_REQ, documento);
 		return RutasApp.FORMULARIO_DINAMICO;
 	}
 	

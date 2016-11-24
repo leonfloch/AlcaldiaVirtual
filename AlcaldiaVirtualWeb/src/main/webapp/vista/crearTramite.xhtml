@@ -106,7 +106,7 @@
 																<div align="center">
 																	<p:commandLink value="Diligenciar Formulario" styleClass="btn btn-sm btn-secondary" 
 																			   rendered="#{doc.tieneFormulario}"
-																			   action="#{tramiteMB.armarFormulario(doc.formulario)}"/>
+																			   action="#{tramiteMB.armarFormulario(doc, doc.formulario)}"/>
 																</div>
 														    
 														    <p:growl id="messages" showDetail="true" />
