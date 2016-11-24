@@ -45,7 +45,7 @@
 							</div>
 							
 							<div class="card-footer">
-									<button jsf:id="btnGuardarCampo" jsf:rendered="#{formularioDinamicoMB.enTramite}"
+									<button jsf:id="btnGuardarCampo" jsf:rendered="#{formularioDinamicoMB.enTramite and !formularioDinamicoMB.soloVisualiza}"
 										jsf:action="#{formularioDinamicoMB.guardar}"
 										class="btn btn-sm btn-primary">
 										<i class="fa fa-floppy-o"></i> #{msg.boton_guardar}

@@ -59,6 +59,9 @@ public class FormularioDinamicoMB extends BaseMBean {
 	/** Indica si el formulario se está cargando desde un trámite. */
 	private boolean enTramite;
 	
+	/** indica si sólo se visualizan valores. */
+	private boolean soloVisualiza;
+	
 	/**
 	 * Inicialización de variables de clase.
 	 */
@@ -69,6 +72,9 @@ public class FormularioDinamicoMB extends BaseMBean {
 		this.tramite = (Tramite) this.obtenerVariableSesion(Constantes.SESION_TRAMITE);
 		this.docRequerido = (DocumentoRequerido) this.obtenerVariableSesion(Constantes.SESION_DOC_REQ);
 		this.enTramite = this.tramite != null ? true : false;
+		if (this.enTramite && this.tramite != null && this.tramite.getFormulariosTramites().size() > 0) {
+			this.soloVisualiza = true;
+		}
 
 		FacesContext fc = FacesContext.getCurrentInstance();
 		application = fc.getApplication();
@@ -78,37 +84,54 @@ public class FormularioDinamicoMB extends BaseMBean {
 		panelGrid.setColumns(4);
 		panelGrid.setStyle("border-style: none !important");
 
-		for (CampoFormulario campo : formulario.getCamposFormularios()) {
-			UIComponent campoForm = null;
-			switch (campo.getTiposCampo().getNombre()) {
-			case Constantes.INPUTTEXT:
-				campoForm = armarTextField(campo);
-				break;
-
-			case Constantes.INPUTTEXTAREA:
-				campoForm = armarTextArea(campo);
-				break;
-
-			case Constantes.CHECKBOX:
-				campoForm = armarCheckBox(campo);
-				break;
-
-			case Constantes.ONERADIO:
-				campoForm = armarOneRadio(campo);
-				break;
-
-			case Constantes.OUTPUTTEXT:
-				campoForm = armarOutputext(campo);
-				break;
-
-			default:
-				break;
+		if (this.soloVisualiza) {
+			for (FormularioTramite formularioAprocesar : this.tramite.getFormulariosTramites()) {
+				if (formularioAprocesar.getNombre().equals(this.formulario.getNombre())) {
+					for (CampoFormularioTramite campo : formularioAprocesar.getCamposFormularioTramites()) {
+						HtmlOutputText outputTextNombre = new HtmlOutputText();
+						HtmlInputText inputTextValor = new HtmlInputText();
+						
+						outputTextNombre.setValue(campo.getNombre());
+						inputTextValor.setValue(campo.getValor());
+						inputTextValor.setDisabled(true);
+						panelGrid.getChildren().add(outputTextNombre);
+						panelGrid.getChildren().add(inputTextValor);
+					}
+				}
 			}
+		}else{
+			for (CampoFormulario campo : formulario.getCamposFormularios()) {
+				UIComponent campoForm = null;
+				switch (campo.getTiposCampo().getNombre()) {
+				case Constantes.INPUTTEXT:
+					campoForm = armarTextField(campo);
+					break;
 
-			HtmlOutputText outputText = new HtmlOutputText();
-			outputText.setValue(campo.getNombre());
-			panelGrid.getChildren().add(outputText);
-			panelGrid.getChildren().add(campoForm);
+				case Constantes.INPUTTEXTAREA:
+					campoForm = armarTextArea(campo);
+					break;
+
+				case Constantes.CHECKBOX:
+					campoForm = armarCheckBox(campo);
+					break;
+
+				case Constantes.ONERADIO:
+					campoForm = armarOneRadio(campo);
+					break;
+
+				case Constantes.OUTPUTTEXT:
+					campoForm = armarOutputext(campo);
+					break;
+
+				default:
+					break;
+				}
+
+				HtmlOutputText outputText = new HtmlOutputText();
+				outputText.setValue(campo.getNombre());
+				panelGrid.getChildren().add(outputText);
+				panelGrid.getChildren().add(campoForm);
+			} 
 		}
 
 	}
@@ -331,6 +354,20 @@ public class FormularioDinamicoMB extends BaseMBean {
 	 */
 	public void setEnTramite(boolean enTramite) {
 		this.enTramite = enTramite;
+	}
+
+	/**
+	 * @return the soloVisualiza
+	 */
+	public boolean isSoloVisualiza() {
+		return soloVisualiza;
+	}
+
+	/**
+	 * @param soloVisualiza the soloVisualiza to set
+	 */
+	public void setSoloVisualiza(boolean soloVisualiza) {
+		this.soloVisualiza = soloVisualiza;
 	}
 	
 }
