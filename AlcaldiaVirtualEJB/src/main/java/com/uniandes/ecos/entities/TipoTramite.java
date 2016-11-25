@@ -33,6 +33,11 @@ public class TipoTramite implements Serializable {
 	private String nombre;
 
 	private BigDecimal valor;
+	
+	@Transient
+	private boolean requierePago;
+
+	
 
 	//bi-directional many-to-one association to DocsXTipoTramite
 	@OneToMany(mappedBy="tiposTramite")
@@ -145,6 +150,26 @@ public class TipoTramite implements Serializable {
 		tramitesXMunicipio.setTiposTramite(null);
 
 		return tramitesXMunicipio;
+	}
+	
+	/**
+	 * @return the requierePago
+	 */
+	public boolean isRequierePago() {
+		this.requierePago = false;
+		if (this.valor != null) {
+			if (this.valor.compareTo(new BigDecimal(0)) > 0) {
+				this.requierePago = true;
+			}
+		}		
+		return requierePago;
+	}
+
+	/**
+	 * @param requierePago the requierePago to set
+	 */
+	public void setRequierePago(boolean requierePago) {		
+		this.requierePago = requierePago;
 	}
 
 }

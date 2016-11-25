@@ -81,19 +81,19 @@
 													<p:dataTable id="docDT" var="doc" value="#{tramiteMB.docRequeridos}">
 							
 														<p:column headerText="Nombre"
-															filterStyle="height:20px;">
+															style="width:15%;text-align: center">
 															<h:outputText value="#{doc.nombreDocumento}" />
 														</p:column>
 														
 														<p:column headerText="Observaciones"
-															filterStyle="height:20px;">
+															style="width:20%;text-align: center">
 															<p:inputTextarea value="#{doc.observaciones}">
 																<p:ajax event="keyup" listener="#{tramiteMB.agregarObservacion}" />
 															</p:inputTextarea>
 															
 														</p:column>
 														<p:column headerText="Subir Documento"
-															filterStyle="height:80px;">
+															style="width:55%;text-align: center">
 															
 															   <p:fileUpload fileUploadListener="#{tramiteMB.subirDocumento}" 
 															   		rendered="#{!doc.tieneFormulario}"
@@ -113,8 +113,8 @@
 															
 														</p:column>
 														<p:column headerText="Estado Carga"
-															filterStyle="height:20px;">
-															<p:graphicImage id="estadoSub" rendered="#{doc.estadoUpload}" value="../assets/img/ok.png" />
+															style="width:10%;text-align: center">
+															<p:graphicImage width="50" height="50" id="estadoSub" rendered="#{doc.estadoUpload}" value="../assets/img/ok.png" />
 														</p:column>
 													</p:dataTable>
 												
@@ -123,10 +123,35 @@
 											</div>
 													
 								        </p:tab>
-								        
-								        
-								        
-								        <!--  PANTALLA DE CONFIRMACION -->
+
+										<p:tab id="pagos" rendered="#{tramiteMB.tipoTramite.requierePago}" title="Pago">
+											<div class="card">
+												<div class="card-header">Realizar Pago</div>
+												<div class="card-block">
+												
+													<div class="form-group row">
+														<label class="col-md-3 form-control-label" for="text-input">Valor a pagar:</label>
+														<div class="col-md-9">
+															<h:outputText value="#{tramiteMB.tipoTramite.valor}" styleClass="outputLabel">
+																<f:convertNumber pattern="###,###" currencySymbol="$" type="currency"/>
+															</h:outputText>
+														</div>
+													</div>
+													
+													<button jsf:id="pagarBtn"														
+														class="btn btn-sm btn-primary">
+														<i class="fa fa-floppy-o"></i> Pagar
+													</button>
+													
+												
+												</div>
+
+											</div>
+										</p:tab>
+
+
+
+											<!--  PANTALLA DE CONFIRMACION -->
 								        <p:tab id="confirm" title="Confirmación">
 								        
 								        	<div class="card">
@@ -209,7 +234,7 @@
 																filterStyle="height:80px;">
 																<p:graphicImage value="#{doc.ruta}"></p:graphicImage>
 															</p:column>
-															<p:column headerText="Observaciones" filterStyle="height:20px;">
+															<p:column headerText="Observaciones" >
 																<h:outputText
 																	value="#{doc.observacion}" />
 															</p:column>
