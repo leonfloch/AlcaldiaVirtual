@@ -251,10 +251,10 @@ public class TramiteMB extends BaseMBean {
 	 * @throws NegocioException
 	 */
 	private void validarTramite() throws NegocioException {
-		
-		if (docRequeridos.size() != tramite.getDocumentosTramites().size()) {
-			throw new NegocioException(Constantes.ERROR, 0, "Todos los documentos son obligatorios");
-		}
+		for(DocumentoRequerido dr : docRequeridos)
+			if (!dr.isEstadoUpload()) {
+				throw new NegocioException(Constantes.ERROR, 0, "Todos los documentos son obligatorios");
+			}
 		
 	}
 	
