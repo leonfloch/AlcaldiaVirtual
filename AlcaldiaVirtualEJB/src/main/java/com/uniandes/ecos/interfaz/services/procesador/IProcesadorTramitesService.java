@@ -50,7 +50,7 @@ public interface IProcesadorTramitesService {
 	void crearTramite(Tramite tramite) throws NegocioException;
 
 	/**
-	 * Obtiene la lista de trámites a ser procesados.
+	 * Obtiene la lista de trï¿½mites a ser procesados.
 	 * 
 	 * @param municipioId
 	 * @return
@@ -58,8 +58,18 @@ public interface IProcesadorTramitesService {
 	 */
 	List<Tramite> obtenerTramites(long municipioId) throws NegocioException;
 	
+	
 	/**
-	 * Obtiene un trámite específico.
+	 * Obtiene la lista de tramites de un ciudadano
+	 * @param usuario
+	 * @param municipioId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<Tramite> obtenerTramitesCiudadano(String usuario, long municipioId) throws NegocioException;
+	
+	/**
+	 * Obtiene un trï¿½mite especï¿½fico.
 	 * 
 	 * @param tramiteId
 	 * @return
@@ -68,7 +78,7 @@ public interface IProcesadorTramitesService {
 	Tramite obtenerTramite(long tramiteId) throws NegocioException;
 	
 	/**
-	 * Cambia el estado de un trámite específico. 
+	 * Cambia el estado de un trï¿½mite especï¿½fico. 
 	 * 
 	 * @param tramiteId
 	 * @param estado

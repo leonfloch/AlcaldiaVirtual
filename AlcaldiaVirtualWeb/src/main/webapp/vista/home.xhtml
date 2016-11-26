@@ -6,10 +6,7 @@
 	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
 
-<HEAD>
 
-
-</HEAD>
 
 
 
@@ -20,30 +17,62 @@
 		<ui:define name="content">
 			<!-- ======Breadcrumb====== -->
 			<ol class="breadcrumb r-0">
-				<li><a href="#">Inicio</a></li>				
+				<li><a href="#">Inicio</a></li>
 			</ol>
 			<!-- ======FIN Breadcrumb====== -->
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
 				draggable="false" closable="false" resizable="false">
 				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
 			</p:dialog>
-											
-					
+
+			<form jsf:id="formHome">
 			<div class="container-fluid">
 				<div class="animated fadeIn">
 					<div class="row row-equal"></div>
-					
+
 					<div class="card">
-                        <div class="card-header">
-                            Inicio
-                        </div>
-                        <div class="card-block">
-                            
-                        </div>
-                    </div>
+						<div class="card-header">Inicio</div>
+						<div class="card-block"></div>
+					</div>
+
+
+					<div class="card">
+						<div class="card-header">Mis Tramites</div>
+						<div class="card-block">
+
+							<h:panelGrid columns="1" layout="grid">
+								<p:dataTable id="TramiteCd" var="tramite"
+									value="#{homeMB.tramitesCiudadano}">
+
+									<p:column headerText="Id Tramite" sortBy="#{tramite.tramiteId}"
+										filterStyle="height:20px;">
+										<h:outputText value="#{tramite.tramiteId}" />
+									</p:column>
+									<p:column headerText="Nombre" filterStyle="height:20px;">
+										<h:outputText value="#{tramite.nombre}" />
+									</p:column>
+									<p:column headerText="Fecha Solicitud"
+										filterStyle="height:20px;">
+										<h:outputText value="#{tramite.fechaSolicitud}" />
+									</p:column>
+									<p:column headerText="Observaciones" filterStyle="height:20px;">
+										<h:outputText value="#{tramite.observaciones}" />
+									</p:column>
+									<p:column headerText="EstadoTramite" filterStyle="height:20px;">
+										<h:outputText value="#{tramite.estadoString}" />
+									</p:column>
+								</p:dataTable>
+
+							</h:panelGrid>
+
+
+
+						</div>
+					</div>
 
 				</div>
 			</div>
+			</form>
 
 		</ui:define>
 

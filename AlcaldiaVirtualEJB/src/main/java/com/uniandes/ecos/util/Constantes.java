@@ -67,7 +67,7 @@ public class Constantes {
     public static final String ENTREGADO = "E";
     public static final String RESPUESTA = "R";
     
-    //Estados del trámite
+    //Estados del trï¿½mite
     public static final String ESTADO_CREADO = "A";
     public static final String ESTADO_PROCESO = "P";
     public static final String ESTADO_FINALIZADO = "F";
@@ -81,5 +81,6 @@ public class Constantes {
     public static final String ONERADIO = "OneRadio";
     public static final String CHECKBOX = "CheckBox";
     public static final String CALENDAR = "Calendar";
+   
 
 }

@@ -39,7 +39,7 @@ import com.uniandes.ecos.util.NegocioException;
 public class ProcesadorTramitesService implements IProcesadorTramitesService {
 
 	// -------------------------------------------------------------------------
-	// INYECCIÓN DE SERVICIOS
+	// INYECCIï¿½N DE SERVICIOS
 	// -------------------------------------------------------------------------
 	/**
 	 * Inyecciï¿½n del contexto de persistencia de la aplicaciï¿½n.
@@ -60,7 +60,7 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	private ICorreosService correosService;
 
 	/**
-	 * Instanciación del objeto dao para el manejo de persistencia.
+	 * Instanciaciï¿½n del objeto dao para el manejo de persistencia.
 	 */
 	private BaseDao<Tramite, Long> tramiteDao;
 
@@ -133,9 +133,32 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
         	lstTramites = query.getResultList();
         } catch (NoResultException e) {
             e.printStackTrace();
-            throw new NegocioException(Constantes.INFO, 0, "No existen trámites a procesar en el momento.");
+            throw new NegocioException(Constantes.INFO, 0, "No existen tramites a procesar en el momento.");
         }
         
+		return lstTramites;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService#
+	 * obtenerTramitesCiudadano(java.lang.String, long)
+	 */
+	@Override
+	public List<Tramite> obtenerTramitesCiudadano(String usuario, long municipioId) throws NegocioException {
+		List<Tramite> lstTramites = new ArrayList<>();
+
+        Query query = this.em.createNamedQuery("Tramite.findByCiudadano");
+        query.setParameter("municipioId", municipioId);
+        query.setParameter("ciudadanoId", usuario);
+
+        //Se ejecuta la consulta
+        try {
+        	lstTramites = query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            throw new NegocioException(Constantes.INFO, 0, "No existen tramites a procesar en el momento.");
+        }
 		return lstTramites;
 	}
 
@@ -198,9 +221,15 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 		return query.getResultList();
 	}
 
+	/*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#* @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#
+     * actualizarTramite(tramite)
+     */
 	@Override
 	public void actualizarTramite(Tramite tramite) throws NegocioException {
 		tramiteDao.merge(tramite);
 	}
-
 }

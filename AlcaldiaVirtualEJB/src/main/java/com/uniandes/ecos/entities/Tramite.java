@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.uniandes.ecos.util.Constantes;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * Clase de persistencia para la tabla "TRAMITES". 
  * 
- * @author Juan Albarracín
+ * @author Juan Albarracï¿½n
  * @version 1.0
  * @date 18/07/2016
  */
@@ -20,7 +22,8 @@ import java.util.List;
 @Table(name="TRAMITES")
 @NamedQueries({
 	@NamedQuery(name="Tramite.findAll", query="SELECT f FROM Tramite f"),
-	@NamedQuery(name="Tramite.findByMunicipio", query="SELECT f FROM Tramite f WHERE f.municipio.municipioId = :municipioId")
+	@NamedQuery(name="Tramite.findByMunicipio", query="SELECT f FROM Tramite f WHERE f.municipio.municipioId = :municipioId"),
+	@NamedQuery(name="Tramite.findByCiudadano", query="SELECT f FROM Tramite f WHERE f.municipio.municipioId = :municipioId AND f.usuariosCiudadano.usuario = :ciudadanoId")
 })
 public class Tramite implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -42,6 +45,9 @@ public class Tramite implements Serializable {
 	private String nombre;
 
 	private String observaciones;
+	
+	@Transient
+	private String estadoString;
 
 	//bi-directional many-to-one association to CambioEstadoTramite
 	@OneToMany(mappedBy="tramite")
@@ -233,6 +239,32 @@ public class Tramite implements Serializable {
 
 	public void setUsuariosCiudadano(UsuariosCiudadano usuariosCiudadano) {
 		this.usuariosCiudadano = usuariosCiudadano;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getEstadoString() {
+		String estado = "";
+		
+		switch (this.estado) {
+		case Constantes.ESTADO_CREADO :
+			estado = "TRAMITE CREADO";
+			break;
+		case Constantes.ESTADO_FINALIZADO :
+			estado = "TRAMITE FINALIZADO";
+			break;
+		case Constantes.ESTADO_PROCESO :
+			estado = "TRAMITE EN PROCESO";
+			break;
+		case Constantes.ESTADO_RECHAZADO :
+			estado = "TRAMITE RECHAZADO";
+			break;	
+		default:
+			break;
+		}		
+		return estado;
 	}
 
 }
