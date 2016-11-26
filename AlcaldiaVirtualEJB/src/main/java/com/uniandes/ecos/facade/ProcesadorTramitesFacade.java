@@ -114,6 +114,16 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 	public List<FormularioTramite> buscarFormulariosPorTramite(long tramiteId) throws NegocioException {
 		return tramitesService.buscarFormulariosPorTramite(tramiteId);
 	}
+
+	/*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+     * actualizarTramite(long)
+     */
+	@Override
+	public void actualizarTramite(Tramite tramite) throws NegocioException {
+		tramitesService.actualizarTramite(tramite);
+	}
 	
 	
 

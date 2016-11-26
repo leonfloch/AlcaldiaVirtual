@@ -91,4 +91,12 @@ public interface IProcesadorTramitesService {
 	 * @throws NegocioException
 	 */
 	List<FormularioTramite> buscarFormulariosPorTramite(long tramiteId) throws NegocioException;
+	
+	/**
+	 * Actualiza un trámite específico. 
+	 * 
+	 * @param tramite
+	 * @throws NegocioException
+	 */
+	void actualizarTramite(Tramite tramite) throws NegocioException;
 }

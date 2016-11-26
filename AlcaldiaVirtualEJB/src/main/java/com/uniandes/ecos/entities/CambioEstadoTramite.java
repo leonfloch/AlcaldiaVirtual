@@ -25,12 +25,8 @@ public class CambioEstadoTramite implements Serializable {
 	private long cambioEstadoId;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="FECHA_FIN")
-	private Date fechaFin;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="FECHA_INICIO")
-	private Date fechaInicio;
+	@Column(name="FECHA")
+	private Date fecha;
 
 	private String observaciones;
 
@@ -60,20 +56,12 @@ public class CambioEstadoTramite implements Serializable {
 		this.cambioEstadoId = cambioEstadoId;
 	}
 
-	public Date getFechaFin() {
-		return this.fechaFin;
+	public Date getFecha() {
+		return this.fecha;
 	}
 
-	public void setFechaFin(Date fechaFin) {
-		this.fechaFin = fechaFin;
-	}
-
-	public Date getFechaInicio() {
-		return this.fechaInicio;
-	}
-
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
+	public void setFechaFin(Date fecha) {
+		this.fecha = fecha;
 	}
 
 	public String getObservaciones() {

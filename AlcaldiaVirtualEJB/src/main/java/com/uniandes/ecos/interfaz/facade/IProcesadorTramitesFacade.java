@@ -77,6 +77,14 @@ public interface IProcesadorTramitesFacade {
 	void cambiarEstadoTramite(long tramiteId, String estado) throws NegocioException;
 	
 	/**
+	 * Actualiza un trámite específico. 
+	 * 
+	 * @param tramite
+	 * @throws NegocioException
+	 */
+	void actualizarTramite(Tramite tramite) throws NegocioException;
+	
+	/**
 	 * Busca todos los documentos cargados segun el tramite
 	 * @param tramiteId
 	 * @return

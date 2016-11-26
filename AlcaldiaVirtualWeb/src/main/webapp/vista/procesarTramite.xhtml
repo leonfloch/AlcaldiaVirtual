@@ -59,7 +59,8 @@
 													</h:panelGrid>
 													<p:dashboard id="board"
 														binding="#{procesaTramiteMB.dashboard}">
-														<p:ajax event="reorder"
+														<p:ajax event="reorder" update="obsTrmDlgForm"
+															oncomplete="PF('obsvTramiteDialog').show()"
 															listener="#{procesaTramiteMB.cambiarEstado}" />
 														<c:forEach
 															items="#{procesaTramiteMB.lstTramitesAProcesar}"
@@ -166,6 +167,34 @@
 						</p:dialog>
 					</p:tab>
 				</p:accordionPanel>
+			</form>
+			<form jsf:id="obsTrmDlgForm">
+				<p:dialog widgetVar="obsvTramiteDialog" header="Observaciones"
+					modal="true">
+					<h:panelGrid columns="1">
+						<textarea cols="50" rows="5" required="true"
+							placeholder="Observaciones" jsf:label="Observaciones"
+							jsf:requiredMessage="Observación es requerido"
+							jsf:value="#{procesaTramiteMB.observaciones}"
+							class="form-control" />
+					</h:panelGrid>
+					<f:facet name="footer">
+						<h:panelGrid id="btnPanel" columns="2">
+							<button jsf:id="registroBtn" jsf:process="@form"
+								jsf:action="#{procesaTramiteMB.actualizarTramite}"
+								onclick="if (args &amp;&amp; !args.validationFailed) PF('obsvTramiteDialog').hide()"
+								class="btn btn-sm btn-primary">
+								<i class="fa fa-floppy-o"></i> Guardar
+							</button>
+							<p:commandButton value="Cancelar" styleClass="cancelButton"
+								action="#{procesaTramiteMB.limpiarAtributos}"
+								oncomplete="PF('obsvTramiteDialog').hide();"
+								process="@this" update="form" icon="fa fa-ban">
+							</p:commandButton>
+						</h:panelGrid>
+					</f:facet>
+
+				</p:dialog>
 			</form>
 
 		</ui:define>
