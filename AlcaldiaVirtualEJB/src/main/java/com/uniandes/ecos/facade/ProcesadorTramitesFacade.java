@@ -20,7 +20,7 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 
 
     //-------------------------------------------------------------------------
-    // INYECCIÓN DE SERVICIOS
+    // INYECCIï¿½N DE SERVICIOS
     //-------------------------------------------------------------------------	
     /**
      * EJB encargado del ciclo de vida de los tramites
@@ -113,6 +113,16 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 	@Override
 	public List<FormularioTramite> buscarFormulariosPorTramite(long tramiteId) throws NegocioException {
 		return tramitesService.buscarFormulariosPorTramite(tramiteId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+	 * obtenerTramitesCiudadano(java.lang.String, long)
+	 */
+	@Override
+	public List<Tramite> obtenerTramitesCiudadano(String usuario, long municipioId) throws NegocioException {
+		return tramitesService.obtenerTramitesCiudadano(usuario, municipioId);
 	}
 	
 	
