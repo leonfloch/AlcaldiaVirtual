@@ -10,6 +10,8 @@ import javax.ejb.Local;
 
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.DocumentoTramite;
+import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.util.NegocioException;
 
@@ -73,4 +75,20 @@ public interface IProcesadorTramitesService {
 	 * @throws NegocioException
 	 */
 	void cambiarEstadoTramite(long tramiteId, String estado) throws NegocioException;
+	
+	/**
+	 * Busca todos los documentos cargados segun el tramite
+	 * @param tramiteId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<DocumentoTramite> buscarDocumentosPorTramite(long tramiteId) throws NegocioException;
+	
+	/**
+	 * Busca todos los formularios diligenciados segun el tramite
+	 * @param tramiteId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<FormularioTramite> buscarFormulariosPorTramite(long tramiteId) throws NegocioException;
 }

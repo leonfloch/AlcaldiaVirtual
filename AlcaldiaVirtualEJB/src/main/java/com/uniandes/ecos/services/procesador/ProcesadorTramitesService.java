@@ -18,7 +18,8 @@ import javax.persistence.Query;
 import com.uniandes.ecos.dao.BaseDao;
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
-import com.uniandes.ecos.entities.TipoTramite;
+import com.uniandes.ecos.entities.DocumentoTramite;
+import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.interfaz.services.procesador.ICorreosService;
 import com.uniandes.ecos.interfaz.services.procesador.IDocumentosService;
@@ -116,6 +117,7 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	 * IProcesadorTramitesService#
 	 * obtenerTramites(long)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Tramite> obtenerTramites(long municipioId) throws NegocioException {
 		List<Tramite> lstTramites = new ArrayList<>();
@@ -148,7 +150,8 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 
 	/*
      * (non-Javadoc)
-     * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+     * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#
      * cambiarEstadoTramite(long, java.lang.String)
      */
 	@Override
@@ -157,6 +160,39 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 		tramite.setEstado(estado);
 		tramiteDao.merge(tramite);
 		this.em.flush();
+	}
+	
+	/*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#
+     * buscarDocumentosPorTramite(long)
+     */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DocumentoTramite> buscarDocumentosPorTramite(long tramiteId) throws NegocioException {
+		String sql = "Select dt From DocumentoTramite dt Where dt.tramite.tramiteId = :tramiteId";
+		Query query = this.em.createQuery(sql);
+		query.setParameter("tramiteId", tramiteId);
+		
+		return query.getResultList();
+	}
+
+	/*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#* @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#
+     * buscarFormulariosPorTramite(long)
+     */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<FormularioTramite> buscarFormulariosPorTramite(long tramiteId) throws NegocioException {
+		String sql = "Select ft From FormularioTramite ft Where ft.tramite.tramiteId = :tramiteId";
+		Query query = this.em.createQuery(sql);
+		query.setParameter("tramiteId", tramiteId);
+		
+		return query.getResultList();
 	}
 
 }

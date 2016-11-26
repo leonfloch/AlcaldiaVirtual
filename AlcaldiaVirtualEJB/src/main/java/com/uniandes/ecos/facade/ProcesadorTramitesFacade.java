@@ -2,13 +2,14 @@ package com.uniandes.ecos.facade;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.DocumentoTramite;
+import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService;
@@ -17,7 +18,6 @@ import com.uniandes.ecos.util.NegocioException;
 @Stateless
 public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 
-    private static Logger log = Logger.getLogger(ProcesadorTramitesFacade.class.getName());
 
     //-------------------------------------------------------------------------
     // INYECCIÓN DE SERVICIOS
@@ -94,5 +94,27 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 	public void cambiarEstadoTramite(long tramiteId, String estado) throws NegocioException {
 		this.tramitesService.cambiarEstadoTramite(tramiteId, estado);
 	}
+
+	/*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+     * buscarDocumentosPorTramite(long)
+     */
+	@Override
+	public List<DocumentoTramite> buscarDocumentosPorTramite(long tramiteId) throws NegocioException {
+		return tramitesService.buscarDocumentosPorTramite(tramiteId);
+	}
+
+	/*
+     * (non-Javadoc)
+     * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+     * buscarFormulariosPorTramite(long)
+     */
+	@Override
+	public List<FormularioTramite> buscarFormulariosPorTramite(long tramiteId) throws NegocioException {
+		return tramitesService.buscarFormulariosPorTramite(tramiteId);
+	}
+	
+	
 
 }

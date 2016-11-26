@@ -37,3 +37,7 @@
 	background-color: #ff2121 !important;
 	border-color: #ff1717 !important;
 }
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	right: 10px !important;
+}

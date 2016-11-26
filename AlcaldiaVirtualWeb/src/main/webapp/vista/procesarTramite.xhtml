@@ -4,7 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 
 <body jsf:id="bodyMain">
@@ -22,59 +23,150 @@
 				draggable="false" closable="false" resizable="false">
 				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
 			</p:dialog>
+			<style type="text/css">
+.ui-dashboard-column {
+	width: 230px;
+}
+</style>
 
 			<form jsf:id="form">
-			
-			<style type="text/css">
-			.ui-dashboard-column {
-			  width: 230px;
-			  
-			}
-			</style>
+				<p:growl id="msgs" showDetail="true" />
+				<p:accordionPanel multiple="false" widgetVar="tramitesAccordion">
+					<p:tab title="Procesar Tramites" id="procesarTramitesTab"
+						titleStyle="card-header" titleStyleClass="card-header">
 
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="card-header">Procesar Tramites</div>
-							<div class="card-block">
-							
-								
-									<p:growl id="msgs" showDetail="true" />
-									<div class="row">
-										<div class="col-md-1"></div>
-										<div class="col-md-10">
-												<h:panelGrid  id="boardGrid" columns="1" cellpadding="10">
-													<h:panelGrid  id="boardHeader" columns="4" cellpadding="10">
-														<h:outputLabel for="estado1" value="Creado" style="width: 230px; text-align: center;"/>
-														<h:outputLabel for="estado2" value="En Proceso" style="width: 230px; text-align: center;"/>
-														<h:outputLabel for="estado3" value="Finalizado" style="width: 230px; text-align: center;"/>
-														<h:outputLabel for="estado4" value="Rechazado" style="width: 230px; text-align: center;"/>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-header">Procesar Tramites</div>
+									<div class="card-block">
+
+
+
+										<div class="row">
+											<div class="col-md-1"></div>
+											<div class="col-md-10">
+												<h:panelGrid id="boardGrid" columns="1" cellpadding="10">
+													<h:panelGrid id="boardHeader" columns="4" cellpadding="10">
+														<h:outputLabel id="estado1" value="Creado"
+															style="width: 230px; text-align: center;" />
+														<h:outputLabel id="estado2" value="En Proceso"
+															style="width: 230px; text-align: center;" />
+														<h:outputLabel id="estado3" value="Finalizado"
+															style="width: 230px; text-align: center;" />
+														<h:outputLabel id="estado4" value="Rechazado"
+															style="width: 230px; text-align: center;" />
 													</h:panelGrid>
 													<p:dashboard id="board"
-													binding="#{procesaTramiteMB.dashboard}">
-														<p:ajax event="reorder" listener="#{procesaTramiteMB.cambiarEstado}" />
-		
+														binding="#{procesaTramiteMB.dashboard}">
+														<p:ajax event="reorder"
+															listener="#{procesaTramiteMB.cambiarEstado}" />
+														<c:forEach
+															items="#{procesaTramiteMB.lstTramitesAProcesar}"
+															var="tramite">
+															<p:panel id="t-#{tramite.tramiteId}"
+																header="Trámite Número: #{tramite.tramiteId}">
+																<h:outputText value="#{tramite.nombre}" />
+																<f:facet name="footer">
+																	<p:commandButton value="Documentos"
+																		action="#{procesaTramiteMB.cargarDocumentos}"
+																		process="@this" update="@form"
+																		oncomplete="PF('tramitesAccordion').select(1)">
+																		<f:setPropertyActionListener value="#{tramite}"
+																			target="#{procesaTramiteMB.tramiteSeleccionado}" />
+																	</p:commandButton>
+																</f:facet>
+															</p:panel>
+														</c:forEach>
 													</p:dashboard>
 												</h:panelGrid>
+											</div>
 										</div>
-										<div class="col-md-1"></div>
+
+
 									</div>
-							
-							
+
+								</div>
+
 							</div>
 
 						</div>
 
-					</div>
-
-				</div>
-
+					</p:tab>
+					<p:tab title="Documentos/Formularios Tramite"
+						id="listaDocumentosTab" titleStyle="card-header"
+						titleStyleClass="card-header">
+						<p:panel>
+							<p:dataTable id="docsTramiteTable"
+								value="#{procesaTramiteMB.documentosTramite}" var="documento">
+								<f:facet name="header">
+									Documentos Tramite
+								</f:facet>
+								<p:column headerText="Nombre Documento">
+									<h:outputText value="#{documento.nombre}"></h:outputText>
+								</p:column>
+								<p:column headerText="Observación">
+									<h:outputText value="#{documento.observacion}"></h:outputText>
+								</p:column>
+								<p:column headerText="Opcion">
+									<p:commandButton icon="ui-icon-arrowthick-1-s" ajax="false"
+										process="@this" title="Descargar">
+										<f:setPropertyActionListener value="#{documento}"
+											target="#{procesaTramiteMB.documentoTramiteSeleccionado}" />
+										<p:fileDownload value="#{procesaTramiteMB.archivo}"></p:fileDownload>
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+						<p:panel>
+							<p:dataTable id="formsTramiteTable"
+								value="#{procesaTramiteMB.formulariosTramite}" var="formulario">
+								<f:facet name="header">
+									Formularios Tramite
+								</f:facet>
+								<p:column headerText="Nombre Formulario">
+									<h:outputText value="#{formulario.nombre}"></h:outputText>
+								</p:column>
+								<p:column headerText="Opcion">
+									<p:commandButton icon="fa fa-eye" title="Ver datos formulario"
+										oncomplete="PF('datosFormularioDialog').show()" update="@form">
+										<f:setPropertyActionListener value="#{formulario}"
+											target="#{procesaTramiteMB.formularioTramiteSeleccionado}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+						<p:panel>
+							<f:facet name="footer">
+								<p:commandButton value="Volver"
+									oncomplete="PF('tramitesAccordion').select(0)">
+								</p:commandButton>
+							</f:facet>
+						</p:panel>
+						<p:dialog widgetVar="datosFormularioDialog" modal="true"
+							header="Datos Formulario">
+							<p:outputPanel>
+								<p:dataTable id="datosFormularioTable"
+									value="#{procesaTramiteMB.formularioTramiteSeleccionado.camposFormularioTramites}"
+									var="campo">
+									<p:column>
+										<h:outputText value="#{campo.nombre}:" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{campo.valor}" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+							<f:facet name="footer">
+								<button onclick="PF('datosFormularioDialog').hide();"
+									class="btn btn-sm btn-danger">
+									<i class="fa fa-close"></i> Cerrar
+								</button>
+							</f:facet>
+						</p:dialog>
+					</p:tab>
+				</p:accordionPanel>
 			</form>
-
-
-
-
-
 
 		</ui:define>
 

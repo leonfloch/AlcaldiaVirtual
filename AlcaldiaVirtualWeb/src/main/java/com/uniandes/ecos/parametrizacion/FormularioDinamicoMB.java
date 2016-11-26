@@ -1,7 +1,5 @@
 package com.uniandes.ecos.parametrizacion;
 
-import java.util.Iterator;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;

@@ -1,24 +1,31 @@
 package com.uniandes.ecos.tramite;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlOutputText;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.component.dashboard.Dashboard;
-import org.primefaces.component.panel.Panel;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.uniandes.ecos.comun.BaseMBean;
+import com.uniandes.ecos.entities.DocumentoTramite;
+import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.util.Constantes;
@@ -45,6 +52,20 @@ public class ProcesaTramiteMB extends BaseMBean{
 
 	/** Dashboard. */
 	private Dashboard dashboard;
+	
+	private List<DocumentoTramite> documentosTramite;
+	
+	private List<FormularioTramite> formulariosTramite;
+	
+	private Tramite tramiteSeleccionado;
+	
+	private DocumentoTramite documentoTramiteSeleccionado;
+	
+	private FormularioTramite formularioTramiteSeleccionado;
+	
+	private StreamedContent archivo;
+	
+	private String observaciones;
 
 	/**
 	 * Constructor de la clase. 
@@ -95,28 +116,17 @@ public class ProcesaTramiteMB extends BaseMBean{
 		dashboard.setModel(model);
 		
 		for (Tramite tramite : this.lstTramitesAProcesar) {
-			Panel panel = (Panel) application.createComponent(fc, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
-			panel.setId("t-"+tramite.getTramiteId());
-			panel.setHeader("Trámite número:" + tramite.getTramiteId());
-			panel.setClosable(false);
-			panel.setToggleable(false);
-
-			dashboard.getChildren().add(panel);
+			String idPanel = "t-"+tramite.getTramiteId();
 			if (Constantes.ESTADO_CREADO.equals(tramite.getEstado())) {
-				columnCreados.addWidget(panel.getId());
+				columnCreados.addWidget(idPanel);
 			}else if (Constantes.ESTADO_PROCESO.equals(tramite.getEstado())){
-				columnProceso.addWidget(panel.getId());
+				columnProceso.addWidget(idPanel);
 			}else if (Constantes.ESTADO_FINALIZADO.equals(tramite.getEstado())){
-				columnFinalizados.addWidget(panel.getId());
+				columnFinalizados.addWidget(idPanel);
 			}else if (Constantes.ESTADO_RECHAZADO.equals(tramite.getEstado())){
-				columnRechazados.addWidget(panel.getId());
+				columnRechazados.addWidget(idPanel);
 			}
 			
-			HtmlOutputText text = new HtmlOutputText();
-			text.setId("t"+tramite.getTramiteId());
-			text.setValue(tramite.getTiposTramite().getNombre());
-
-			panel.getChildren().add(text);
 		}
 
 	}
@@ -127,10 +137,9 @@ public class ProcesaTramiteMB extends BaseMBean{
 	 */
 	public void cambiarEstado(DashboardReorderEvent event) {
 		//Se obtiene el id del trámite
-		String widgetId = event.getWidgetId();
-		String[] parts = widgetId.split("-");
-		String part1 = parts[0]; 
-		String tramiteId = parts[1];
+		String tramiteId = event.getWidgetId().split("-")[1];
+		
+		System.out.println("Cambiar estado de tramite a: "+tramiteId);
 		
 		//Se obtiene el estado al que se desea cambiar
 		String estado = null;
@@ -161,6 +170,35 @@ public class ProcesaTramiteMB extends BaseMBean{
 			this.adicionarMensaje(e.getTipo(), e.getMensaje());	
 		}
 	}
+	
+	public void cargarDocumentos(){
+		try {
+			documentosTramite = procesadorTramitesFacade.buscarDocumentosPorTramite(tramiteSeleccionado.getTramiteId());
+			formulariosTramite = procesadorTramitesFacade.buscarFormulariosPorTramite(tramiteSeleccionado.getTramiteId());
+		} catch (NegocioException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.adicionarMensaje(e.getTipo(), e.getMensaje());	
+		}
+	}
+	
+	public void prepararDescarga(){
+		File file = new File(documentoTramiteSeleccionado.getRuta());
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		InputStream stream;
+		try {
+			stream = new FileInputStream(file);
+			archivo = new DefaultStreamedContent(stream,externalContext.getMimeType(file.getName()),file.getName());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			this.adicionarMensaje(Constantes.ERROR, "Se ha presentado un error al descargar el archivo");	
+		}
+	}
+	
+	public StreamedContent getArchivo(){
+		prepararDescarga();
+		return archivo;
+	}
 
 	/**
 	 * @return the dashboard
@@ -175,5 +213,104 @@ public class ProcesaTramiteMB extends BaseMBean{
 	public void setDashboard(Dashboard dashboard) {
 		this.dashboard = dashboard;
 	}
+
+	/**
+	 * @return the observaciones
+	 */
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	/**
+	 * @param observaciones the observaciones to set
+	 */
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
+	/**
+	 * @return the documentosTramite
+	 */
+	public List<DocumentoTramite> getDocumentosTramite() {
+		return documentosTramite;
+	}
+
+	/**
+	 * @param documentosTramite the documentosTramite to set
+	 */
+	public void setDocumentosTramite(List<DocumentoTramite> documentosTramite) {
+		this.documentosTramite = documentosTramite;
+	}
+
+	/**
+	 * @return the formulariosTramite
+	 */
+	public List<FormularioTramite> getFormulariosTramite() {
+		return formulariosTramite;
+	}
+
+	/**
+	 * @param formulariosTramite the formulariosTramite to set
+	 */
+	public void setFormulariosTramite(List<FormularioTramite> formulariosTramite) {
+		this.formulariosTramite = formulariosTramite;
+	}
+
+	/**
+	 * @return the lstTramitesAProcesar
+	 */
+	public List<Tramite> getLstTramitesAProcesar() {
+		return lstTramitesAProcesar;
+	}
+
+	/**
+	 * @param lstTramitesAProcesar the lstTramitesAProcesar to set
+	 */
+	public void setLstTramitesAProcesar(List<Tramite> lstTramitesAProcesar) {
+		this.lstTramitesAProcesar = lstTramitesAProcesar;
+	}
+
+	/**
+	 * @return the tramiteSeleccionado
+	 */
+	public Tramite getTramiteSeleccionado() {
+		return tramiteSeleccionado;
+	}
+
+	/**
+	 * @param tramiteSeleccionado the tramiteSeleccionado to set
+	 */
+	public void setTramiteSeleccionado(Tramite tramiteSeleccionado) {
+		this.tramiteSeleccionado = tramiteSeleccionado;
+	}
+
+	/**
+	 * @return the documentoTramiteSeleccionado
+	 */
+	public DocumentoTramite getDocumentoTramiteSeleccionado() {
+		return documentoTramiteSeleccionado;
+	}
+
+	/**
+	 * @param documentoTramiteSeleccionado the documentoTramiteSeleccionado to set
+	 */
+	public void setDocumentoTramiteSeleccionado(DocumentoTramite documentoTramiteSeleccionado) {
+		this.documentoTramiteSeleccionado = documentoTramiteSeleccionado;
+	}
+
+	/**
+	 * @return the formularioTramiteSeleccionado
+	 */
+	public FormularioTramite getFormularioTramiteSeleccionado() {
+		return formularioTramiteSeleccionado;
+	}
+
+	/**
+	 * @param formularioTramiteSeleccionado the formularioTramiteSeleccionado to set
+	 */
+	public void setFormularioTramiteSeleccionado(FormularioTramite formularioTramiteSeleccionado) {
+		this.formularioTramiteSeleccionado = formularioTramiteSeleccionado;
+	}
+	
 	
 }
