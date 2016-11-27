@@ -5,6 +5,7 @@ package com.uniandes.ecos.services.procesador;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -22,8 +23,10 @@ import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
 import com.uniandes.ecos.entities.CambioEstadoTramite;
 import com.uniandes.ecos.entities.DocumentoTramite;
+import com.uniandes.ecos.entities.EstadoTramite;
 import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
+import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.interfaz.services.procesador.ICorreosService;
 import com.uniandes.ecos.interfaz.services.procesador.IDocumentosService;
 import com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService;
@@ -237,7 +240,18 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	 * IProcesadorTramitesService# actualizarTramite(tramite)
 	 */
 	@Override
-	public void actualizarTramite(Tramite tramite) throws NegocioException {
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void actualizarTramite(Tramite tramite, String observacion, UsuariosFuncionario usuario) throws NegocioException {
+		CambioEstadoTramite cambioEstadoTramite = new CambioEstadoTramite();
+		
+		EstadoTramite estadoTramite = new EstadoTramite();
+		estadoTramite.setEstadoId(tramite.getEstado());
+		
+		cambioEstadoTramite.setEstadosTramite(estadoTramite);
+		cambioEstadoTramite.setFechaFin(new Date());
+		cambioEstadoTramite.setObservaciones(observacion);
+		cambioEstadoTramite.setTramite(tramite);
+		cambioEstadoTramite.setUsuariosFuncionario(usuario);
 		tramiteDao.merge(tramite);
 	}
 

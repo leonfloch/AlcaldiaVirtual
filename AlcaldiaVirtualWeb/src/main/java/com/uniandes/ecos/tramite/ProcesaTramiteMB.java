@@ -28,6 +28,7 @@ import com.uniandes.ecos.comun.BaseMBean;
 import com.uniandes.ecos.entities.DocumentoTramite;
 import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
+import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.util.Constantes;
 import com.uniandes.ecos.util.NegocioException;
@@ -198,10 +199,9 @@ public class ProcesaTramiteMB extends BaseMBean {
 	 * Actualiza el estado y las observaciones a un tramite
 	 */
 	public void actualizarTramite() {
-		tramiteSeleccionado.setObservaciones(observaciones);
 
 		try {
-			this.procesadorTramitesFacade.actualizarTramite(tramiteSeleccionado);
+			this.procesadorTramitesFacade.actualizarTramite(tramiteSeleccionado, observaciones, (UsuariosFuncionario)getSesion());
 			observaciones = new String();
 			this.adicionarMensaje(Constantes.INFO, "El tramite ha sido actualizado");
 		} catch (NegocioException e) {

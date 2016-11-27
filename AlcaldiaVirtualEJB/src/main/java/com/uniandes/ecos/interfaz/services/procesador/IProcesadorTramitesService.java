@@ -14,6 +14,7 @@ import com.uniandes.ecos.entities.CambioEstadoTramite;
 import com.uniandes.ecos.entities.DocumentoTramite;
 import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
+import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -109,7 +110,7 @@ public interface IProcesadorTramitesService {
 	 * @param tramite
 	 * @throws NegocioException
 	 */
-	void actualizarTramite(Tramite tramite) throws NegocioException;
+	void actualizarTramite(Tramite tramite, String observacion, UsuariosFuncionario usuario) throws NegocioException;
 	
 	/**
 	 * Crea un nuevo registro Cambio estado tramite

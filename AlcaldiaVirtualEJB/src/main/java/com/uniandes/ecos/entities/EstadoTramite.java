@@ -20,7 +20,7 @@ public class EstadoTramite implements Serializable {
 
 	@Id
 	@Column(name="ESTADO_ID")
-	private long estadoId;
+	private String estadoId;
 
 	private String descripcion;
 
@@ -33,11 +33,11 @@ public class EstadoTramite implements Serializable {
 	public EstadoTramite() {
 	}
 
-	public long getEstadoId() {
+	public String getEstadoId() {
 		return this.estadoId;
 	}
 
-	public void setEstadoId(long estadoId) {
+	public void setEstadoId(String estadoId) {
 		this.estadoId = estadoId;
 	}
 

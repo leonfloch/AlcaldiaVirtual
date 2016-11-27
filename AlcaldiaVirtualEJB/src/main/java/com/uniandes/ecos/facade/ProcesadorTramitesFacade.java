@@ -12,6 +12,7 @@ import com.uniandes.ecos.entities.CambioEstadoTramite;
 import com.uniandes.ecos.entities.DocumentoTramite;
 import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
+import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade;
 import com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService;
 import com.uniandes.ecos.util.NegocioException;
@@ -129,8 +130,8 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 	 * actualizarTramite(long)
 	 */
 	@Override
-	public void actualizarTramite(Tramite tramite) throws NegocioException {
-		tramitesService.actualizarTramite(tramite);
+	public void actualizarTramite(Tramite tramite, String observacion, UsuariosFuncionario usuario) throws NegocioException {
+		tramitesService.actualizarTramite(tramite, observacion, usuario);
 	} 
 	/*	
 	 * (non-Javadoc)
