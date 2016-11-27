@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -175,6 +176,7 @@ public class ProcesaTramiteMB extends BaseMBean {
 
 		try {
 			this.procesadorTramitesFacade.actualizarTramite(tramiteSeleccionado);
+			observaciones = new String();
 			this.adicionarMensaje(Constantes.INFO, "El tramite ha sido actualizado");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -207,10 +209,16 @@ public class ProcesaTramiteMB extends BaseMBean {
 	}
 
 	public void limpiarAtributos() {
+		removerTramiteDashboard(tramiteSeleccionado.getTramiteId(), tramiteSeleccionado.getEstado());
 		tramiteSeleccionado.setEstado(estadoAnterior);
 		moverTramiteDashboard(tramiteSeleccionado.getTramiteId(), tramiteSeleccionado.getEstado());
 		tramiteSeleccionado = new Tramite();
 		observaciones = new String();
+	}
+	
+	public void limpiarTablas(){
+		documentosTramite = new ArrayList<>();
+		formulariosTramite = new ArrayList<>();
 	}
 
 	public StreamedContent getArchivo() {
@@ -228,6 +236,19 @@ public class ProcesaTramiteMB extends BaseMBean {
 			columnFinalizados.addWidget(idPanel);
 		} else if (Constantes.ESTADO_RECHAZADO.equals(estado)) {
 			columnRechazados.addWidget(idPanel);
+		}
+	}
+	
+	private void removerTramiteDashboard(long tramiteId, String estado){
+		String idPanel = "t-" + tramiteId;
+		if (Constantes.ESTADO_CREADO.equals(estado)) {
+			columnCreados.removeWidget(idPanel);
+		} else if (Constantes.ESTADO_PROCESO.equals(estado)) {
+			columnProceso.removeWidget(idPanel);
+		} else if (Constantes.ESTADO_FINALIZADO.equals(estado)) {
+			columnFinalizados.removeWidget(idPanel);
+		} else if (Constantes.ESTADO_RECHAZADO.equals(estado)) {
+			columnRechazados.removeWidget(idPanel);
 		}
 	}
 

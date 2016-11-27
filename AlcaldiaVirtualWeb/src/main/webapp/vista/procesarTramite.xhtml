@@ -57,7 +57,7 @@
 														<h:outputLabel id="estado4" value="Rechazado"
 															style="width: 230px; text-align: center;" />
 													</h:panelGrid>
-													<p:dashboard id="board"
+													<p:dashboard id="board" 
 														binding="#{procesaTramiteMB.dashboard}">
 														<p:ajax event="reorder" update="obsTrmDlgForm"
 															oncomplete="PF('obsvTramiteDialog').show()"
@@ -111,7 +111,7 @@
 								</p:column>
 								<p:column headerText="Opcion">
 									<p:commandButton icon="ui-icon-arrowthick-1-s" ajax="false"
-										process="@this" title="Descargar">
+										process="@this" title="Descargar" value="Descargar">
 										<f:setPropertyActionListener value="#{documento}"
 											target="#{procesaTramiteMB.documentoTramiteSeleccionado}" />
 										<p:fileDownload value="#{procesaTramiteMB.archivo}"></p:fileDownload>
@@ -130,7 +130,8 @@
 								</p:column>
 								<p:column headerText="Opcion">
 									<p:commandButton icon="fa fa-eye" title="Ver datos formulario"
-										oncomplete="PF('datosFormularioDialog').show()" update="@form">
+										value="Ver" oncomplete="PF('datosFormularioDialog').show()"
+										update="@form">
 										<f:setPropertyActionListener value="#{formulario}"
 											target="#{procesaTramiteMB.formularioTramiteSeleccionado}" />
 									</p:commandButton>
@@ -139,8 +140,11 @@
 						</p:panel>
 						<p:panel>
 							<f:facet name="footer">
-								<p:commandButton value="Volver"
-									oncomplete="PF('tramitesAccordion').select(0)">
+								<p:commandButton value="Volver" icon="fa fa-arrow-up"
+									styleClass="volverButton"
+									update="formsTramiteTable,docsTramiteTable"
+									oncomplete="PF('tramitesAccordion').select(0);"
+									action="#{procesaTramiteMB.limpiarTablas}">
 								</p:commandButton>
 							</f:facet>
 						</p:panel>
@@ -169,8 +173,8 @@
 				</p:accordionPanel>
 			</form>
 			<form jsf:id="obsTrmDlgForm">
-				<p:dialog widgetVar="obsvTramiteDialog" header="Observaciones"
-					modal="true">
+				<p:dialog widgetVar="obsvTramiteDialog"
+					header="Observaciones de Cambio de Estado" modal="true">
 					<h:panelGrid columns="1">
 						<textarea cols="50" rows="5" required="true"
 							placeholder="Observaciones" jsf:label="Observaciones"
@@ -180,15 +184,15 @@
 					</h:panelGrid>
 					<f:facet name="footer">
 						<h:panelGrid id="btnPanel" columns="2">
-							<button jsf:id="registroBtn" jsf:process="@form"
-								jsf:action="#{procesaTramiteMB.actualizarTramite}"
+							<button jsf:id="registroBtn" jsf:process="@form" jsf:oncomplete="PF('tramitesAccordion').select(0);"
+								jsf:action="#{procesaTramiteMB.actualizarTramite}" jsf:update="@form"
 								onclick="if (args &amp;&amp; !args.validationFailed) PF('obsvTramiteDialog').hide()"
 								class="btn btn-sm btn-primary">
 								<i class="fa fa-floppy-o"></i> Guardar
 							</button>
 							<p:commandButton value="Cancelar" styleClass="cancelButton"
-								action="#{procesaTramiteMB.limpiarAtributos}"
-								oncomplete="PF('obsvTramiteDialog').hide();"
+								action="#{procesaTramiteMB.limpiarAtributos}" 
+								oncomplete="PF('obsvTramiteDialog').hide();PF('tramitesAccordion').select(0);"
 								process="@this" update="form" icon="fa fa-ban">
 							</p:commandButton>
 						</h:panelGrid>
