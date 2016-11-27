@@ -55,27 +55,50 @@ public class ProcesaTramiteMB extends BaseMBean {
 
 	/** Dashboard. */
 	private Dashboard dashboard;
-
 	private DashboardModel model;
 	private DashboardColumn columnCreados;
 	private DashboardColumn columnProceso;
 	private DashboardColumn columnFinalizados;
 	private DashboardColumn columnRechazados;
 
+	/**
+	 * Lista de documentos asociados a un tramite
+	 */
 	private List<DocumentoTramite> documentosTramite;
 
+	/**
+	 * Lista de formularios asociados a un tramite
+	 */
 	private List<FormularioTramite> formulariosTramite;
 
+	/**
+	 * Tramite seleccionado por el funcionario
+	 */
 	private Tramite tramiteSeleccionado;
 
+	/**
+	 * Documento de tramite seleccionado por el funcionario para descargar
+	 */
 	private DocumentoTramite documentoTramiteSeleccionado;
 
+	/**
+	 * Formulario selecionado por el funcionario
+	 */
 	private FormularioTramite formularioTramiteSeleccionado;
 
+	/**
+	 * Archivo que sera descargado por el funcionario
+	 */
 	private StreamedContent archivo;
 
+	/**
+	 * Observaciones de cambio de estado de un tramite
+	 */
 	private String observaciones;
 
+	/**
+	 * Estado anterior de un tramite
+	 */
 	private String estadoAnterior;
 
 	/**
@@ -171,6 +194,9 @@ public class ProcesaTramiteMB extends BaseMBean {
 		tramiteSeleccionado.setEstado(estado);
 	}
 
+	/**
+	 * Actualiza el estado y las observaciones a un tramite
+	 */
 	public void actualizarTramite() {
 		tramiteSeleccionado.setObservaciones(observaciones);
 
@@ -184,6 +210,9 @@ public class ProcesaTramiteMB extends BaseMBean {
 		}
 	}
 
+	/**
+	 * Carga los documentos y formularios de un tramite
+	 */
 	public void cargarDocumentos() {
 		try {
 			documentosTramite = procesadorTramitesFacade.buscarDocumentosPorTramite(tramiteSeleccionado.getTramiteId());
@@ -195,6 +224,9 @@ public class ProcesaTramiteMB extends BaseMBean {
 		}
 	}
 
+	/**
+	 * Carga el archivo a ser descargado
+	 */
 	public void prepararDescarga() {
 		File file = new File(documentoTramiteSeleccionado.getRuta());
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -208,6 +240,9 @@ public class ProcesaTramiteMB extends BaseMBean {
 		}
 	}
 
+	/**
+	 * Reinicia todos los atributos
+	 */
 	public void limpiarAtributos() {
 		removerTramiteDashboard(tramiteSeleccionado.getTramiteId(), tramiteSeleccionado.getEstado());
 		tramiteSeleccionado.setEstado(estadoAnterior);
@@ -216,16 +251,29 @@ public class ProcesaTramiteMB extends BaseMBean {
 		observaciones = new String();
 	}
 	
+	/**
+	 * Limpia los atributos y tablas de documentos y formularios
+	 */
 	public void limpiarTablas(){
 		documentosTramite = new ArrayList<>();
 		formulariosTramite = new ArrayList<>();
 	}
 
+	/**
+	 * Retorna un archivo asociado a un tramite
+	 * @return
+	 */
 	public StreamedContent getArchivo() {
 		prepararDescarga();
 		return archivo;
 	}
 
+	
+	/**
+	 * Mueve un tramite a otra columna de estado en el dashboard
+	 * @param tramiteId
+	 * @param estado
+	 */
 	private void moverTramiteDashboard(long tramiteId, String estado) {
 		String idPanel = "t-" + tramiteId;
 		if (Constantes.ESTADO_CREADO.equals(estado)) {
@@ -239,6 +287,11 @@ public class ProcesaTramiteMB extends BaseMBean {
 		}
 	}
 	
+	/**
+	 * Remueve un tramite de un estado en el dashboard
+	 * @param tramiteId
+	 * @param estado
+	 */
 	private void removerTramiteDashboard(long tramiteId, String estado){
 		String idPanel = "t-" + tramiteId;
 		if (Constantes.ESTADO_CREADO.equals(estado)) {
