@@ -80,6 +80,7 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	@PostConstruct
 	public void init() {
 		this.tramiteDao = new BaseDao<Tramite, Long>(Tramite.class, this.em);
+		this.cambioEstadoTramiteDao = new BaseDao<CambioEstadoTramite, Long>(CambioEstadoTramite.class, this.em);
 	}
 
 	/*
@@ -120,6 +121,7 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void crearTramite(Tramite tramite) throws NegocioException {
 		tramiteDao.persist(tramite);
+		crearCambioEstadoTramite(tramite, tramite.getObservaciones(), tramite.getUsuariosCiudadano().getUsuario());
 	}
 
 	/*
@@ -242,19 +244,9 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void actualizarTramite(Tramite tramite, String observacion, String usuario) throws NegocioException {
-		CambioEstadoTramite cambioEstadoTramite = new CambioEstadoTramite();
-		
-		EstadoTramite estadoTramite = new EstadoTramite();
-		estadoTramite.setEstadoId(tramite.getEstado());
-		
-		cambioEstadoTramite.setEstadosTramite(estadoTramite);
-		cambioEstadoTramite.setFechaFin(new Date());
-		cambioEstadoTramite.setObservaciones(observacion);
-		cambioEstadoTramite.setTramite(tramite);
-		cambioEstadoTramite.setUsuario(usuario);
 		
 		tramiteDao.merge(tramite);
-		crearCambioEstadoTramite(cambioEstadoTramite);		
+		crearCambioEstadoTramite(tramite, observacion, usuario);
 	}
 
 	/*
@@ -268,5 +260,20 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	@Override
 	public void crearCambioEstadoTramite(CambioEstadoTramite cambioEstadoTramite) throws NegocioException {
 		cambioEstadoTramiteDao.persist(cambioEstadoTramite);
+	}
+
+	private void crearCambioEstadoTramite(Tramite tramite, String observacion, String usuario) throws NegocioException {
+		CambioEstadoTramite cambioEstadoTramite = new CambioEstadoTramite();
+
+		EstadoTramite estadoTramite = new EstadoTramite();
+		estadoTramite.setEstadoId(tramite.getEstado());
+
+		cambioEstadoTramite.setEstadosTramite(estadoTramite);
+		cambioEstadoTramite.setFechaFin(new Date());
+		cambioEstadoTramite.setObservaciones(observacion);
+		cambioEstadoTramite.setTramite(tramite);
+		cambioEstadoTramite.setUsuario(usuario);
+
+		crearCambioEstadoTramite(cambioEstadoTramite);
 	}
 }
