@@ -20,6 +20,7 @@ import javax.persistence.Query;
 import com.uniandes.ecos.dao.BaseDao;
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.CambioEstadoTramite;
 import com.uniandes.ecos.entities.DocumentoTramite;
 import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
@@ -63,6 +64,11 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	 * Instanciaci�n del objeto dao para el manejo de persistencia.
 	 */
 	private BaseDao<Tramite, Long> tramiteDao;
+
+	/**
+	 * Instanciacion del objeto dao para el manejo de persistencia.
+	 */
+	private BaseDao<CambioEstadoTramite, Long> cambioEstadoTramiteDao;
 
 	// -------------------------------------------------------------------------
 	// METODOS
@@ -117,48 +123,24 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.uniandes.ecos.interfaz.services.procesador.
-	 * IProcesadorTramitesService#
-	 * obtenerTramites(long)
+	 * IProcesadorTramitesService# obtenerTramites(long)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Tramite> obtenerTramites(long municipioId) throws NegocioException {
 		List<Tramite> lstTramites = new ArrayList<>();
 
-        Query query = this.em.createNamedQuery("Tramite.findByMunicipio");
-        query.setParameter("municipioId", municipioId);
+		Query query = this.em.createNamedQuery("Tramite.findByMunicipio");
+		query.setParameter("municipioId", municipioId);
 
-        //Se ejecuta la consulta
-        try {
-        	lstTramites = query.getResultList();
-        } catch (NoResultException e) {
-            e.printStackTrace();
-            throw new NegocioException(Constantes.INFO, 0, "No existen tramites a procesar en el momento.");
-        }
-        
-		return lstTramites;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.uniandes.ecos.interfaz.services.procesador.IProcesadorTramitesService#
-	 * obtenerTramitesCiudadano(java.lang.String, long)
-	 */
-	@Override
-	public List<Tramite> obtenerTramitesCiudadano(String usuario, long municipioId) throws NegocioException {
-		List<Tramite> lstTramites = new ArrayList<>();
+		// Se ejecuta la consulta
+		try {
+			lstTramites = query.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			throw new NegocioException(Constantes.INFO, 0, "No existen tramites a procesar en el momento.");
+		}
 
-        Query query = this.em.createNamedQuery("Tramite.findByCiudadano");
-        query.setParameter("municipioId", municipioId);
-        query.setParameter("ciudadanoId", usuario);
-
-        //Se ejecuta la consulta
-        try {
-        	lstTramites = query.getResultList();
-        } catch (NoResultException e) {
-            e.printStackTrace();
-            throw new NegocioException(Constantes.INFO, 0, "No existen tramites a procesar en el momento.");
-        }
 		return lstTramites;
 	}
 
@@ -166,8 +148,32 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.uniandes.ecos.interfaz.services.procesador.
-	 * IProcesadorTramitesService#
-	 * obtenerTramite(long)
+	 * IProcesadorTramitesService# obtenerTramitesCiudadano(java.lang.String,
+	 * long)
+	 */
+	@Override
+	public List<Tramite> obtenerTramitesCiudadano(String usuario, long municipioId) throws NegocioException {
+		List<Tramite> lstTramites = new ArrayList<>();
+
+		Query query = this.em.createNamedQuery("Tramite.findByCiudadano");
+		query.setParameter("municipioId", municipioId);
+		query.setParameter("ciudadanoId", usuario);
+
+		// Se ejecuta la consulta
+		try {
+			lstTramites = query.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			throw new NegocioException(Constantes.INFO, 0, "No existen tramites a procesar en el momento.");
+		}
+		return lstTramites;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService# obtenerTramite(long)
 	 */
 	@Override
 	public Tramite obtenerTramite(long tramiteId) throws NegocioException {
@@ -175,11 +181,11 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	}
 
 	/*
-     * (non-Javadoc)
-     * @see com.uniandes.ecos.interfaz.services.procesador.
-	 * IProcesadorTramitesService#
-     * cambiarEstadoTramite(long, java.lang.String)
-     */
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService# cambiarEstadoTramite(long, java.lang.String)
+	 */
 	@Override
 	public void cambiarEstadoTramite(long tramiteId, String estado) throws NegocioException {
 		Tramite tramite = tramiteDao.findById(tramiteId);
@@ -187,49 +193,64 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 		tramiteDao.merge(tramite);
 		this.em.flush();
 	}
-	
+
 	/*
-     * (non-Javadoc)
-     * @see com.uniandes.ecos.interfaz.services.procesador.
-	 * IProcesadorTramitesService#
-     * buscarDocumentosPorTramite(long)
-     */
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService# buscarDocumentosPorTramite(long)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DocumentoTramite> buscarDocumentosPorTramite(long tramiteId) throws NegocioException {
 		String sql = "Select dt From DocumentoTramite dt Where dt.tramite.tramiteId = :tramiteId";
 		Query query = this.em.createQuery(sql);
 		query.setParameter("tramiteId", tramiteId);
-		
+
 		return query.getResultList();
 	}
 
 	/*
-     * (non-Javadoc)
-     * @see com.uniandes.ecos.interfaz.services.procesador.
-	 * IProcesadorTramitesService#* @see com.uniandes.ecos.interfaz.services.procesador.
-	 * IProcesadorTramitesService#
-     * buscarFormulariosPorTramite(long)
-     */
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#* @see
+	 * com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService# buscarFormulariosPorTramite(long)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<FormularioTramite> buscarFormulariosPorTramite(long tramiteId) throws NegocioException {
 		String sql = "Select ft From FormularioTramite ft Where ft.tramite.tramiteId = :tramiteId";
 		Query query = this.em.createQuery(sql);
 		query.setParameter("tramiteId", tramiteId);
-		
+
 		return query.getResultList();
 	}
 
 	/*
-     * (non-Javadoc)
-     * @see com.uniandes.ecos.interfaz.services.procesador.
-	 * IProcesadorTramitesService#* @see com.uniandes.ecos.interfaz.services.procesador.
-	 * IProcesadorTramitesService#
-     * actualizarTramite(tramite)
-     */
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#* @see
+	 * com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService# actualizarTramite(tramite)
+	 */
 	@Override
 	public void actualizarTramite(Tramite tramite) throws NegocioException {
 		tramiteDao.merge(tramite);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService#* @see
+	 * com.uniandes.ecos.interfaz.services.procesador.
+	 * IProcesadorTramitesService# crearCambioEstadoTramite(tramite)
+	 */
+	@Override
+	public void crearCambioEstadoTramite(CambioEstadoTramite cambioEstadoTramite) throws NegocioException {
+		cambioEstadoTramiteDao.persist(cambioEstadoTramite);
 	}
 }

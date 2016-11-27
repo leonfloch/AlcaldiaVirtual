@@ -10,6 +10,7 @@ import javax.ejb.Local;
 
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.CambioEstadoTramite;
 import com.uniandes.ecos.entities.DocumentoTramite;
 import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
@@ -109,4 +110,12 @@ public interface IProcesadorTramitesService {
 	 * @throws NegocioException
 	 */
 	void actualizarTramite(Tramite tramite) throws NegocioException;
+	
+	/**
+	 * Crea un nuevo registro Cambio estado tramite
+	 * 
+	 * @param cambioEstadoTramite
+	 * @throws NegocioException
+	 */
+	void crearCambioEstadoTramite(CambioEstadoTramite cambioEstadoTramite)throws NegocioException;
 }

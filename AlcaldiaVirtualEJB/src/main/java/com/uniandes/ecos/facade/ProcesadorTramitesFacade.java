@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 
 import com.uniandes.ecos.dtos.CorreoElectronicoDto;
 import com.uniandes.ecos.dtos.DocumentoTramiteDto;
+import com.uniandes.ecos.entities.CambioEstadoTramite;
 import com.uniandes.ecos.entities.DocumentoTramite;
 import com.uniandes.ecos.entities.FormularioTramite;
 import com.uniandes.ecos.entities.Tramite;
@@ -139,6 +140,16 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 	@Override
 	public List<Tramite> obtenerTramitesCiudadano(String usuario, long municipioId) throws NegocioException {
 		return tramitesService.obtenerTramitesCiudadano(usuario, municipioId);
+	}
+
+	/*	
+	 * (non-Javadoc)
+	 * @see com.uniandes.ecos.interfaz.facade.IProcesadorTramitesFacade#
+	 * crearCambioEstadoTramite(java.lang.String, long)
+	 */
+	@Override
+	public void crearCambioEstadoTramite(CambioEstadoTramite cambioEstadoTramite) throws NegocioException {
+		tramitesService.crearCambioEstadoTramite(cambioEstadoTramite);
 	}
 
 }
