@@ -146,7 +146,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 	private UIComponent armarTextField(CampoFormulario campo, int id){
 		HtmlInputText inputText = new HtmlInputText();
 		
-		inputText.setId("txtF"+campo.getPosicion());
+		inputText.setId("txtF"+id);
 		inputText.setMaxlength(campo.getLongitud().intValue());
 		inputText.setLabel(campo.getNombre());
 		inputText.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
@@ -166,7 +166,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 	private UIComponent armarTextArea(CampoFormulario campo, int id){
 		HtmlInputTextarea inputTextArea = new HtmlInputTextarea();
 		
-		inputTextArea.setId("txtA"+campo.getPosicion());
+		inputTextArea.setId("txtA"+id);
 		inputTextArea.setLabel(campo.getNombre());
 		inputTextArea.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
 		inputTextArea.setRequiredMessage(campo.getTextoError());
@@ -185,7 +185,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 	private UIComponent armarOneRadio(CampoFormulario campo, int id){
 		HtmlSelectOneRadio OneRadio = new HtmlSelectOneRadio();
 		
-		OneRadio.setId("oneR"+campo.getPosicion());
+		OneRadio.setId("oneR"+id);
 		OneRadio.setLabel(campo.getNombre());
 		OneRadio.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
 		OneRadio.setRequiredMessage(campo.getTextoError());
@@ -204,7 +204,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 	private UIComponent armarCheckBox(CampoFormulario campo, int id){
 		HtmlSelectBooleanCheckbox checkBox = new HtmlSelectBooleanCheckbox();
 		
-		checkBox.setId("chk"+campo.getPosicion());
+		checkBox.setId("chk"+id);
 		checkBox.setLabel(campo.getNombre());
 		checkBox.setRequired(Constantes.SI.equals(campo.getRequerido()) ? true : false);
 		checkBox.setRequiredMessage(campo.getTextoError());
@@ -223,7 +223,7 @@ public class FormularioDinamicoMB extends BaseMBean {
 	private UIComponent armarOutputext(CampoFormulario campo, int id){
 		HtmlOutputText outputext = new HtmlOutputText();
 		
-		outputext.setId("chk"+campo.getPosicion());
+		outputext.setId("chk"+id);
 		outputext.setValue(campo.getNombre());
 
 		return outputext;
