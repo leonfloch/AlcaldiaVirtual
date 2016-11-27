@@ -130,7 +130,7 @@ public class ProcesadorTramitesFacade implements IProcesadorTramitesFacade {
 	 * actualizarTramite(long)
 	 */
 	@Override
-	public void actualizarTramite(Tramite tramite, String observacion, UsuariosFuncionario usuario) throws NegocioException {
+	public void actualizarTramite(Tramite tramite, String observacion, String usuario) throws NegocioException {
 		tramitesService.actualizarTramite(tramite, observacion, usuario);
 	} 
 	/*	

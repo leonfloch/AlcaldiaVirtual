@@ -110,7 +110,7 @@ public interface IProcesadorTramitesService {
 	 * @param tramite
 	 * @throws NegocioException
 	 */
-	void actualizarTramite(Tramite tramite, String observacion, UsuariosFuncionario usuario) throws NegocioException;
+	void actualizarTramite(Tramite tramite, String observacion, String usuario) throws NegocioException;
 	
 	/**
 	 * Crea un nuevo registro Cambio estado tramite

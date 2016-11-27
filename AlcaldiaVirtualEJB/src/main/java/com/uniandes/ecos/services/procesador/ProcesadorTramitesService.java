@@ -241,7 +241,7 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 	 */
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void actualizarTramite(Tramite tramite, String observacion, UsuariosFuncionario usuario) throws NegocioException {
+	public void actualizarTramite(Tramite tramite, String observacion, String usuario) throws NegocioException {
 		CambioEstadoTramite cambioEstadoTramite = new CambioEstadoTramite();
 		
 		EstadoTramite estadoTramite = new EstadoTramite();
@@ -251,8 +251,10 @@ public class ProcesadorTramitesService implements IProcesadorTramitesService {
 		cambioEstadoTramite.setFechaFin(new Date());
 		cambioEstadoTramite.setObservaciones(observacion);
 		cambioEstadoTramite.setTramite(tramite);
-		cambioEstadoTramite.setUsuariosFuncionario(usuario);
+		cambioEstadoTramite.setUsuario(usuario);
+		
 		tramiteDao.merge(tramite);
+		crearCambioEstadoTramite(cambioEstadoTramite);		
 	}
 
 	/*

@@ -93,7 +93,7 @@ public interface IProcesadorTramitesFacade {
 	 * @param tramite
 	 * @throws NegocioException
 	 */
-	void actualizarTramite(Tramite tramite, String observacion, UsuariosFuncionario usuario) throws NegocioException;
+	void actualizarTramite(Tramite tramite, String observacion, String usuario) throws NegocioException;
 	
 	/**
 	 * Busca todos los documentos cargados segun el tramite

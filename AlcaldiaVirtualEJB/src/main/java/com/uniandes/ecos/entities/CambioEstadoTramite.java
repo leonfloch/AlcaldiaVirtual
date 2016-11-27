@@ -41,9 +41,7 @@ public class CambioEstadoTramite implements Serializable {
 	private Tramite tramite;
 
 	//bi-directional many-to-one association to UsuariosFuncionario
-	@ManyToOne
-	@JoinColumn(name="USUARIO_FUNCIONARIO_ID")
-	private UsuariosFuncionario usuariosFuncionario;
+	private String usuario;
 
 	public CambioEstadoTramite() {
 	}
@@ -88,12 +86,12 @@ public class CambioEstadoTramite implements Serializable {
 		this.tramite = tramite;
 	}
 
-	public UsuariosFuncionario getUsuariosFuncionario() {
-		return this.usuariosFuncionario;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setUsuariosFuncionario(UsuariosFuncionario usuariosFuncionario) {
-		this.usuariosFuncionario = usuariosFuncionario;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 }

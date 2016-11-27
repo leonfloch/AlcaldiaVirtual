@@ -55,11 +55,6 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 //	@Column(name="MUNICIPIO_ID")
 //	private long municipioId;
 
-	
-
-	//bi-directional many-to-one association to CambioEstadoTramite
-	@OneToMany(mappedBy="usuariosFuncionario")
-	private List<CambioEstadoTramite> cambiosEstadoTramites;
 
 	//bi-directional many-to-one association to TramiteXMunicipio
 	@OneToMany(mappedBy="usuariosFuncionario")
@@ -98,28 +93,6 @@ public class UsuariosFuncionario extends UsuarioSesion implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public List<CambioEstadoTramite> getCambiosEstadoTramites() {
-		return this.cambiosEstadoTramites;
-	}
-
-	public void setCambiosEstadoTramites(List<CambioEstadoTramite> cambiosEstadoTramites) {
-		this.cambiosEstadoTramites = cambiosEstadoTramites;
-	}
-
-	public CambioEstadoTramite addCambiosEstadoTramite(CambioEstadoTramite cambiosEstadoTramite) {
-		getCambiosEstadoTramites().add(cambiosEstadoTramite);
-		cambiosEstadoTramite.setUsuariosFuncionario(this);
-
-		return cambiosEstadoTramite;
-	}
-
-	public CambioEstadoTramite removeCambiosEstadoTramite(CambioEstadoTramite cambiosEstadoTramite) {
-		getCambiosEstadoTramites().remove(cambiosEstadoTramite);
-		cambiosEstadoTramite.setUsuariosFuncionario(null);
-
-		return cambiosEstadoTramite;
 	}
 
 	public List<TramiteXMunicipio> getTramitesXMunicipios() {

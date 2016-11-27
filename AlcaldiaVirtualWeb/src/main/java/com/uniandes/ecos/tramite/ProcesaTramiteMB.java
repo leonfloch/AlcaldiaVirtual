@@ -201,7 +201,7 @@ public class ProcesaTramiteMB extends BaseMBean {
 	public void actualizarTramite() {
 
 		try {
-			this.procesadorTramitesFacade.actualizarTramite(tramiteSeleccionado, observaciones, (UsuariosFuncionario)getSesion());
+			this.procesadorTramitesFacade.actualizarTramite(tramiteSeleccionado, observaciones, getSesion().getUsuario());
 			observaciones = new String();
 			this.adicionarMensaje(Constantes.INFO, "El tramite ha sido actualizado");
 		} catch (NegocioException e) {
