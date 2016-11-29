@@ -18,4 +18,5 @@ public class RutasApp {
 	public static final String CONSULTA_TIPO_TRAMITE = "consultaTipoTramites.jsf?faces-redirect=true";
 	public static final String CONFIRMACION_TRAMITE = "confirmacionTramite.jsf?faces-redirect=true";
 	public static final String FORMULARIO_DINAMICO = "formularioDinamico.jsf?faces-redirect=true";
+	public static final String HISTORIA_TRAMITE = "historiaTramite.jsf?faces-redirect=true";
 }

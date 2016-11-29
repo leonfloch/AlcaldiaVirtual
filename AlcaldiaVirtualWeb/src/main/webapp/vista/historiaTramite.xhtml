@@ -1,0 +1,102 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+
+
+<body jsf:id="bodyMain">
+
+	<ui:composition template="layout.xhtml">
+		<ui:define name="content">
+			<!-- ======Breadcrumb====== -->
+			<ol class="breadcrumb r-0">
+				<li><a href="#">Inicio</a></li>
+			</ol>
+			<!-- ======FIN Breadcrumb====== -->
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage url="../assets/img/ajaxloadingbar.gif" />
+			</p:dialog>
+
+			
+				<div class="container-fluid">
+					<div class="animated fadeIn">
+						<div class="row row-equal"></div>
+
+						<div class="card">
+							<div class="card-header">Inicio</div>
+							<div class="card-block">
+								<p:growl id="growl" showSummary="true" showDetail="true" autoUpdate="true"/> 
+								
+
+
+									<p:timeline id="timeline" value="#{homeMB.model}"
+										height="250px" selectable="#{homeMB.selectable}"
+										zoomable="#{homeMB.zoomable}"
+										moveable="#{homeMB.moveable}"
+										stackEvents="#{homeMB.stackEvents}"
+										axisOnTop="#{homeMB.axisOnTop}"
+										eventStyle="#{homeMB.eventStyle}"
+										showCurrentTime="#{homeMB.showCurrentTime}"
+										showNavigation="#{homeMB.showNavigation}">
+
+										<p:ajax event="select" oncomplete="PF('estadoDialog').show()"
+											update="estadoDialogForm"
+											listener="#{homeMB.onSelect}" />
+
+									</p:timeline>
+
+							
+
+							</div>
+						</div>
+
+
+
+
+					</div>
+				</div>
+				
+				
+				
+				
+				
+				<form jsf:id="estadoDialogForm">
+				<p:dialog widgetVar="estadoDialog"
+					header="Observaciones" modal="true">
+					<h:panelGrid columns="1">
+					
+					<p:outputLabel value="#{homeMB.cambioEstadoSelec.observaciones}">
+					</p:outputLabel>
+						
+					</h:panelGrid>
+					<f:facet name="footer">
+						<h:panelGrid id="btnPanelEst" columns="2">
+							
+							<p:commandButton value="Cerrar"								
+								oncomplete="PF('estadoDialog').hide();"
+								process="@this" update="timeline" icon="fa fa-ban">
+							</p:commandButton>
+						</h:panelGrid>
+					</f:facet>
+
+				</p:dialog>
+			</form>
+				
+				
+			
+
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+
+</html>

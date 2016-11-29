@@ -1,7 +1,9 @@
 package com.uniandes.ecos.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -14,6 +16,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="CAMBIOS_ESTADO_TRAMITE")
+@Cacheable(false)
 @NamedQuery(name="CambioEstadoTramite.findAll", query="SELECT c FROM CambioEstadoTramite c")
 public class CambioEstadoTramite implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -92,6 +95,10 @@ public class CambioEstadoTramite implements Serializable {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+	
+	public String toString() {
+		return this.estadosTramite.getNombre();
 	}
 
 }

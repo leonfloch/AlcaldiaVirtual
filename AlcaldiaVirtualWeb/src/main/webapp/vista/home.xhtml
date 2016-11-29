@@ -30,12 +30,14 @@
 				<div class="animated fadeIn">
 					<div class="row row-equal"></div>
 
+					<h:panelGroup rendered="#{!homeMB.ciudadano}">
 					<div class="card">
 						<div class="card-header">Inicio</div>
 						<div class="card-block"></div>
 					</div>
+					</h:panelGroup>
 
-
+					<h:panelGroup rendered="#{homeMB.ciudadano}">
 					<div class="card">
 						<div class="card-header">Mis Tramites</div>
 						<div class="card-block">
@@ -61,6 +63,14 @@
 									<p:column headerText="EstadoTramite" filterStyle="height:20px;">
 										<h:outputText value="#{tramite.estadoString}" />
 									</p:column>
+									<p:column style="width:15%;text-align: center">
+											<p:commandButton action="#{homeMB.verHistoriaTramite}" value="Ver Historia">
+												<f:setPropertyActionListener value="#{tramite}"
+													target="#{homeMB.tramiteHistoria}" />
+																								
+											</p:commandButton>
+
+										</p:column>
 								</p:dataTable>
 
 							</h:panelGrid>
@@ -69,6 +79,7 @@
 
 						</div>
 					</div>
+					</h:panelGroup>
 
 				</div>
 			</div>

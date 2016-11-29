@@ -20,6 +20,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="TRAMITES")
+@Cacheable(false)
 @NamedQueries({
 	@NamedQuery(name="Tramite.findAll", query="SELECT f FROM Tramite f"),
 	@NamedQuery(name="Tramite.findByMunicipio", query="SELECT f FROM Tramite f WHERE f.municipio.municipioId = :municipioId"),

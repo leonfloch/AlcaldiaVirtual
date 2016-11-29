@@ -78,5 +78,7 @@ public class EstadoTramite implements Serializable {
 
 		return cambiosEstadoTramite;
 	}
+	
+	
 
 }
