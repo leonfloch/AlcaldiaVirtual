@@ -10,10 +10,13 @@ import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
+import com.uniandes.ecos.entities.TramiteXMunicipio;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.interfaz.facade.IParametrizacionFacade;
+import com.uniandes.ecos.interfaz.services.parametrizacion.ITramitesParamService;
 import com.uniandes.ecos.interfaz.services.parametrizacion.IUsuariosParamService;
+import com.uniandes.ecos.services.parametrizacion.TramitesParamService;
 import com.uniandes.ecos.util.NegocioException;
 
 /**
@@ -32,6 +35,9 @@ public class ParametrizacionFacade implements IParametrizacionFacade {
      */
     @EJB
     private IUsuariosParamService usuariosParamService;
+    
+    @EJB
+    private ITramitesParamService tramitesParamService;
 
     /* (non-Javadoc)
 	 * @see
@@ -239,5 +245,10 @@ public class ParametrizacionFacade implements IParametrizacionFacade {
             throws NegocioException {
         usuariosParamService.actualizarCiudadano(ciudadano);
     }
+
+	@Override
+	public List<TramiteXMunicipio> obtenerTramitesPorMunicipio(long municipioId) throws NegocioException {
+		return tramitesParamService.obtenerTramitesPorMunicipio(municipioId);
+	}
 
 }

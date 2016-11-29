@@ -165,10 +165,15 @@ public class TramiteMB extends BaseMBean {
 	 * Se cargan los tipos de tramites para el municipio en sesion
 	 */
 	private void cargarTiposTramites() {
-		for (TramiteXMunicipio tramiteXMunicipio : alcaldiaMunicipio.getTramitesXMunicipios()) {			
-			if (Constantes.ACTIVO.equalsIgnoreCase(tramiteXMunicipio.getEstado())) {
-				tiposTramites.add(tramiteXMunicipio.getTiposTramite());
-			}			
+		try {
+			for (TramiteXMunicipio tramiteXMunicipio : parametrizacionFacade.obtenerTramitesPorMunicipio(alcaldiaMunicipio.getMunicipioId())) {			
+				if (Constantes.ACTIVO.equalsIgnoreCase(tramiteXMunicipio.getEstado())) {
+					tiposTramites.add(tramiteXMunicipio.getTiposTramite());
+				}			
+			}
+		} catch(NegocioException e){
+			e.printStackTrace();
+			adicionarMensajeDefinido('E', "errorServidor");
 		}
 	}
 	

@@ -284,4 +284,20 @@ public class TramitesParamService implements ITramitesParamService {
 	public void actualizarDocumentoRequerido(DocumentoRequerido documentoRequerido) throws NegocioException {
 		this.documentosRequeridosDao.merge(documentoRequerido);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.uniandes.ecos.interfaz.services.parametrizacion.
+	 * ITramitesParamService# obtenerTramitesPorMunicipio()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TramiteXMunicipio> obtenerTramitesPorMunicipio(long municipioId) throws NegocioException {
+		String sql = "Select txm From TramiteXMunicipio txm Where txm.municipio.municipioId = :municipioId";
+		Query query = this.em.createQuery(sql);
+		query.setParameter("municipioId", municipioId);
+
+		return query.getResultList();
+	}
 }

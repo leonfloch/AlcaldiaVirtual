@@ -146,4 +146,12 @@ public interface ITramitesParamService {
 	 * @throws NegocioException
 	 */
 	void actualizarDocumentoRequerido(DocumentoRequerido documentoRequerido) throws NegocioException;
+	
+	/**
+	 * Retorna todos los tramites asociados a un municipio
+	 * @param municipioId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<TramiteXMunicipio> obtenerTramitesPorMunicipio(long municipioId) throws NegocioException;
 }

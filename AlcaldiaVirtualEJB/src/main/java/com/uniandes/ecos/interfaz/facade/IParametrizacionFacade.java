@@ -9,6 +9,7 @@ import com.uniandes.ecos.entities.Municipio;
 import com.uniandes.ecos.entities.PermisoXRol;
 import com.uniandes.ecos.entities.Persona;
 import com.uniandes.ecos.entities.Rol;
+import com.uniandes.ecos.entities.TramiteXMunicipio;
 import com.uniandes.ecos.entities.UsuariosCiudadano;
 import com.uniandes.ecos.entities.UsuariosFuncionario;
 import com.uniandes.ecos.util.NegocioException;
@@ -192,6 +193,14 @@ public interface IParametrizacionFacade {
 	 * @throws NegocioException
 	 */
 	List<Municipio> obtenerMunicipios() throws NegocioException;
+	
+	/**
+	 * Retorna todos los tramites asociados a un municipio
+	 * @param municipioId
+	 * @return
+	 * @throws NegocioException
+	 */
+	List<TramiteXMunicipio> obtenerTramitesPorMunicipio(long municipioId) throws NegocioException;
 	
 	
 }
