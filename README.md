@@ -1,4 +1,4 @@
-AlcaldiaVirtual new Desa
+AlcaldiaVirtual
 =====================
 
 ### Universidad de los Andes
